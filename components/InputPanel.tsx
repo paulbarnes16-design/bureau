@@ -336,13 +336,6 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                           {c.symbol}
                         </div>
                         <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
-                        {isSelected && (
-                          <div className="w-5 h-5 rounded-md bg-black flex items-center justify-center flex-shrink-0">
-                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="round">
-                              <path d="M2 7l3.5 3.5L12 3" />
-                            </svg>
-                          </div>
-                        )}
                       </button>
                     )
                   })}
