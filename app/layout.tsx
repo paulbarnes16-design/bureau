@@ -42,6 +42,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://bureau.money',
   },
+  verification: {
+    google: 'reSQj501BxtbXf1YmfQFjz8F-PAJ1BiS0KZiTeEkx6c',
+  },
   openGraph: {
     title: 'Compound Interest Calculator UK — Bureau',
     description:
