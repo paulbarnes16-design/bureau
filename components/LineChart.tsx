@@ -43,6 +43,8 @@ function fmtY(v: number) {
 }
 
 export default function LineChart({ rows }: { rows: Row[] }) {
+  const yMin = rows[0]?.balance ?? 0
+
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
@@ -60,6 +62,7 @@ export default function LineChart({ rows }: { rows: Row[] }) {
             axisLine={false}
             tickLine={false}
             width={40}
+            domain={[yMin, 'auto']}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
