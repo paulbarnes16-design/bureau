@@ -145,7 +145,7 @@ export default function Calculator() {
             </div>
 
             {/* Future value */}
-            <p className="text-xs font-sans text-subdued mb-1">Future value</p>
+            <p className="text-sm font-sans text-subdued mb-1">Future value</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-display font-black text-[40px] text-black leading-none">
                 <AnimatedValue value={result.futureValue} symbol={sym} />
@@ -154,7 +154,7 @@ export default function Calculator() {
             </div>
 
             {/* Interest earned */}
-            <p className="text-xs font-sans text-subdued mb-1">Interest earned</p>
+            <p className="text-sm font-sans text-subdued mb-1">Interest earned</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-display font-black text-[40px] text-black leading-none">
                 <AnimatedValue value={result.interestEarned} symbol={sym} />
@@ -172,7 +172,7 @@ export default function Calculator() {
             {/* Edit Values (mobile only) */}
             <button
               onClick={() => setSheetOpen(true)}
-              className="lg:hidden mt-4 w-full bg-background rounded-xl py-3.5 text-sm font-sans font-medium text-black"
+              className="lg:hidden mt-4 w-full bg-background rounded-xl py-3.5 text-sm font-sans font-bold text-black"
             >
               Edit Values
             </button>
@@ -187,7 +187,7 @@ export default function Calculator() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg capitalize outline-none ${
+                  className={`relative flex-1 h-[38px] text-sm font-sans font-bold rounded-lg capitalize outline-none ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
                 >
@@ -302,7 +302,7 @@ export default function Calculator() {
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
-                className="w-full bg-black text-white font-sans font-bold text-base py-4 rounded-2xl"
+                className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-2xl"
               >
                 Calculate
               </button>

@@ -45,7 +45,7 @@ export default function Home() {
           {/* Footer */}
           <div className="pt-4 pb-2 lg:grid lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-start-5 lg:col-span-8">
-              <p className="text-xs font-sans text-black leading-relaxed">
+              <p className="text-sm font-sans text-black leading-relaxed">
                 Bureau is for informational purposes only and is not financial advice. We may earn a commission from partner links.{' '}
                 <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a>
               </p>

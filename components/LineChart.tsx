@@ -23,12 +23,12 @@ interface TooltipProps {
 function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white border border-black/10 rounded-xl p-3 shadow-md text-xs font-sans">
+    <div className="bg-white border border-black/10 rounded-xl p-3 shadow-md text-sm font-sans">
       <p className="font-bold text-black mb-1.5">Year {label}</p>
       {payload.map((p) => (
         <div key={p.name} className="flex items-center justify-between gap-6">
           <span style={{ color: p.color }}>{p.name}</span>
-          <span className="font-medium text-black">
+          <span className="font-bold text-black">
             {new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 }).format(p.value)}
           </span>
         </div>

@@ -35,7 +35,7 @@ function FieldLabel({ label }: { label: string }) {
   )
 }
 
-const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
+const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 text-[15px] font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
 
 function CurrencyInput({
   value,
@@ -152,7 +152,7 @@ function Segmented({
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg outline-none ${
+          className={`relative flex-1 h-[38px] text-sm font-sans font-bold rounded-lg outline-none ${
             value === opt ? 'text-white' : 'text-black hover:bg-black/5'
           }`}
         >
@@ -296,7 +296,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               onChange={(v) => onChange({ adjustForInflation: v })}
             />
           </div>
-          <p className="text-xs font-sans text-subdued mt-1">We default to 2.5%</p>
+          <p className="text-sm font-sans text-subdued mt-1">We default to 2.5%</p>
         </div>
 
         {/* Change currency */}
