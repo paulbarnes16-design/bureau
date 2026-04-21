@@ -1,7 +1,53 @@
 {
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/paulbarnes/bureau && git add . && git diff --cached --quiet || git commit -m 'auto-save' && git push 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Saving to GitHub..."
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=no --import-alias=\"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=no --import-alias=\"@/*\" --yes)",
+      "Bash(npm install:*)",
+      "Bash(cat /Users/paulbarnes/bureau/tailwind.config.*)",
+      "Bash(npm run:*)",
+      "WebSearch",
+      "WebFetch(domain:help.figma.com)",
+      "WebFetch(domain:developers.figma.com)",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/files/Fj7y9QPxu3HeCXSS40M3uL/nodes?ids=111%3A17&depth=5\")",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/files/Fj7y9QPxu3HeCXSS40M3uL/nodes?ids=200%3A695&depth=4\")",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/files/Fj7y9QPxu3HeCXSS40M3uL\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); pages=[{'name':p['name'],'id':p['id'],'children':[{'name':c['name'],'id':c['id'],'type':c['type']} for c in p.get\\('children',[]\\)]} for p in d['document']['children']]; print\\(json.dumps\\(pages, indent=2\\)\\)\")",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/files/Fj7y9QPxu3HeCXSS40M3uL/styles\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(s['name'], '|', s['style_type'], '|', s['node_id']\\) for s in d.get\\('meta',{}\\).get\\('styles',[]\\)]\")",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/images/Fj7y9QPxu3HeCXSS40M3uL?ids=218%3A1132%2C200%3A695&format=png&scale=1\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d, indent=2\\)\\)\")",
+      "Bash(curl -s -H \"X-Figma-Token: figd_vjy4-WFRXBOJVNickbgkkTFDXDNug1d3D9kMzjj8\" \"https://api.figma.com/v1/files/Fj7y9QPxu3HeCXSS40M3uL/nodes?ids=218%3A1559%2C158%3A732&depth=6\")",
+      "Bash(python3 -c ':*)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cp \"/Users/paulbarnes/.claude/projects/-Users-paulbarnes-bureau/c40783e2-d0ac-45c8-89a2-4afe37611cd6/tool-results/webfetch-1776699245645-fl6m4a.bin\" /tmp/design.gz)",
+      "Bash(gunzip -f /tmp/design.gz)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(tar xf *)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(git -C /Users/paulbarnes/bureau remote -v)",
+      "Bash(gh auth *)",
+      "Bash(git remote *)",
+      "Bash(git -C /Users/paulbarnes/bureau push -u origin main --force)",
+      "Bash(git push *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(git config *)"
     ]
   }
 }
