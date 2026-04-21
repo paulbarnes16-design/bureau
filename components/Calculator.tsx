@@ -81,20 +81,26 @@ export default function Calculator() {
   useEffect(() => {
     if (sheetOpen) {
       const scrollY = window.scrollY
+      document.documentElement.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
       document.body.style.top = `-${scrollY}px`
       document.body.style.width = '100%'
+      document.body.style.overflow = 'hidden'
     } else {
       const scrollY = parseInt(document.body.style.top || '0') * -1
+      document.documentElement.style.overflow = ''
       document.body.style.position = ''
       document.body.style.top = ''
       document.body.style.width = ''
+      document.body.style.overflow = ''
       window.scrollTo(0, scrollY)
     }
     return () => {
+      document.documentElement.style.overflow = ''
       document.body.style.position = ''
       document.body.style.top = ''
       document.body.style.width = ''
+      document.body.style.overflow = ''
     }
   }, [sheetOpen])
 
@@ -238,7 +244,7 @@ export default function Calculator() {
       <AnimatePresence>
         {sheetOpen && (
           <>
-            <div className="fixed inset-0 z-30 bg-background" />
+            <div className="fixed inset-0 z-30 bg-background" style={{ top: '-100px', bottom: '-100px' }} />
             <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
