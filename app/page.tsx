@@ -12,12 +12,37 @@ const faqSchema = {
   })),
 }
 
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Compound Interest Calculator',
+  url: 'https://bureau.money',
+  description:
+    'Free compound interest calculator. Enter your starting balance, interest rate, and monthly contributions to see exactly how your savings or investments grow over time.',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'All',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'GBP',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Bureau',
+    url: 'https://bureau.money',
+  },
+}
+
 export default function Home() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
       />
 
       <div className="min-h-screen bg-background px-4 lg:px-10 pt-4 lg:pt-10 pb-12">

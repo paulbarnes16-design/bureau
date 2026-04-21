@@ -28,15 +28,16 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bureau.money'),
-  title: 'Compound Interest Calculator UK — Bureau',
+  title: 'Compound Interest Calculator — Bureau',
   description:
-    'Calculate compound interest for UK savings and investments. See how your money grows over time with our free compound interest calculator, including ISA and FIRE planning.',
+    'Free compound interest calculator. Enter your starting balance, interest rate, and monthly contributions to see exactly how your savings or investments grow over time.',
   keywords: [
+    'compound interest calculator',
     'compound interest calculator UK',
-    'savings calculator UK',
+    'savings calculator',
+    'investment growth calculator',
     'ISA calculator UK',
-    'FIRE calculator UK',
-    'investment calculator UK',
+    'FIRE calculator',
   ],
   authors: [{ name: 'Bureau' }],
   alternates: {
@@ -46,9 +47,9 @@ export const metadata: Metadata = {
     google: 'reSQj501BxtbXf1YmfQFjz8F-PAJ1BiS0KZiTeEkx6c',
   },
   openGraph: {
-    title: 'Compound Interest Calculator UK — Bureau',
+    title: 'Compound Interest Calculator — Bureau',
     description:
-      'See exactly how your savings and investments could grow. Free compound interest calculator built for UK investors.',
+      'Free compound interest calculator. See exactly how your savings and investments grow over time.',
     type: 'website',
     locale: 'en_GB',
     url: 'https://bureau.money',
@@ -56,8 +57,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Compound Interest Calculator UK — Bureau',
-    description: 'See exactly how your savings and investments could grow.',
+    title: 'Compound Interest Calculator — Bureau',
+    description: 'Free compound interest calculator. See how your money grows over time.',
   },
   robots: {
     index: true,
