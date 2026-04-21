@@ -209,7 +209,7 @@ export default function Calculator() {
             transition={{ type: 'spring', damping: 32, stiffness: 320 }}
             className="fixed inset-0 z-40 bg-background overflow-y-auto"
           >
-            <div className="px-4 py-6">
+            <div className="p-4">
               <InputPanel
                 values={inputs}
                 onChange={patch}

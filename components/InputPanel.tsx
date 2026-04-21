@@ -210,7 +210,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
   return (
     <div className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
       {/* Header */}
-      <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
+      <div className={`${bare ? 'pt-0' : 'px-5 pt-5'} ${showActions ? 'flex items-center justify-between' : ''}`}>
         <h2 className="font-display font-black text-2xl text-black mb-5">Input values</h2>
         {showActions && onClose && (
           <button onClick={onClose} className="text-black/40 hover:text-black -mt-5" aria-label="Close">
@@ -221,7 +221,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
         )}
       </div>
 
-      <div className="px-5 pb-5 space-y-5">
+      <div className={`${bare ? '' : 'px-5 pb-5'} space-y-5`}>
         {/* Initial Investment */}
         <div>
           <FieldLabel label="Initial Investment" />
