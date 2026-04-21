@@ -132,6 +132,12 @@ export default function Calculator() {
                     )
                   })}
                 </div>
+                <button
+                  onClick={() => setCurrencyOpen(false)}
+                  className="w-full bg-black text-white font-sans font-bold text-base py-4 rounded-2xl mt-2"
+                >
+                  Done
+                </button>
               </motion.div>
             ) : (
               <motion.div
