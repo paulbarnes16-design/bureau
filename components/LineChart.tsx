@@ -68,12 +68,17 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            formatter={(value) => (
-              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 12, color: '#5E5E5E' }}>
-                {value}
-              </span>
-            )}
             wrapperStyle={{ paddingTop: 12 }}
+            content={({ payload }) => (
+              <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-dm-sans)', fontSize: 12, color: '#5E5E5E' }}>
+                {payload?.map((p) => (
+                  <div key={p.value} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 2, background: p.color, flexShrink: 0 }} />
+                    {p.value}
+                  </div>
+                ))}
+              </div>
+            )}
           />
           <Line
             type="monotone"
