@@ -26,13 +26,12 @@ const COLOURS = [
 const TYPEFACES = [
   { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-display font-black text-[40px] leading-none', sample: '£12,345.67' },
   { name: 'Title',            size: 24, weight: 'Black',   cls: 'font-display font-black text-2xl leading-none',    sample: 'Results'     },
+  { name: 'Body bold',        size: 15, weight: 'Bold',    cls: 'font-sans font-bold text-[15px]',                  sample: 'Calculate'   },
   { name: 'Body',             size: 15, weight: 'Regular', cls: 'font-sans text-[15px]',                            sample: 'Compound Interest Calculator' },
-  { name: 'Body medium',      size: 14, weight: 'Medium',  cls: 'font-sans font-medium text-sm',                    sample: 'Edit Values' },
-  { name: 'Body bold',        size: 14, weight: 'Bold',    cls: 'font-sans font-bold text-sm',                      sample: 'Calculate'   },
+  { name: 'Body small bold',  size: 13, weight: 'Bold',    cls: 'font-sans font-bold text-sm',                      sample: 'Edit Values' },
   { name: 'Body small',       size: 13, weight: 'Regular', cls: 'font-sans text-sm',                                sample: 'Adjust for inflation' },
-  { name: 'Caption',          size: 12, weight: 'Regular', cls: 'font-sans text-xs text-subdued',                   sample: 'Future value' },
+  { name: 'Marginal bold',    size: 11, weight: 'Bold',    cls: 'font-sans font-bold text-[11px]',                  sample: 'Inflation adjusted' },
   { name: 'Marginal',         size: 11, weight: 'Regular', cls: 'font-sans text-[11px]',                            sample: 'Inflation adjusted' },
-  { name: 'Marginal bold',    size: 11, weight: 'Bold',    cls: 'font-sans font-bold text-[11px]',                  sample: 'INFLATION ADJUSTED' },
 ]
 
 const NAV = [
