@@ -224,7 +224,7 @@ export default function ComponentsPage() {
                 <div className="flex rounded-xl ring-1 ring-inset ring-black/[0.12] p-1 gap-1">
                   {(['weekly', 'monthly', 'yearly'] as const).map((o) => (
                     <button key={o} type="button" onClick={() => setSeg(o)}
-                      className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg outline-none ${
+                      className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none ${
                         seg === o ? 'text-white' : 'text-black hover:bg-black/5'
                       }`}>
                       {seg === o && (
