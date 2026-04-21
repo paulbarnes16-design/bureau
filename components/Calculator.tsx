@@ -187,7 +187,7 @@ export default function Calculator() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative flex-1 h-[38px] text-sm font-sans font-bold rounded-lg capitalize outline-none ${
+                  className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg capitalize outline-none ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
                 >
