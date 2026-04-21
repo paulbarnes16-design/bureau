@@ -34,7 +34,9 @@
       "Skill(update-config)",
       "Skill(update-config:*)",
       "Bash(git config *)",
-      "Bash(npm i *)"
+      "Bash(npm i *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   },
   "hooks": {
