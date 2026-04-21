@@ -47,7 +47,7 @@ function CopyButton({ value }: { value: string }) {
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-white rounded-2xl shadow-md ${className}`}>
+    <div className={`bg-elevated rounded-2xl shadow-md ${className}`}>
       {children}
     </div>
   )
