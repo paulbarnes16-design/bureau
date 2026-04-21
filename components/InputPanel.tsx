@@ -57,7 +57,7 @@ function CurrencyInput({
       inputMode="numeric"
       value={display}
       className={inputCls}
-      onFocus={() => { setEditing(true); setDraft(String(value)) }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
       onBlur={() => {
         setEditing(false)
         const n = Number(draft.replace(/,/g, ''))
@@ -87,7 +87,7 @@ function PercentInput({
       inputMode="decimal"
       value={display}
       className={inputCls}
-      onFocus={() => { setEditing(true); setDraft(String(value)) }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
       onBlur={() => {
         setEditing(false)
         const n = Number(draft)
@@ -121,7 +121,7 @@ function DurationInput({
       inputMode="numeric"
       value={editing ? draft : label}
       className={inputCls}
-      onFocus={() => { setEditing(true); setDraft(String(value)) }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
       onBlur={() => {
         setEditing(false)
         const n = parseInt(draft, 10)
