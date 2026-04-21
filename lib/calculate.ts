@@ -60,7 +60,7 @@ export const DEFAULT_INPUTS: CalcInputs = {
   compoundFreq: 'monthly',
   durationYears: 5,
   durationMonths: 0,
-  additionalPayments: 500,
+  additionalPayments: 0,
   additionalPaymentsFreq: 'monthly',
   adjustForInflation: false,
   inflationRate: 2.5,
