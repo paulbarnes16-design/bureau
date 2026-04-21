@@ -191,7 +191,7 @@ export default function DesignSystemPage() {
               </div>
             ))}
           </div>
-          <div className="mt-8 bg-white rounded-2xl p-5 space-y-1">
+          <div className="mt-8 bg-elevated rounded-2xl p-5 space-y-1">
             <Label>Family reference</Label>
             <p className="font-mono text-[11px] text-black">PP Woodland → <span className="text-subdued">Fraunces (Google Fonts fallback)</span></p>
             <p className="font-mono text-[11px] text-black">PP Fraktion Mono → <span className="text-subdued">JetBrains Mono (Google Fonts fallback)</span></p>
@@ -354,7 +354,7 @@ export default function DesignSystemPage() {
         {/* 06 Results */}
         <Section id="results" num="06" title="Results" desc="Live results card — updates as you edit the inputs in section 03.">
           <div className="grid grid-cols-[1fr_300px] gap-6 items-start">
-            <div className="bg-white rounded-2xl shadow-sm p-5">
+            <div className="bg-elevated rounded-2xl shadow-sm p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-display font-black text-2xl text-black">Results</h3>
                 {inputs.adjustForInflation && (
@@ -404,7 +404,7 @@ export default function DesignSystemPage() {
 
         {/* 07 Chart */}
         <Section id="chart" num="07" title="Chart" desc="Two-series line chart. Orange = compound interest (total balance). Sky blue = deposits only (linear growth). Updates live with input changes.">
-          <div className="bg-white rounded-2xl shadow-sm p-5">
+          <div className="bg-elevated rounded-2xl shadow-sm p-5">
             <div className="flex rounded-xl bg-background p-1 gap-1 mb-5 max-w-xs">
               {(['graph', 'table'] as const).map((o) => (
                 <button key={o} onClick={() => setSeg2(o)}
@@ -461,7 +461,7 @@ export default function DesignSystemPage() {
 
         {/* 08 Table */}
         <Section id="table" num="08" title="Table" desc="Year-by-year breakdown. Even rows white, odd rows bg-background/50. See Chart section above for the interactive version.">
-          <div className="bg-white rounded-2xl shadow-sm p-5 overflow-x-auto">
+          <div className="bg-elevated rounded-2xl shadow-sm p-5 overflow-x-auto">
             <table className="w-full text-sm font-sans border-collapse">
               <thead>
                 <tr className="bg-background">
@@ -492,7 +492,7 @@ export default function DesignSystemPage() {
         {/* 09 FAQ */}
         <Section id="faq" num="09" title="FAQ" desc="Accordion component. Questions from lib/faq-data.ts. + icon rotates 45° to × on open.">
           <div className="grid grid-cols-[1fr_260px] gap-6 items-start">
-            <div className="bg-white rounded-2xl shadow-sm p-5">
+            <div className="bg-elevated rounded-2xl shadow-sm p-5">
               <h3 className="font-display font-black text-2xl text-black mb-3">FAQs</h3>
               <FAQ />
             </div>
@@ -522,14 +522,14 @@ export default function DesignSystemPage() {
           <div className="grid grid-cols-2 gap-6 items-start">
             <div>
               <Label>Full-width variant</Label>
-              <div className="bg-white rounded-2xl shadow-sm px-5 py-4">
+              <div className="bg-elevated rounded-2xl shadow-sm px-5 py-4">
                 <p className="font-mono font-bold text-sm tracking-[0.17em] text-black">bureau</p>
                 <p className="font-sans text-xs text-subdued mt-0.5">Compound Interest Calculator</p>
               </div>
             </div>
             <div>
               <Label>Compact variant</Label>
-              <div className="bg-white rounded-2xl shadow-sm px-4 py-3 inline-block">
+              <div className="bg-elevated rounded-2xl shadow-sm px-4 py-3 inline-block">
                 <p className="font-mono font-bold text-sm tracking-[0.17em] text-black">bureau</p>
                 <p className="font-sans text-xs text-subdued mt-0.5">Compound Interest Calculator</p>
               </div>
