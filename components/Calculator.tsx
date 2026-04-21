@@ -78,6 +78,11 @@ export default function Calculator() {
 
   const result = useMemo(() => calculate(inputs), [inputs])
 
+  useEffect(() => {
+    document.body.style.overflow = sheetOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [sheetOpen])
+
   const sym = inputs.currency.symbol
 
   const fmtResult = (n: number) =>
