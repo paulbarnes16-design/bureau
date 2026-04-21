@@ -1,13 +1,28 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo, useEffect } from 'react'
+import { motion, AnimatePresence, useSpring, useTransform, MotionValue } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
 const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
+
+// ── Animated number ───────────────────────────────────────────────────────────
+
+function AnimatedValue({ value, symbol }: { value: number; symbol: string }) {
+  const spring = useSpring(value, { stiffness: 80, damping: 20, mass: 0.8 })
+  const display = useTransform(spring, (v) =>
+    `${symbol}${Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  )
+
+  useEffect(() => {
+    spring.set(value)
+  }, [spring, value])
+
+  return <motion.span>{display}</motion.span>
+}
 
 // ── Copy button ────────────────────────────────────────────────────────────────
 
@@ -107,7 +122,7 @@ export default function Calculator() {
             <p className="text-xs font-sans text-subdued mb-1">Future value</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-display font-black text-[40px] text-black leading-none">
-                {fmtResult(result.futureValue)}
+                <AnimatedValue value={result.futureValue} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.futureValue)} />
             </div>
@@ -116,7 +131,7 @@ export default function Calculator() {
             <p className="text-xs font-sans text-subdued mb-1">Interest earned</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-display font-black text-[40px] text-black leading-none">
-                {fmtResult(result.interestEarned)}
+                <AnimatedValue value={result.interestEarned} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.interestEarned)} />
             </div>
