@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://usebureau.co.uk',
+      url: 'https://bureau.money',
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,

@@ -27,6 +27,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://bureau.money'),
   title: 'Compound Interest Calculator UK — Bureau',
   description:
     'Calculate compound interest for UK savings and investments. See how your money grows over time with our free compound interest calculator, including ISA and FIRE planning.',
@@ -38,12 +39,17 @@ export const metadata: Metadata = {
     'investment calculator UK',
   ],
   authors: [{ name: 'Bureau' }],
+  alternates: {
+    canonical: 'https://bureau.money',
+  },
   openGraph: {
     title: 'Compound Interest Calculator UK — Bureau',
     description:
       'See exactly how your savings and investments could grow. Free compound interest calculator built for UK investors.',
     type: 'website',
     locale: 'en_GB',
+    url: 'https://bureau.money',
+    siteName: 'Bureau',
   },
   twitter: {
     card: 'summary_large_image',
