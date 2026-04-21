@@ -146,13 +146,13 @@ function Segmented({
 }) {
   const id = useId()
   return (
-    <div className="flex rounded-xl p-1 gap-1">
+    <div className="flex rounded-xl ring-1 ring-inset ring-black/[0.12] p-1 gap-1">
       {options.map((opt) => (
         <button
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg ${
+          className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg outline-none ${
             value === opt ? 'text-white' : 'text-black hover:bg-black/5'
           }`}
         >
