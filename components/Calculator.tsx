@@ -178,9 +178,10 @@ export default function Calculator() {
             </button>
           </Card>
 
-          {/* Analysis: Graph + Table */}
-          <Card className="p-5">
-            {/* Tabs */}
+          {/* Analysis: Graph + Table — tabs on mobile, separate cards on desktop */}
+
+          {/* Mobile: tabbed */}
+          <Card className="p-5 lg:hidden">
             <div className="flex rounded-xl ring-1 ring-inset ring-black/[0.12] p-1 gap-1 mb-5">
               {(['graph', 'table'] as const).map((t) => (
                 <button
@@ -201,7 +202,6 @@ export default function Calculator() {
                 </button>
               ))}
             </div>
-
             {tab === 'graph' ? (
               <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
             ) : (
@@ -210,9 +210,7 @@ export default function Calculator() {
                   <thead>
                     <tr className="bg-background">
                       {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
-                        <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">
-                          {h}
-                        </th>
+                        <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -229,6 +227,36 @@ export default function Calculator() {
                 </table>
               </div>
             )}
+          </Card>
+
+          {/* Desktop: graph card */}
+          <Card className="hidden lg:block p-5">
+            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+          </Card>
+
+          {/* Desktop: table card */}
+          <Card className="hidden lg:block p-5">
+            <div className="overflow-x-auto -mx-1 outline-none">
+              <table className="w-full text-sm font-sans border-collapse">
+                <thead>
+                  <tr className="bg-background">
+                    {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
+                      <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.rows.map((row, i) => (
+                    <tr key={row.year} className={i % 2 === 0 ? 'bg-white' : 'bg-background/50'}>
+                      <td className="px-3 py-3 text-black">{row.year}</td>
+                      <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
+                      <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
+                      <td className="px-3 py-3 text-black">{row.balance.toLocaleString('en-GB')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </Card>
 
           {/* FAQs */}
