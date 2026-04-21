@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { calculate, DEFAULT_INPUTS, type CalcInputs, type Currency, FREQ_LABELS } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, CURRENCIES, type CalcInputs, type Currency, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import CurrencyPicker from './CurrencyPicker'
 import FAQ from './FAQ'
@@ -86,13 +86,69 @@ export default function Calculator() {
     <>
       <div className="space-y-3 lg:space-y-0 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start">
 
-        {/* ── Left: Input panel (desktop) ── */}
+        {/* ── Left: Input panel / Currency picker (desktop) ── */}
         <div className="hidden lg:block lg:col-span-4">
-          <InputPanel
-            values={inputs}
-            onChange={patch}
-            onCurrencyClick={() => setCurrencyOpen(true)}
-          />
+          <AnimatePresence mode="wait">
+            {currencyOpen ? (
+              <motion.div
+                key="currency"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.18 }}
+                className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white p-5 flex flex-col gap-4"
+              >
+                <div className="flex items-center justify-between">
+                  <h2 className="font-display font-black text-2xl text-black">Currency</h2>
+                  <button onClick={() => setCurrencyOpen(false)} className="p-1 text-black" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                      <path d="M2 2l14 14M16 2L2 16" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {(CURRENCIES as Currency[]).map((c) => {
+                    const isSelected = c.code === inputs.currency.code
+                    return (
+                      <button
+                        key={c.code}
+                        onClick={() => { patch({ currency: c }); setCurrencyOpen(false) }}
+                        className="w-full flex items-center gap-3"
+                      >
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-base ${
+                          isSelected ? 'bg-black text-white' : 'bg-background text-black'
+                        }`}>
+                          {c.symbol}
+                        </div>
+                        <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
+                        {isSelected && (
+                          <div className="w-6 h-6 rounded-md bg-black flex items-center justify-center flex-shrink-0">
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="round">
+                              <path d="M2 7l3.5 3.5L12 3" />
+                            </svg>
+                          </div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="inputs"
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 12 }}
+                transition={{ duration: 0.18 }}
+              >
+                <InputPanel
+                  values={inputs}
+                  onChange={patch}
+                  onCurrencyClick={() => setCurrencyOpen(true)}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* ── Right: Results + Analysis + FAQs ── */}
