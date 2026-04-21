@@ -179,13 +179,13 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex w-12 h-7 rounded-full flex-shrink-0 transition-colors duration-200 focus:outline-none ${
+      className={`relative inline-flex w-12 h-6 rounded-full flex-shrink-0 transition-colors duration-200 focus:outline-none ${
         checked ? 'bg-black' : 'bg-black/20'
       }`}
     >
       <span
-        className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-200 ${
-          checked ? 'translate-x-5' : 'translate-x-0'
+        className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-200 ${
+          checked ? 'translate-x-6' : 'translate-x-0'
         }`}
       />
     </button>
