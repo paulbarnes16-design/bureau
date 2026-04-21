@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useId } from 'react'
-import { motion } from 'framer-motion'
-import { type CalcInputs, type Freq, FREQ_LABELS } from '@/lib/calculate'
+import { motion, AnimatePresence } from 'framer-motion'
+import { CURRENCIES, type CalcInputs, type Currency, type Freq, FREQ_LABELS } from '@/lib/calculate'
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -199,12 +199,13 @@ const FREQ_OPTIONS: Freq[] = ['weekly', 'monthly', 'yearly']
 interface Props {
   values: CalcInputs
   onChange: (patch: Partial<CalcInputs>) => void
-  onCurrencyClick: () => void
+  onCurrencyClick?: () => void
   onClose?: () => void
   showActions?: boolean
 }
 
-export default function InputPanel({ values, onChange, onCurrencyClick, onClose, showActions }: Props) {
+export default function InputPanel({ values, onChange, onClose, showActions }: Props) {
+  const [currencyOpen, setCurrencyOpen] = useState(false)
   return (
     <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden">
       {/* Header */}
@@ -296,14 +297,57 @@ export default function InputPanel({ values, onChange, onCurrencyClick, onClose,
         </div>
 
         {/* Change currency */}
-        <button
-          type="button"
-          onClick={onCurrencyClick}
-          className="w-full flex items-center justify-between py-1"
-        >
-          <span className="text-sm font-sans text-black">Change currency</span>
-          <ChevronRight />
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={() => setCurrencyOpen((o) => !o)}
+            className="w-full flex items-center justify-between py-1"
+          >
+            <span className="text-sm font-sans text-black">Change currency</span>
+            <motion.span animate={{ rotate: currencyOpen ? 90 : 0 }} transition={{ duration: 0.18 }}>
+              <ChevronRight />
+            </motion.span>
+          </button>
+          <AnimatePresence initial={false}>
+            {currencyOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="pt-3 space-y-1">
+                  {(CURRENCIES as Currency[]).map((c) => {
+                    const isSelected = c.code === values.currency.code
+                    return (
+                      <button
+                        key={c.code}
+                        type="button"
+                        onClick={() => { onChange({ currency: c }); setCurrencyOpen(false) }}
+                        className="w-full flex items-center gap-3 py-1"
+                      >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm ${
+                          isSelected ? 'bg-black text-white' : 'bg-background text-black'
+                        }`}>
+                          {c.symbol}
+                        </div>
+                        <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
+                        {isSelected && (
+                          <div className="w-5 h-5 rounded-md bg-black flex items-center justify-center flex-shrink-0">
+                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="round">
+                              <path d="M2 7l3.5 3.5L12 3" />
+                            </svg>
+                          </div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Calculate button (mobile sheet only) */}
         {showActions && (

@@ -3,9 +3,8 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { calculate, DEFAULT_INPUTS, CURRENCIES, type CalcInputs, type Currency, FREQ_LABELS } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
-import CurrencyPicker from './CurrencyPicker'
 import FAQ from './FAQ'
 
 const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
@@ -58,7 +57,6 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 export default function Calculator() {
   const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [currencyOpen, setCurrencyOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
@@ -86,75 +84,9 @@ export default function Calculator() {
     <>
       <div className="space-y-3 lg:space-y-0 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start">
 
-        {/* ── Left: Input panel / Currency picker (desktop) ── */}
+        {/* ── Left: Input panel (desktop) ── */}
         <div className="hidden lg:block lg:col-span-4">
-          <AnimatePresence mode="wait">
-            {currencyOpen ? (
-              <motion.div
-                key="currency"
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.18 }}
-                className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white p-5 flex flex-col gap-4"
-              >
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setCurrencyOpen(false)} className="p-1 -ml-1 text-black" aria-label="Back">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-                      <path d="M12 4l-6 6 6 6" />
-                    </svg>
-                  </button>
-                  <h2 className="font-display font-black text-2xl text-black">Select currency</h2>
-                </div>
-                <div className="space-y-2">
-                  {(CURRENCIES as Currency[]).map((c) => {
-                    const isSelected = c.code === inputs.currency.code
-                    return (
-                      <button
-                        key={c.code}
-                        onClick={() => { patch({ currency: c }); setCurrencyOpen(false) }}
-                        className="w-full flex items-center gap-3"
-                      >
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-base ${
-                          isSelected ? 'bg-black text-white' : 'bg-background text-black'
-                        }`}>
-                          {c.symbol}
-                        </div>
-                        <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
-                        {isSelected && (
-                          <div className="w-6 h-6 rounded-md bg-black flex items-center justify-center flex-shrink-0">
-                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="round">
-                              <path d="M2 7l3.5 3.5L12 3" />
-                            </svg>
-                          </div>
-                        )}
-                      </button>
-                    )
-                  })}
-                </div>
-                <button
-                  onClick={() => setCurrencyOpen(false)}
-                  className="w-full bg-black text-white font-sans font-bold text-base py-4 rounded-2xl mt-2"
-                >
-                  Done
-                </button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="inputs"
-                initial={{ opacity: 0, x: 12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 12 }}
-                transition={{ duration: 0.18 }}
-              >
-                <InputPanel
-                  values={inputs}
-                  onChange={patch}
-                  onCurrencyClick={() => setCurrencyOpen(true)}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <InputPanel values={inputs} onChange={patch} />
         </div>
 
         {/* ── Right: Results + Analysis + FAQs ── */}
@@ -281,7 +213,7 @@ export default function Calculator() {
               <InputPanel
                 values={inputs}
                 onChange={patch}
-                onCurrencyClick={() => { setSheetOpen(false); setCurrencyOpen(true) }}
+
                 onClose={() => setSheetOpen(false)}
                 showActions
               />
@@ -290,15 +222,6 @@ export default function Calculator() {
         )}
       </AnimatePresence>
 
-      {/* Currency picker — mobile only (desktop uses side panel) */}
-      <div className="lg:hidden">
-        <CurrencyPicker
-          open={currencyOpen}
-          selected={inputs.currency}
-          onSelect={(c: Currency) => patch({ currency: c })}
-          onClose={() => setCurrencyOpen(false)}
-        />
-      </div>
     </>
   )
 }
