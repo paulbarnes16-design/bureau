@@ -283,7 +283,7 @@ export default function Calculator() {
           >
             <div className="flex items-center justify-between px-4 py-4 flex-shrink-0" style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
               <h2 className="font-display font-black text-2xl text-black">Input values</h2>
-              <button onClick={() => setSheetOpen(false)} className="text-black/40 hover:text-black" aria-label="Close">
+              <button onClick={() => setSheetOpen(false)} className="text-black" aria-label="Close">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
                   <path d="M2 2l14 14M16 2L2 16" />
                 </svg>

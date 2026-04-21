@@ -44,7 +44,7 @@ export default function Home() {
 
           {/* Footer */}
           <div className="pt-4 pb-2">
-            <p className="text-xs font-sans text-subdued text-center leading-relaxed">
+            <p className="text-xs font-sans text-black leading-relaxed">
               Bureau is for informational purposes only and is not financial advice. We may earn a commission from partner links.{' '}
               <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a>
             </p>
