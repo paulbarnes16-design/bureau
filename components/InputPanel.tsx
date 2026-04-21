@@ -57,14 +57,14 @@ function CurrencyInput({
       inputMode="numeric"
       value={display}
       className={inputCls}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
       onBlur={() => {
         setEditing(false)
         const n = Number(draft.replace(/,/g, ''))
         if (!isNaN(n) && n >= 0) onChange(n)
       }}
       onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => setDraft(e.target.value)}
+      onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
     />
   )
 }
@@ -87,14 +87,14 @@ function PercentInput({
       inputMode="decimal"
       value={display}
       className={inputCls}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
       onBlur={() => {
         setEditing(false)
         const n = Number(draft)
         if (!isNaN(n) && n >= 0) onChange(n)
       }}
       onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => setDraft(e.target.value)}
+      onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setDraft(v) }}
     />
   )
 }
@@ -121,14 +121,14 @@ function DurationInput({
       inputMode="numeric"
       value={editing ? draft : label}
       className={inputCls}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); e.currentTarget.select() }}
+      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
       onBlur={() => {
         setEditing(false)
         const n = parseInt(draft, 10)
         if (!isNaN(n) && n >= 0) onChange(unit === 'months' ? Math.min(n, 11) : n)
       }}
       onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => setDraft(e.target.value)}
+      onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
     />
   )
 }
