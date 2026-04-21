@@ -8,7 +8,7 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <div className="divide-y divide-black/8">
+    <div>
       {faqs.map((faq, i) => (
         <div key={i}>
           <button
