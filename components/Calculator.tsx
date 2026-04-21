@@ -208,12 +208,12 @@ export default function Calculator() {
           {/* Analysis: Graph + Table */}
           <Card className="p-5">
             {/* Tabs */}
-            <div className="flex rounded-xl bg-background p-1 gap-1 mb-5">
+            <div className="flex rounded-xl p-1 gap-1 mb-5">
               {(['graph', 'table'] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg capitalize ${
+                  className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg capitalize ring-1 ring-inset ring-black/12 ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
                 >
