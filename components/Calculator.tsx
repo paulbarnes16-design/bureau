@@ -237,7 +237,9 @@ export default function Calculator() {
       {/* Mobile: input sheet */}
       <AnimatePresence>
         {sheetOpen && (
-          <motion.div
+          <>
+            <div className="fixed inset-0 z-30 bg-background" />
+            <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -272,6 +274,7 @@ export default function Calculator() {
               </button>
             </div>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
 
