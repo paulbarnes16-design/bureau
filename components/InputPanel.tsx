@@ -327,7 +327,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                       <button
                         key={c.code}
                         type="button"
-                        onClick={() => { onChange({ currency: c }); setCurrencyOpen(false) }}
+                        onClick={() => { onChange({ currency: c }) }}
                         className="w-full flex items-center gap-3 py-1"
                       >
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm ${
