@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { motion, AnimatePresence, useSpring, useTransform, MotionValue } from 'framer-motion'
+import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'

@@ -416,7 +416,7 @@ export default function DesignSystemPage() {
               ))}
             </div>
             {seg2 === 'graph' ? (
-              <LineChart rows={result.rows} />
+              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm font-sans border-collapse">
