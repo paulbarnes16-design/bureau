@@ -209,7 +209,15 @@ export default function Calculator() {
             transition={{ type: 'spring', damping: 32, stiffness: 320 }}
             className="fixed inset-0 z-40 bg-background flex flex-col"
           >
-            <div className="flex-1 overflow-y-auto p-4 pb-0">
+            <div className="flex items-center justify-between px-4 py-4 flex-shrink-0">
+              <h2 className="font-display font-black text-2xl text-black">Input values</h2>
+              <button onClick={() => setSheetOpen(false)} className="text-black/40 hover:text-black" aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                  <path d="M2 2l14 14M16 2L2 16" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 pb-0 pt-0">
               <InputPanel
                 values={inputs}
                 onChange={patch}
