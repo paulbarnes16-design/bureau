@@ -202,12 +202,13 @@ interface Props {
   onCurrencyClick?: () => void
   onClose?: () => void
   showActions?: boolean
+  bare?: boolean
 }
 
-export default function InputPanel({ values, onChange, onClose, showActions }: Props) {
+export default function InputPanel({ values, onChange, onClose, showActions, bare }: Props) {
   const [currencyOpen, setCurrencyOpen] = useState(false)
   return (
-    <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden">
+    <div className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
       {/* Header */}
       <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
         <h2 className="font-display font-black text-2xl text-black mb-5">Input values</h2>
