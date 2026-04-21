@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     'ISA calculator UK',
     'FIRE calculator',
   ],
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   authors: [{ name: 'Bureau' }],
   alternates: {
     canonical: 'https://bureau.money',
