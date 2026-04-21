@@ -207,9 +207,9 @@ export default function Calculator() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 32, stiffness: 320 }}
-            className="fixed inset-0 z-40 bg-background overflow-y-auto"
+            className="fixed inset-0 z-40 bg-background flex flex-col"
           >
-            <div className="p-4">
+            <div className="flex-1 overflow-y-auto p-4 pb-0">
               <InputPanel
                 values={inputs}
                 onChange={patch}
@@ -217,6 +217,15 @@ export default function Calculator() {
                 showActions
                 bare
               />
+            </div>
+            <div className="p-4 bg-background">
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                className="w-full bg-black text-white font-sans font-bold text-base py-4 rounded-2xl"
+              >
+                Calculate
+              </button>
             </div>
           </motion.div>
         )}

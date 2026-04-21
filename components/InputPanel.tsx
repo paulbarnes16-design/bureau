@@ -350,16 +350,6 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
           </AnimatePresence>
         </div>
 
-        {/* Calculate button (mobile sheet only) */}
-        {showActions && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full bg-black text-white font-sans font-bold text-base py-4 rounded-2xl mt-2"
-          >
-            Calculate
-          </button>
-        )}
       </div>
     </div>
   )
