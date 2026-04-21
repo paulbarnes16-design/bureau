@@ -14,6 +14,7 @@ import {
 interface Row { year: number; balance: number; deposits: number }
 
 interface TooltipProps {
+
   active?: boolean
   payload?: Array<{ value: number; name: string; color: string }>
   label?: number
@@ -37,13 +38,12 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 }
 
 function fmtY(v: number) {
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}m`
-  if (v >= 1_000) return `${(v / 1_000).toFixed(0)}k`
+  if (v >= 1_000_000) return `${+(v / 1_000_000).toFixed(1)}m`
+  if (v >= 1_000) return `${+(v / 1_000).toFixed(1)}k`
   return String(v)
 }
 
-export default function LineChart({ rows }: { rows: Row[] }) {
-
+export default function LineChart({ rows, initialValue }: { rows: Row[]; initialValue: number }) {
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
@@ -61,7 +61,8 @@ export default function LineChart({ rows }: { rows: Row[] }) {
             axisLine={false}
             tickLine={false}
             width={40}
-            domain={[(dataMin: number) => dataMin, 'auto']}
+            domain={[initialValue, 'auto']}
+            allowDataOverflow
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend

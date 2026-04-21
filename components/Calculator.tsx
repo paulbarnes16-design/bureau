@@ -177,7 +177,7 @@ export default function Calculator() {
             </div>
 
             {tab === 'graph' ? (
-              <LineChart rows={result.rows} />
+              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
             ) : (
               <div className="overflow-x-auto -mx-1 outline-none">
                 <table className="w-full text-sm font-sans border-collapse">
