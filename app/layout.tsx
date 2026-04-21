@@ -5,8 +5,8 @@ import './globals.css'
 
 const ppWoodland = localFont({
   src: [
-    { path: './fonts/PPWoodland-Heavy.woff2', format: 'woff2' },
-    { path: './fonts/PPWoodland-Heavy.woff', format: 'woff' },
+    { path: './fonts/PPWoodland-Heavy.woff2' },
+    { path: './fonts/PPWoodland-Heavy.woff' },
   ],
   weight: '900',
   variable: '--font-woodland',

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Calculator from '@/components/Calculator'
 import { faqs } from '@/lib/faq-data'
 
@@ -24,7 +25,7 @@ export default function Home() {
 
           {/* Header card */}
           <div className="bg-white rounded-2xl shadow-sm px-10 py-6">
-            <img src="/logo.png" alt="bureau" className="h-7" />
+            <Image src="/logo.png" alt="bureau" height={28} width={120} className="h-7 w-auto" />
             <p className="font-sans text-xs text-subdued mt-1">Compound Interest Calculator</p>
           </div>
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import InputPanel from '@/components/InputPanel'
 import CurrencyPicker from '@/components/CurrencyPicker'
@@ -126,9 +127,9 @@ export default function DesignSystemPage() {
           <p className="font-mono text-[10px] text-subdued leading-relaxed mb-3">
             8 colours · 10 type roles<br />3 type families
           </p>
-          <a href="/" className="font-mono text-[10px] text-subdued underline hover:text-black transition-colors">
+          <Link href="/" className="font-mono text-[10px] text-subdued underline hover:text-black transition-colors">
             ← Back to app
-          </a>
+          </Link>
         </div>
       </nav>
 
