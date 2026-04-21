@@ -284,13 +284,15 @@ export default function Calculator() {
         )}
       </AnimatePresence>
 
-      {/* Currency picker */}
-      <CurrencyPicker
-        open={currencyOpen}
-        selected={inputs.currency}
-        onSelect={(c: Currency) => patch({ currency: c })}
-        onClose={() => setCurrencyOpen(false)}
-      />
+      {/* Currency picker — mobile only (desktop uses side panel) */}
+      <div className="lg:hidden">
+        <CurrencyPicker
+          open={currencyOpen}
+          selected={inputs.currency}
+          onSelect={(c: Currency) => patch({ currency: c })}
+          onClose={() => setCurrencyOpen(false)}
+        />
+      </div>
     </>
   )
 }
