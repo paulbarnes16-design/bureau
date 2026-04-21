@@ -242,8 +242,8 @@ export default function Calculator() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 32, stiffness: 320 }}
-            className="fixed inset-x-0 top-0 z-40 bg-background flex flex-col"
-            style={{ height: '100dvh' }}
+            className="fixed inset-0 z-40 bg-background flex flex-col"
+            style={{ minHeight: '100dvh' }}
           >
             <div className="flex items-center justify-between px-4 py-4 flex-shrink-0" style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
               <h2 className="font-display font-black text-2xl text-black">Input values</h2>
