@@ -61,6 +61,7 @@ export default function LineChart({ rows }: { rows: Row[] }) {
             axisLine={false}
             tickLine={false}
             width={40}
+            domain={[(dataMin: number) => dataMin, 'auto']}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
