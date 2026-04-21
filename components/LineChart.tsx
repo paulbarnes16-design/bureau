@@ -44,6 +44,8 @@ function fmtY(v: number) {
 }
 
 export default function LineChart({ rows, initialValue }: { rows: Row[]; initialValue: number }) {
+  const fmtYAxis = (v: number) => v < initialValue ? '' : fmtY(v)
+
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
@@ -56,7 +58,7 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
             tickLine={false}
           />
           <YAxis
-            tickFormatter={fmtY}
+            tickFormatter={fmtYAxis}
             tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-dm-sans)' }}
             axisLine={false}
             tickLine={false}
