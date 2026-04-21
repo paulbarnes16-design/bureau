@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useSpring, useTransform, MotionValue } from 'f
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
+import FAQ from './FAQ'
 
 const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
 
@@ -202,6 +203,12 @@ export default function Calculator() {
                 </table>
               </div>
             )}
+          </Card>
+
+          {/* FAQs */}
+          <Card className="p-5">
+            <h2 className="font-display font-black text-2xl text-black mb-3">FAQs</h2>
+            <FAQ />
           </Card>
 
         </div>
