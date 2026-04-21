@@ -165,7 +165,7 @@ export default function Calculator() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display font-black text-2xl text-black">Results</h2>
               {inputs.adjustForInflation && (
-                <span className="px-2.5 py-1 bg-black text-white text-[11px] font-sans font-medium rounded-full leading-none">
+                <span className="px-1.5 py-0.5 bg-black text-white text-[9px] font-sans font-bold uppercase tracking-wide rounded-[4px] leading-none">
                   Inflation adjusted
                 </span>
               )}
