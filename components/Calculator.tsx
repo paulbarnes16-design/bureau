@@ -98,13 +98,13 @@ export default function Calculator() {
                 transition={{ duration: 0.18 }}
                 className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white p-5 flex flex-col gap-4"
               >
-                <div className="flex items-center justify-between">
-                  <h2 className="font-display font-black text-2xl text-black">Currency</h2>
-                  <button onClick={() => setCurrencyOpen(false)} className="p-1 text-black" aria-label="Close">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-                      <path d="M2 2l14 14M16 2L2 16" />
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setCurrencyOpen(false)} className="p-1 -ml-1 text-black" aria-label="Back">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                      <path d="M12 4l-6 6 6 6" />
                     </svg>
                   </button>
+                  <h2 className="font-display font-black text-2xl text-black">Select currency</h2>
                 </div>
                 <div className="space-y-2">
                   {(CURRENCIES as Currency[]).map((c) => {
