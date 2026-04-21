@@ -15,6 +15,9 @@ const config: Config = {
         irn:        '#FF5500',
         'sky-blue': '#9EE7FF',
       },
+      boxShadow: {
+        card: '-6px -5px 7.5px rgba(255,255,255,0.4), 6px 5px 14px rgba(0,0,0,0.12)',
+      },
       fontFamily: {
         display: ['var(--font-woodland)', 'Georgia', 'serif'],
         mono:    ['var(--font-jetbrains)', 'ui-monospace', 'Menlo', 'monospace'],

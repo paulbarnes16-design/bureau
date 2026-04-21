@@ -206,7 +206,7 @@ interface Props {
 
 export default function InputPanel({ values, onChange, onCurrencyClick, onClose, showActions }: Props) {
   return (
-    <div className="bg-elevated rounded-2xl shadow-md ring-2 ring-inset ring-white overflow-hidden">
+    <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden">
       {/* Header */}
       <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
         <h2 className="font-display font-black text-2xl text-black mb-5">Input values</h2>

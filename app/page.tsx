@@ -24,7 +24,7 @@ export default function Home() {
         <div className="space-y-3 lg:space-y-10">
 
           {/* Header card */}
-          <div className="bg-elevated rounded-2xl shadow-md ring-2 ring-inset ring-white px-10 py-6">
+          <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white px-10 py-6">
             <Image src="/logo.png" alt="bureau" height={28} width={120} className="h-7 w-auto" />
             <p className="font-sans text-xs text-subdued mt-1">Compound Interest Calculator</p>
           </div>
