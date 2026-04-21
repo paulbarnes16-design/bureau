@@ -184,7 +184,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       }`}
     >
       <span
-        className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 ${
+        className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-200 ${
           checked ? 'translate-x-5' : 'translate-x-0'
         }`}
       />
@@ -206,7 +206,7 @@ interface Props {
 
 export default function InputPanel({ values, onChange, onCurrencyClick, onClose, showActions }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-md overflow-hidden">
       {/* Header */}
       <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
         <h2 className="font-display font-black text-2xl text-black mb-5">Input values</h2>
