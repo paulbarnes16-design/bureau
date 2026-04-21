@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://usebureau.co.uk/sitemap.xml',
+    sitemap: 'https://bureau.money/sitemap.xml',
   }
 }

@@ -54,8 +54,13 @@ export default function Home() {
             <p className="font-sans text-[15px] text-black mt-2">Compound Interest Calculator</p>
           </div>
 
-          {/* Calculator */}
+          {/* Intro */}
           <h1 className="sr-only">Compound Interest Calculator</h1>
+          <p className="text-sm font-sans text-subdued leading-relaxed px-1">
+            Enter your starting balance, interest rate, and any regular contributions below to see exactly how your savings or investments could grow over time — with optional inflation adjustment.
+          </p>
+
+          {/* Calculator */}
           <Calculator />
 
           {/* Footer */}

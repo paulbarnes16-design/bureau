@@ -24,4 +24,24 @@ export const faqs = [
     answer:
       'Interest and investment returns are generally taxable in the UK. However, using a Stocks & Shares ISA or Cash ISA shelters up to £20,000 per year (2024/25 allowance) completely from tax. Growth, dividends, and withdrawals inside an ISA are all tax-free, making ISAs the most powerful tool available to UK savers and investors.',
   },
+  {
+    question: 'How often should interest compound for the best returns?',
+    answer:
+      'The more frequently interest compounds, the faster your money grows. Daily compounding produces slightly more than monthly, which beats annual. In practice, the difference between daily and monthly compounding is small — on £10,000 at 5% over 10 years, daily compounding adds only about £12 more than monthly. The interest rate itself matters far more than compounding frequency.',
+  },
+  {
+    question: 'What is the Rule of 72?',
+    answer:
+      'The Rule of 72 is a quick mental shortcut to estimate how long it takes to double your money. Divide 72 by your annual interest rate: at 6%, your money doubles in roughly 12 years (72 ÷ 6). At 9%, it doubles in 8 years. It\'s a useful sanity check when planning long-term investments, though our calculator gives you the precise figure.',
+  },
+  {
+    question: 'How much should I save each month to reach my goal?',
+    answer:
+      'Work backwards: decide your target amount and timeline, then adjust the monthly contribution in this calculator until the future value matches your goal. As a rough guide, saving £200/month at 7% for 30 years produces around £227,000. Starting earlier has an outsized impact — the same £200/month started 10 years earlier nearly doubles the outcome.',
+  },
+  {
+    question: 'What is the best compound interest account in the UK?',
+    answer:
+      'Stocks & Shares ISAs offer the highest long-term compound growth potential, with historical returns of 7–10% annually. Cash ISAs and high-interest savings accounts offer lower but guaranteed rates, currently 4–5% (2024/25). For maximum compounding, reinvest all dividends and interest, minimise fees, and shelter as much as possible inside an ISA to avoid tax eroding your returns.',
+  },
 ]
