@@ -35,7 +35,7 @@ function FieldLabel({ label }: { label: string }) {
   )
 }
 
-const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/12 rounded-xl px-4 h-12 text-base font-sans text-black focus:outline-none focus:ring-black/30 transition-colors'
+const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
 
 function CurrencyInput({
   value,
@@ -146,7 +146,7 @@ function Segmented({
 }) {
   const id = useId()
   return (
-    <div className="flex rounded-xl bg-background p-1 gap-1">
+    <div className="flex rounded-xl p-1 gap-1">
       {options.map((opt) => (
         <button
           key={opt}

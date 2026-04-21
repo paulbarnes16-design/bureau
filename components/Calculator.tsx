@@ -213,7 +213,7 @@ export default function Calculator() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg capitalize ring-1 ring-inset ring-black/12 ${
+                  className={`relative flex-1 h-[38px] text-sm font-sans font-medium rounded-lg capitalize ring-1 ring-inset ring-black/[0.12] ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
                 >
@@ -232,7 +232,7 @@ export default function Calculator() {
             {tab === 'graph' ? (
               <LineChart rows={result.rows} />
             ) : (
-              <div className="overflow-x-auto -mx-1">
+              <div className="overflow-x-auto -mx-1 outline-none">
                 <table className="w-full text-sm font-sans border-collapse">
                   <thead>
                     <tr className="bg-background">
