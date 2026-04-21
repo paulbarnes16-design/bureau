@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, DM_Sans } from 'next/font/google'
 import localFont from 'next/font/local'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const ppWoodland = localFont({
@@ -66,7 +67,7 @@ export default function RootLayout({
       lang="en"
       className={`${ppWoodland.variable} ${jetbrainsMono.variable} ${dmSans.variable}`}
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">{children}<Analytics /></body>
     </html>
   )
 }
