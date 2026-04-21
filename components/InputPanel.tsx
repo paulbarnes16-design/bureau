@@ -180,7 +180,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       aria-checked={checked}
       onClick={() => onChange(!checked)}
       className={`relative inline-flex w-12 h-6 rounded-full flex-shrink-0 transition-colors duration-200 focus:outline-none ${
-        checked ? 'bg-black' : 'bg-transparent ring-1 ring-inset ring-black'
+        checked ? 'bg-irn' : 'bg-transparent ring-1 ring-inset ring-black'
       }`}
     >
       <span
