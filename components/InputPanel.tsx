@@ -331,7 +331,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                         className="w-full flex items-center gap-3 py-1"
                       >
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-sans font-black text-sm ${
-                          isSelected ? 'bg-black text-white' : 'bg-elevated text-black shadow-[inset_0_0_0_2px_white]'
+                          isSelected ? 'bg-black text-white shadow-card' : 'bg-elevated text-black shadow-card shadow-[inset_0_0_0_2px_white]'
                         }`}>
                           {c.symbol}
                         </div>
