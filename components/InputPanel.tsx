@@ -330,8 +330,8 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                         onClick={() => { onChange({ currency: c }) }}
                         className="w-full flex items-center gap-3 py-1"
                       >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm ${
-                          isSelected ? 'bg-black text-white' : 'bg-background text-black'
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-sans font-black text-sm ${
+                          isSelected ? 'bg-black text-white' : 'bg-elevated text-black shadow-[inset_0_0_0_2px_white]'
                         }`}>
                           {c.symbol}
                         </div>
