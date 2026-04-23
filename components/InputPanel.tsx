@@ -16,10 +16,10 @@ function InfoIcon() {
   )
 }
 
-function ChevronRight() {
+function ChevronDown() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-      <path d="M6 3l5 5-5 5" />
+      <path d="M3 6l5 5 5-5" />
     </svg>
   )
 }
@@ -307,8 +307,8 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
             className="w-full flex items-center justify-between py-1"
           >
             <span className="text-sm font-sans text-black">Change currency</span>
-            <motion.span animate={{ rotate: currencyOpen ? 90 : 0 }} transition={{ duration: 0.18 }}>
-              <ChevronRight />
+            <motion.span animate={{ rotate: currencyOpen ? 180 : 0 }} transition={{ duration: 0.18 }}>
+              <ChevronDown />
             </motion.span>
           </button>
           <AnimatePresence initial={false}>
