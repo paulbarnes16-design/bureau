@@ -318,7 +318,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="overflow-hidden"
+                className="overflow-hidden px-4 -mx-4 pb-4 -mb-4"
               >
                 <div className="pt-3 space-y-1">
                   {(CURRENCIES as Currency[]).map((c) => {
