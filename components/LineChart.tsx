@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react'
 import {
-  LineChart as ReLineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,10 +12,9 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-interface Row { year: number; balance: number; deposits: number }
+interface Row { year: number; balance: number; deposits: number; interestEarned: number }
 
 interface TooltipProps {
-
   active?: boolean
   payload?: Array<{ value: number; name: string; color: string }>
   label?: number
@@ -44,30 +43,26 @@ function fmtY(v: number) {
   return String(v)
 }
 
-function niceTicks(min: number, max: number, count = 5): number[] {
-  if (max <= min) return [min]
-  const range = max - min
-  const step = range / (count - 1)
+function niceTicks(max: number, count = 5): number[] {
+  if (max <= 0) return [0]
+  const step = max / (count - 1)
   const mag = Math.pow(10, Math.floor(Math.log10(step)))
   let niceStep = Math.ceil(step / mag) * mag
-  // Enforce minimum step so formatted labels (1 decimal place) never collide
   const minStep = max >= 1_000_000 ? 100_000 : max >= 1_000 ? 100 : 1
   niceStep = Math.max(niceStep, minStep)
-  return Array.from({ length: count }, (_, i) => Math.round(min + i * niceStep)).filter(v => v <= max * 1.15)
+  return Array.from({ length: count }, (_, i) => Math.round(i * niceStep)).filter(v => v <= max * 1.15)
 }
 
-export default function LineChart({ rows, initialValue }: { rows: Row[]; initialValue: number }) {
-  const fmtYAxis = (v: number) => v < initialValue ? '' : fmtY(v)
-
+export default function LineChart({ rows }: { rows: Row[]; initialValue: number }) {
   const ticks = useMemo(() => {
-    const max = Math.max(...rows.map(r => Math.max(r.balance, r.deposits)))
-    return niceTicks(initialValue, max)
-  }, [rows, initialValue])
+    const max = Math.max(...rows.map(r => r.balance))
+    return niceTicks(max)
+  }, [rows])
 
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
-        <ReLineChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+        <BarChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }} barCategoryGap="20%">
           <CartesianGrid strokeDasharray="3 6" stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
             dataKey="year"
@@ -76,14 +71,13 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
             tickLine={false}
           />
           <YAxis
-            tickFormatter={fmtYAxis}
+            tickFormatter={fmtY}
             tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-dm-sans)' }}
             axisLine={false}
             tickLine={false}
             width={40}
-            domain={[initialValue, 'auto']}
             ticks={ticks}
-            allowDataOverflow
+            domain={[0, 'auto']}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
@@ -99,25 +93,9 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
               </div>
             )}
           />
-          <Line
-            type="monotone"
-            dataKey="balance"
-            name="Compound interest"
-            stroke="#FF5500"
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 4, fill: '#FF5500' }}
-          />
-          <Line
-            type="monotone"
-            dataKey="deposits"
-            name="Deposits"
-            stroke="#9EE7FF"
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 4, fill: '#9EE7FF' }}
-          />
-        </ReLineChart>
+          <Bar dataKey="deposits" name="Deposits" stackId="a" fill="#9EE7FF" radius={[0, 0, 0, 0]} />
+          <Bar dataKey="interestEarned" name="Interest earned" stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   )
