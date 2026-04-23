@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import {
   LineChart as ReLineChart,
   Line,
@@ -43,8 +44,25 @@ function fmtY(v: number) {
   return String(v)
 }
 
+function niceTicks(min: number, max: number, count = 5): number[] {
+  if (max <= min) return [min]
+  const range = max - min
+  const step = range / (count - 1)
+  const mag = Math.pow(10, Math.floor(Math.log10(step)))
+  let niceStep = Math.ceil(step / mag) * mag
+  // Enforce minimum step so formatted labels (1 decimal place) never collide
+  const minStep = max >= 1_000_000 ? 100_000 : max >= 1_000 ? 100 : 1
+  niceStep = Math.max(niceStep, minStep)
+  return Array.from({ length: count }, (_, i) => Math.round(min + i * niceStep)).filter(v => v <= max * 1.15)
+}
+
 export default function LineChart({ rows, initialValue }: { rows: Row[]; initialValue: number }) {
   const fmtYAxis = (v: number) => v < initialValue ? '' : fmtY(v)
+
+  const ticks = useMemo(() => {
+    const max = Math.max(...rows.map(r => Math.max(r.balance, r.deposits)))
+    return niceTicks(initialValue, max)
+  }, [rows, initialValue])
 
   return (
     <div className="w-full h-56 md:h-64">
@@ -64,6 +82,7 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
             tickLine={false}
             width={40}
             domain={[initialValue, 'auto']}
+            ticks={ticks}
             allowDataOverflow
           />
           <Tooltip content={<CustomTooltip />} />
