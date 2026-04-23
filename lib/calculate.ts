@@ -45,7 +45,6 @@ export interface YearRow {
   deposits: number
   interestEarned: number
   balance: number
-  nominal: number
 }
 
 export interface CalcResult {
@@ -114,7 +113,6 @@ export function calculate(inputs: CalcInputs): CalcResult {
       deposits: Math.round(deps),
       interestEarned: Math.round(bal - deps),
       balance: Math.round(bal),
-      nominal: Math.round(nomBal),
     })
   }
 
