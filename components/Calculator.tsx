@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
@@ -12,14 +12,15 @@ const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
 // ── Animated number ───────────────────────────────────────────────────────────
 
 function AnimatedValue({ value, symbol }: { value: number; symbol: string }) {
-  const spring = useSpring(value, { stiffness: 80, damping: 20, mass: 0.8 })
-  const display = useTransform(spring, (v) =>
+  const motionValue = useMotionValue(value)
+  const display = useTransform(motionValue, (v) =>
     `${symbol}${Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
   )
 
   useEffect(() => {
-    spring.set(value)
-  }, [spring, value])
+    const controls = animate(motionValue, value, { duration: 0.35, ease: 'easeOut' })
+    return controls.stop
+  }, [motionValue, value])
 
   return <motion.span>{display}</motion.span>
 }
