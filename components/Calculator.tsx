@@ -208,7 +208,7 @@ export default function Calculator() {
               <div className="overflow-x-auto -mx-1 outline-none">
                 <table className="w-full text-sm font-sans border-collapse table-fixed">
                   <colgroup>
-                    <col className="w-10" />
+                    <col className="w-10 lg:w-20" />
                     <col />
                     <col />
                     <col />
@@ -245,7 +245,7 @@ export default function Calculator() {
             <div className="overflow-x-auto -mx-1 outline-none">
               <table className="w-full text-sm font-sans border-collapse table-fixed">
                 <colgroup>
-                  <col className="w-10" />
+                  <col className="w-10 lg:w-20" />
                   <col />
                   <col />
                   <col />
