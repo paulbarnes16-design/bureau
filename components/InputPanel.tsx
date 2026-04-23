@@ -345,6 +345,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
           </AnimatePresence>
         </div>
 
+        <div className="h-16 lg:hidden" />
       </div>
     </div>
   )
