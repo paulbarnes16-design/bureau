@@ -203,7 +203,7 @@ export default function Calculator() {
               ))}
             </div>
             {tab === 'graph' ? (
-              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} adjustForInflation={inputs.adjustForInflation} />
             ) : (
               <div className="overflow-x-auto -mx-1 outline-none">
                 <table className="w-full text-sm font-sans border-collapse">
@@ -231,7 +231,7 @@ export default function Calculator() {
 
           {/* Desktop: graph card */}
           <Card className="hidden lg:block p-5">
-            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} adjustForInflation={inputs.adjustForInflation} />
           </Card>
 
           {/* Desktop: table card */}

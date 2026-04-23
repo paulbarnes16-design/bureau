@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-interface Row { year: number; balance: number; deposits: number }
+interface Row { year: number; balance: number; deposits: number; nominal: number }
 
 interface TooltipProps {
 
@@ -56,11 +56,11 @@ function niceTicks(min: number, max: number, count = 5): number[] {
   return Array.from({ length: count }, (_, i) => Math.round(min + i * niceStep)).filter(v => v <= max * 1.15)
 }
 
-export default function LineChart({ rows, initialValue }: { rows: Row[]; initialValue: number }) {
+export default function LineChart({ rows, initialValue, adjustForInflation }: { rows: Row[]; initialValue: number; adjustForInflation?: boolean }) {
   const fmtYAxis = (v: number) => v < initialValue ? '' : fmtY(v)
 
   const ticks = useMemo(() => {
-    const max = Math.max(...rows.map(r => Math.max(r.balance, r.deposits)))
+    const max = Math.max(...rows.map(r => Math.max(r.nominal, r.balance, r.deposits)))
     return niceTicks(initialValue, max)
   }, [rows, initialValue])
 
@@ -101,13 +101,25 @@ export default function LineChart({ rows, initialValue }: { rows: Row[]; initial
           />
           <Line
             type="monotone"
-            dataKey="balance"
+            dataKey="nominal"
             name="Compound interest"
             stroke="#FF5500"
             strokeWidth={2}
             dot={false}
             activeDot={{ r: 4, fill: '#FF5500' }}
           />
+          {adjustForInflation && (
+            <Line
+              type="monotone"
+              dataKey="balance"
+              name="After inflation"
+              stroke="#FF5500"
+              strokeWidth={2}
+              strokeDasharray="5 3"
+              dot={false}
+              activeDot={{ r: 4, fill: '#FF5500' }}
+            />
+          )}
           <Line
             type="monotone"
             dataKey="deposits"
