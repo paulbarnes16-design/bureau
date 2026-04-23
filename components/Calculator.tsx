@@ -210,7 +210,7 @@ export default function Calculator() {
                   <thead>
                     <tr className="bg-background">
                       {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
-                        <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">{h}</th>
+                        <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -241,7 +241,7 @@ export default function Calculator() {
                 <thead>
                   <tr className="bg-background">
                     {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
-                      <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">{h}</th>
+                      <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                     ))}
                   </tr>
                 </thead>
