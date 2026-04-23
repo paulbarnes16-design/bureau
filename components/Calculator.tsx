@@ -206,7 +206,13 @@ export default function Calculator() {
               <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
             ) : (
               <div className="overflow-x-auto -mx-1 outline-none">
-                <table className="w-full text-sm font-sans border-collapse">
+                <table className="w-full text-sm font-sans border-collapse table-fixed">
+                  <colgroup>
+                    <col className="w-10" />
+                    <col />
+                    <col />
+                    <col />
+                  </colgroup>
                   <thead>
                     <tr className="bg-background">
                       {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
@@ -237,7 +243,13 @@ export default function Calculator() {
           {/* Desktop: table card */}
           <Card className="hidden lg:block p-5">
             <div className="overflow-x-auto -mx-1 outline-none">
-              <table className="w-full text-sm font-sans border-collapse">
+              <table className="w-full text-sm font-sans border-collapse table-fixed">
+                <colgroup>
+                  <col className="w-10" />
+                  <col />
+                  <col />
+                  <col />
+                </colgroup>
                 <thead>
                   <tr className="bg-background">
                     {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
