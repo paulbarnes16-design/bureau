@@ -310,7 +310,7 @@ export default function Calculator() {
                 bare
               />
             </div>
-            <div className="bg-background px-4 pt-4" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
+            <div className="bg-background px-4 pt-4 shadow-[inset_0_2px_0_0_white]" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
