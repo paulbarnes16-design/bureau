@@ -48,9 +48,6 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   authors: [{ name: 'Bureau' }],
-  alternates: {
-    canonical: 'https://bureau.money',
-  },
   verification: {
     google: 'reSQj501BxtbXf1YmfQFjz8F-PAJ1BiS0KZiTeEkx6c',
   },

@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Calculator from '@/components/Calculator'
+
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://bureau.money' },
+}
 
 const appSchema = {
   '@context': 'https://schema.org',
