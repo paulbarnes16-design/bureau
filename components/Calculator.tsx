@@ -204,7 +204,7 @@ export default function Calculator() {
               ))}
             </div>
             {tab === 'graph' ? (
-              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
             ) : (
               <div className="overflow-x-auto -mx-1 outline-none">
                 <table className="w-full text-sm font-sans border-collapse table-fixed">
@@ -216,7 +216,7 @@ export default function Calculator() {
                   </colgroup>
                   <thead>
                     <tr className="bg-background">
-                      {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
+                      {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                         <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                       ))}
                     </tr>
@@ -238,7 +238,7 @@ export default function Calculator() {
 
           {/* Desktop: graph card */}
           <Card className="hidden lg:block p-5">
-            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
           </Card>
 
           {/* Desktop: table card */}
@@ -253,7 +253,7 @@ export default function Calculator() {
                 </colgroup>
                 <thead>
                   <tr className="bg-background">
-                    {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
+                    {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                       <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                     ))}
                   </tr>

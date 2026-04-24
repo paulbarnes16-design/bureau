@@ -53,7 +53,7 @@ function niceTicks(max: number, count = 5): number[] {
   return Array.from({ length: count }, (_, i) => Math.round(i * niceStep)).filter(v => v <= max * 1.15)
 }
 
-export default function LineChart({ rows }: { rows: Row[]; initialValue: number }) {
+export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
   const ticks = useMemo(() => {
     const max = Math.max(...rows.map(r => r.balance))
     return niceTicks(max)
@@ -94,7 +94,7 @@ export default function LineChart({ rows }: { rows: Row[]; initialValue: number 
             )}
           />
           <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="#9EE7FF" radius={[0, 0, 0, 0]} />
-          <Bar dataKey="interestEarned" name="Interest earned" stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="interestEarned" name={inflation ? 'Real interest earned' : 'Interest earned'} stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
