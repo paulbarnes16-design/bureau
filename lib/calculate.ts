@@ -43,6 +43,7 @@ export interface CalcInputs {
 export interface YearRow {
   year: number
   deposits: number
+  cumulativeDeposits: number
   interestEarned: number
   balance: number
 }
@@ -105,14 +106,17 @@ export function calculate(inputs: CalcInputs): CalcResult {
   const maxYears = Math.ceil(totalYears)
   const rows: YearRow[] = []
   let prevBal = 0
+  let cumDeps = 0
   for (let y = 0; y <= maxYears; y++) {
     const nomBal = nominalBalance(Math.round(n * y))
     const bal = realValue(nomBal, y)
     const deps = y === 0 ? initialInvestment : additionalPayments * ppy
+    cumDeps += deps
     const interest = Math.round(bal - prevBal - deps)
     rows.push({
       year: y,
       deposits: Math.round(deps),
+      cumulativeDeposits: Math.round(cumDeps),
       interestEarned: interest,
       balance: Math.round(bal),
     })

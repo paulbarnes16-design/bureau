@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-interface Row { year: number; balance: number; deposits: number; interestEarned: number }
+interface Row { year: number; balance: number; deposits: number; cumulativeDeposits: number; interestEarned: number }
 
 interface TooltipProps {
   active?: boolean
@@ -93,7 +93,7 @@ export default function LineChart({ rows }: { rows: Row[]; initialValue: number 
               </div>
             )}
           />
-          <Bar dataKey="deposits" name="Deposits" stackId="a" fill="#9EE7FF" radius={[0, 0, 0, 0]} />
+          <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="#9EE7FF" radius={[0, 0, 0, 0]} />
           <Bar dataKey="interestEarned" name="Interest earned" stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
