@@ -29,7 +29,7 @@ export default function CurrencyPicker({ open, selected, onSelect, onClose }: Pr
                   <path d="M12 4l-6 6 6 6" />
                 </svg>
               </button>
-              <h2 className="font-sans font-black text-2xl text-black">Select currency</h2>
+              <h2 className="font-writer text-2xl text-black">Select currency</h2>
               <button onClick={onClose} className="p-1 -mr-1 text-black" aria-label="Close">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
                   <path d="M2 2l14 14M16 2L2 16" />
