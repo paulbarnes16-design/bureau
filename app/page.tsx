@@ -36,7 +36,7 @@ export default function Home() {
       />
 
       <div className="min-h-screen bg-background px-4 lg:px-10 pt-4 lg:pt-10 pb-12">
-        <div className="space-y-3 lg:space-y-10">
+        <div className="space-y-4 lg:space-y-4">
 
           {/* Header */}
           <div>
