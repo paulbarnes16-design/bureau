@@ -407,7 +407,7 @@ export default function ComponentsPage() {
         {/* 11 Header */}
         <Section id="header" num="11" title="Header">
           <div>
-            <span className="font-writer text-[40px] leading-none text-black">bureau</span>
+            <span className="font-writer text-[32px] leading-none text-black">bureau</span>
             <p className="font-sans text-[15px] text-black mt-1">Compound Interest Calculator</p>
           </div>
           <p className="font-mono text-[10px] text-subdued mt-3">font-writer text-[40px] leading-none · no card · subtitle font-sans text-[15px] · mt-1</p>

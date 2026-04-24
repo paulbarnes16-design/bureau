@@ -40,7 +40,7 @@ export default function Home() {
 
           {/* Header */}
           <div>
-            <span className="font-writer text-[40px] leading-none text-black">bureau</span>
+            <span className="font-writer text-[32px] leading-none text-black">bureau</span>
             <p className="font-sans text-[15px] text-black mt-1">Compound Interest Calculator</p>
           </div>
 
