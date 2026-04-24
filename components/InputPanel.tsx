@@ -185,20 +185,20 @@ function Segmented({
 }) {
   const id = useId()
   return (
-    <div className="flex rounded-xl ring-1 ring-inset ring-black/[0.12] p-1 gap-1">
+    <div className="flex rounded-full ring-1 ring-inset ring-black/[0.12] p-1 gap-1">
       {options.map((opt) => (
         <button
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none ${
+          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-full outline-none ${
             value === opt ? 'text-white' : 'text-black hover:bg-black/5'
           }`}
         >
           {value === opt && (
             <motion.div
               layoutId={`${id}-pill`}
-              className="absolute inset-0 bg-black rounded-lg"
+              className="absolute inset-0 bg-black rounded-full"
               transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             />
           )}
