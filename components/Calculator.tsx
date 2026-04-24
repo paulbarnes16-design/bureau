@@ -173,7 +173,7 @@ export default function Calculator() {
             {/* Edit Values (mobile only) */}
             <button
               onClick={() => setSheetOpen(true)}
-              className="lg:hidden mt-4 w-full bg-background rounded-xl py-3.5 text-sm font-sans font-bold text-black"
+              className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
             >
               Edit Values
             </button>
