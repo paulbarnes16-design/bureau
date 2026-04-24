@@ -104,16 +104,19 @@ export function calculate(inputs: CalcInputs): CalcResult {
 
   const maxYears = Math.ceil(totalYears)
   const rows: YearRow[] = []
+  let prevBal = 0
   for (let y = 0; y <= maxYears; y++) {
     const nomBal = nominalBalance(Math.round(n * y))
     const bal = realValue(nomBal, y)
-    const deps = initialInvestment + additionalPayments * ppy * y
+    const deps = y === 0 ? initialInvestment : additionalPayments * ppy
+    const interest = Math.round(bal - prevBal - deps)
     rows.push({
       year: y,
       deposits: Math.round(deps),
-      interestEarned: Math.round(bal - deps),
+      interestEarned: interest,
       balance: Math.round(bal),
     })
+    prevBal = bal
   }
 
   return { futureValue, interestEarned, totalDeposits, rows }
