@@ -50,12 +50,12 @@ function CurrencyInput({
 
   return (
     <div className="relative">
-      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">{symbol}</span>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none leading-none">{symbol}</span>
       <input
         type="text"
         inputMode="numeric"
         value={editing ? draft : value.toLocaleString('en-GB')}
-        className={`${inputCls} pl-8 pr-4`}
+        className={`${inputCls} pl-7 pr-4`}
         onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
         onBlur={() => {
           setEditing(false)
@@ -121,7 +121,7 @@ function DurationInput({
       type="text"
       inputMode="numeric"
       value={editing ? draft : label}
-      className={inputCls}
+      className={`${inputCls} px-4`}
       onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
       onBlur={() => {
         setEditing(false)
