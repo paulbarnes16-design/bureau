@@ -41,7 +41,7 @@ export default function Home() {
           {/* Header card */}
           <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white px-6 lg:px-6 py-6">
             <span className="font-writer text-[28px] leading-none text-black">bureau</span>
-            <p className="font-sans text-[15px] text-black mt-2">Compound Interest Calculator</p>
+            <p className="font-sans text-[15px] text-black mt-1">Compound Interest Calculator</p>
           </div>
 
           <h1 className="sr-only">Compound Interest Calculator</h1>
