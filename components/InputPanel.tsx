@@ -112,25 +112,29 @@ function DurationInput({
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
-  const label = unit === 'years'
-    ? `${value} year${value !== 1 ? 's' : ''}`
-    : `${value} month${value !== 1 ? 's' : ''}`
+  const displayNum = editing ? (parseInt(draft, 10) || value) : value
+  const suffix = unit === 'years'
+    ? `year${displayNum !== 1 ? 's' : ''}`
+    : `month${displayNum !== 1 ? 's' : ''}`
 
   return (
-    <input
-      type="text"
-      inputMode="numeric"
-      value={editing ? draft : label}
-      className={`${inputCls} px-4`}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
-      onBlur={() => {
-        setEditing(false)
-        const n = parseInt(draft, 10)
-        if (!isNaN(n) && n >= 0) onChange(unit === 'months' ? Math.min(n, 11) : n)
-      }}
-      onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
-    />
+    <div className="relative">
+      <input
+        type="text"
+        inputMode="numeric"
+        value={editing ? draft : String(value)}
+        className={`${inputCls} pl-4 pr-14`}
+        onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
+        onBlur={() => {
+          setEditing(false)
+          const n = parseInt(draft, 10)
+          if (!isNaN(n) && n >= 0) onChange(unit === 'months' ? Math.min(n, 11) : n)
+        }}
+        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
+      />
+      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">{suffix}</span>
+    </div>
   )
 }
 
