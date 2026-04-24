@@ -34,7 +34,7 @@ function FieldLabel({ label }: { label: string }) {
   )
 }
 
-const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
+const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
 
 function CurrencyInput({
   value,
@@ -48,23 +48,24 @@ function CurrencyInput({
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
-  const display = editing ? draft : `${symbol}${value.toLocaleString('en-GB')}`
-
   return (
-    <input
-      type="text"
-      inputMode="numeric"
-      value={display}
-      className={inputCls}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
-      onBlur={() => {
-        setEditing(false)
-        const n = Number(draft.replace(/,/g, ''))
-        if (!isNaN(n) && n >= 0) onChange(n)
-      }}
-      onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
-    />
+    <div className="relative">
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">{symbol}</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        value={editing ? draft : value.toLocaleString('en-GB')}
+        className={`${inputCls} pl-8 pr-4`}
+        onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
+        onBlur={() => {
+          setEditing(false)
+          const n = Number(draft.replace(/,/g, ''))
+          if (!isNaN(n) && n >= 0) onChange(n)
+        }}
+        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
+      />
+    </div>
   )
 }
 
@@ -78,23 +79,24 @@ function PercentInput({
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
-  const display = editing ? draft : `${value}%`
-
   return (
-    <input
-      type="text"
-      inputMode="decimal"
-      value={display}
-      className={inputCls}
-      onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
-      onBlur={() => {
-        setEditing(false)
-        const n = Number(draft)
-        if (!isNaN(n) && n >= 0) onChange(n)
-      }}
-      onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
-      onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setDraft(v) }}
-    />
+    <div className="relative">
+      <input
+        type="text"
+        inputMode="decimal"
+        value={editing ? draft : String(value)}
+        className={`${inputCls} pl-4 pr-8`}
+        onFocus={(e) => { setEditing(true); setDraft(String(value)); const t = e.currentTarget; setTimeout(() => t.select(), 0) }}
+        onBlur={() => {
+          setEditing(false)
+          const n = Number(draft)
+          if (!isNaN(n) && n >= 0) onChange(n)
+        }}
+        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setDraft(v) }}
+      />
+      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">%</span>
+    </div>
   )
 }
 
