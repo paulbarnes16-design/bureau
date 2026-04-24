@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono, DM_Sans } from 'next/font/google'
+import { JetBrains_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -14,15 +14,29 @@ const ppWriter = localFont({
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
+const ppPangramSans = localFont({
+  src: [
+    { path: '../fonts/PPPangramSans-Regular.woff2', weight: '400' },
+    { path: '../fonts/PPPangramSans-Regular.woff',  weight: '400' },
+    { path: '../fonts/PPPangramSans-Bold.woff2',    weight: '700' },
+    { path: '../fonts/PPPangramSans-Bold.woff',     weight: '700' },
+  ],
+  variable: '--font-pangram-sans',
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const ppPangramSansCondensed = localFont({
+  src: [
+    { path: '../fonts/PPPangramSans-CondensedBold.woff2', weight: '700' },
+    { path: '../fonts/PPPangramSans-CondensedBold.woff',  weight: '700' },
+  ],
+  variable: '--font-pangram-condensed',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  variable: '--font-jetbrains',
   display: 'swap',
 })
 
@@ -79,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ppWriter.variable} ${jetbrainsMono.variable} ${dmSans.variable}`}
+      className={`${ppWriter.variable} ${ppPangramSans.variable} ${ppPangramSansCondensed.variable} ${jetbrainsMono.variable}`}
     >
       <body className="font-sans antialiased">{children}<Analytics /><SpeedInsights /></body>
     </html>

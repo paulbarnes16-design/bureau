@@ -91,14 +91,14 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
           <XAxis
             dataKey="year"
             tickFormatter={(v) => `Yr ${v}`}
-            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-dm-sans)' }}
+            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
             interval="preserveStartEnd"
           />
           <YAxis
             tickFormatter={formatYAxis}
-            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-dm-sans)' }}
+            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
             width={52}
@@ -106,7 +106,7 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
           <Tooltip content={<CustomTooltip />} />
           <Legend
             formatter={(value) => (
-              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 11, color: '#5E5E5E' }}>
+              <span style={{ fontFamily: 'var(--font-pangram-sans)', fontSize: 11, color: '#5E5E5E' }}>
                 {value}
               </span>
             )}
