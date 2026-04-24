@@ -40,13 +40,22 @@ function CurrencyInput({
   value,
   onChange,
   symbol,
+  step = 100,
 }: {
   value: number
   onChange: (v: number) => void
   symbol: string
+  step?: number
 }) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
+
+  const handleArrow = (dir: 1 | -1) => {
+    const next = Math.max(0, value + dir * step)
+    onChange(next)
+    setDraft(String(next))
+    setEditing(true)
+  }
 
   return (
     <div className="relative">
@@ -62,7 +71,11 @@ function CurrencyInput({
           const n = Number(draft.replace(/,/g, ''))
           if (!isNaN(n) && n >= 0) onChange(n)
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur()
+          if (e.key === 'ArrowUp') { e.preventDefault(); handleArrow(1) }
+          if (e.key === 'ArrowDown') { e.preventDefault(); handleArrow(-1) }
+        }}
         onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
       />
     </div>
@@ -79,6 +92,13 @@ function PercentInput({
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
+  const handleArrow = (dir: 1 | -1) => {
+    const next = Math.round(Math.max(0, value + dir * 0.1) * 10) / 10
+    onChange(next)
+    setDraft(String(next))
+    setEditing(true)
+  }
+
   return (
     <div className="relative">
       <input
@@ -92,7 +112,11 @@ function PercentInput({
           const n = Number(draft)
           if (!isNaN(n) && n >= 0) onChange(n)
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur()
+          if (e.key === 'ArrowUp') { e.preventDefault(); handleArrow(1) }
+          if (e.key === 'ArrowDown') { e.preventDefault(); handleArrow(-1) }
+        }}
         onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setDraft(v) }}
       />
       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">%</span>
@@ -130,7 +154,17 @@ function DurationInput({
           const n = parseInt(draft, 10)
           if (!isNaN(n) && n >= 0) onChange(unit === 'months' ? Math.min(n, 11) : n)
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur()
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault()
+            const dir = e.key === 'ArrowUp' ? 1 : -1
+            const next = Math.max(0, unit === 'months' ? Math.min(value + dir, 11) : value + dir)
+            onChange(next)
+            setDraft(String(next))
+            setEditing(true)
+          }
+        }}
         onChange={(e) => { const v = e.target.value.replace(/[^\d]/g, ''); setDraft(v) }}
       />
       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none select-none">{suffix}</span>
@@ -236,6 +270,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
             value={values.initialInvestment}
             onChange={(v) => onChange({ initialInvestment: v })}
             symbol={values.currency.symbol}
+            step={1000}
           />
         </div>
 
