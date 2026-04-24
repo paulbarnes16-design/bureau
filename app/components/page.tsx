@@ -24,7 +24,7 @@ const COLOURS = [
 
 const TYPEFACES = [
   { name: 'Wordmark',         size: 40, weight: 'Ultrabold Italic', cls: 'font-writer text-[40px] leading-none',  sample: 'bureau'      },
-  { name: 'Title',            size: 24, weight: 'Ultrabold Italic', cls: 'font-writer text-2xl leading-none',     sample: 'Results'     },
+  { name: 'Title',            size: 20, weight: 'Bold',             cls: 'font-sans font-bold text-[20px] leading-none', sample: 'Results' },
   { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-sans font-black text-[40px] leading-none',  sample: '£12,345.67'  },
   { name: 'Body bold',        size: 15, weight: 'Bold',    cls: 'font-sans font-bold text-[15px]',                sample: 'Calculate'   },
   { name: 'Body',             size: 15, weight: 'Regular', cls: 'font-sans text-[15px]',                          sample: 'Compound Interest Calculator' },
@@ -320,7 +320,7 @@ export default function ComponentsPage() {
         <Section id="results" num="07" title="Results">
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-writer text-2xl text-black">Results</h2>
+              <h2 className="font-sans font-bold text-[20px] text-black">Results</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -399,7 +399,7 @@ export default function ComponentsPage() {
         {/* 10 FAQ */}
         <Section id="faq" num="10" title="FAQ">
           <Card className="p-5">
-            <h2 className="font-writer text-2xl text-black mb-3">FAQs</h2>
+            <h2 className="font-sans font-bold text-[20px] text-black mb-3">FAQs</h2>
             <FAQ />
           </Card>
         </Section>

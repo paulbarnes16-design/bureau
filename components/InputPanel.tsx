@@ -251,7 +251,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
       {/* Header — hidden in bare mode (sheet renders its own fixed header) */}
       {!bare && (
         <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
-          <h2 className="font-writer text-2xl text-black mb-5">Input values</h2>
+          <h2 className="font-sans font-bold text-[20px] text-black mb-5">Input values</h2>
           {showActions && onClose && (
             <button onClick={onClose} className="text-black/40 hover:text-black -mt-5" aria-label="Close">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
