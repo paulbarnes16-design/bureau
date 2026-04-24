@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import InputPanel from '@/components/InputPanel'
@@ -24,14 +23,15 @@ const COLOURS = [
 ]
 
 const TYPEFACES = [
-  { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-sans font-black text-[40px] leading-none', sample: '£12,345.67' },
-  { name: 'Title',            size: 24, weight: 'Black',   cls: 'font-sans font-black text-2xl leading-none',    sample: 'Results'     },
-  { name: 'Body bold',        size: 15, weight: 'Bold',    cls: 'font-sans font-bold text-[15px]',                  sample: 'Calculate'   },
-  { name: 'Body',             size: 15, weight: 'Regular', cls: 'font-sans text-[15px]',                            sample: 'Compound Interest Calculator' },
-  { name: 'Body small bold',  size: 13, weight: 'Bold',    cls: 'font-sans font-bold text-sm',                      sample: 'Edit Values' },
-  { name: 'Body small',       size: 13, weight: 'Regular', cls: 'font-sans text-sm',                                sample: 'Adjust for inflation' },
-  { name: 'Marginal bold',    size: 11, weight: 'Bold',    cls: 'font-sans font-bold text-[11px]',                  sample: 'Inflation adjusted' },
-  { name: 'Marginal',         size: 11, weight: 'Regular', cls: 'font-sans text-[11px]',                            sample: 'Inflation adjusted' },
+  { name: 'Wordmark',         size: 40, weight: 'Ultrabold Italic', cls: 'font-writer text-[40px] leading-none',  sample: 'bureau'      },
+  { name: 'Title',            size: 24, weight: 'Ultrabold Italic', cls: 'font-writer text-2xl leading-none',     sample: 'Results'     },
+  { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-sans font-black text-[40px] leading-none',  sample: '£12,345.67'  },
+  { name: 'Body bold',        size: 15, weight: 'Bold',    cls: 'font-sans font-bold text-[15px]',                sample: 'Calculate'   },
+  { name: 'Body',             size: 15, weight: 'Regular', cls: 'font-sans text-[15px]',                          sample: 'Compound Interest Calculator' },
+  { name: 'Body small bold',  size: 13, weight: 'Bold',    cls: 'font-sans font-bold text-sm',                    sample: 'Edit Values' },
+  { name: 'Body small',       size: 13, weight: 'Regular', cls: 'font-sans text-sm',                              sample: 'Adjust for inflation' },
+  { name: 'Marginal bold',    size: 11, weight: 'Bold',    cls: 'font-sans font-bold text-[11px]',                sample: 'Inflation adjusted' },
+  { name: 'Marginal',         size: 11, weight: 'Regular', cls: 'font-sans text-[11px]',                          sample: 'Inflation adjusted' },
 ]
 
 const NAV = [
@@ -112,7 +112,7 @@ export default function ComponentsPage() {
       {/* ── Sidebar ── */}
       <nav className="sticky top-0 h-screen overflow-y-auto bg-elevated border-r border-black/8 px-6 py-8 flex flex-col">
         <div>
-          <p className="font-sans font-black text-lg text-black">bureau</p>
+          <p className="font-writer text-lg text-black">bureau</p>
           <p className="font-sans text-xs text-subdued mt-0.5 mb-8">component reference</p>
         </div>
         <ol className="space-y-0">
@@ -189,25 +189,38 @@ export default function ComponentsPage() {
             <div className="space-y-4 pt-6">
               <div>
                 <Label>Currency input</Label>
-                <div className="w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 flex items-center text-base font-sans text-black">
-                  {sym}{inputs.initialInvestment.toLocaleString('en-GB')}
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none">{sym}</span>
+                  <div className="w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl pl-7 pr-4 h-12 flex items-center text-base font-sans text-black">
+                    {inputs.initialInvestment.toLocaleString('en-GB')}
+                  </div>
                 </div>
-                <p className="font-mono text-[10px] text-subdued mt-1.5">bg-white · ring-1 ring-inset ring-black/[0.12] · rounded-xl · px-4 h-12</p>
+                <p className="font-mono text-[10px] text-subdued mt-1.5">prefix overlay · pl-7 pr-4 · symbol always visible</p>
               </div>
               <div>
                 <Label>Percent input</Label>
-                <div className="w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 flex items-center text-base font-sans text-black">
-                  {inputs.interestRate}%
+                <div className="relative">
+                  <div className="w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl pl-4 pr-8 h-12 flex items-center text-base font-sans text-black">
+                    {inputs.interestRate}
+                  </div>
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none">%</span>
                 </div>
+                <p className="font-mono text-[10px] text-subdued mt-1.5">suffix overlay · pl-4 pr-8 · symbol always visible</p>
               </div>
               <div>
                 <Label>Duration (2-col)</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 flex items-center text-base font-sans text-black">
-                    {inputs.durationYears} year{inputs.durationYears !== 1 ? 's' : ''}
+                  <div className="relative">
+                    <div className="bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl pl-4 pr-14 h-12 flex items-center text-base font-sans text-black">
+                      {inputs.durationYears}
+                    </div>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none">year{inputs.durationYears !== 1 ? 's' : ''}</span>
                   </div>
-                  <div className="bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl px-4 h-12 flex items-center text-base font-sans text-black">
-                    {inputs.durationMonths} month{inputs.durationMonths !== 1 ? 's' : ''}
+                  <div className="relative">
+                    <div className="bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl pl-4 pr-14 h-12 flex items-center text-base font-sans text-black">
+                      {inputs.durationMonths}
+                    </div>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-sans text-black pointer-events-none">month{inputs.durationMonths !== 1 ? 's' : ''}</span>
                   </div>
                 </div>
               </div>
@@ -272,9 +285,9 @@ export default function ComponentsPage() {
               <p className="font-mono text-[10px] text-subdued">bg-black · py-4 · rounded-2xl · font-bold</p>
             </div>
             <div className="space-y-2">
-              <Label>Secondary — Edit Values</Label>
-              <button className="w-full bg-background rounded-xl py-3.5 text-sm font-sans font-medium text-black">Edit Values</button>
-              <p className="font-mono text-[10px] text-subdued">bg-background · py-3.5 · rounded-xl · font-medium</p>
+              <Label>Primary (mobile) — Edit Values</Label>
+              <button className="w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white">Edit Values</button>
+              <p className="font-mono text-[10px] text-subdued">bg-black · py-3.5 · rounded-xl · font-bold · text-white</p>
             </div>
             <div className="space-y-2">
               <Label>Copy button</Label>
@@ -307,7 +320,7 @@ export default function ComponentsPage() {
         <Section id="results" num="07" title="Results">
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-sans font-black text-2xl text-black">Results</h2>
+              <h2 className="font-writer text-2xl text-black">Results</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -334,7 +347,7 @@ export default function ComponentsPage() {
         {/* 08 Chart */}
         <Section id="chart" num="08" title="Chart">
           <Card className="p-5">
-            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} />
+            <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
           </Card>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div>
@@ -362,7 +375,7 @@ export default function ComponentsPage() {
               <table className="w-full text-sm font-sans border-collapse">
                 <thead>
                   <tr className="bg-background">
-                    {['Year', 'Deposits', 'Interest earned', 'Balance'].map((h) => (
+                    {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                       <th key={h} className="text-left text-xs font-bold text-black px-3 py-3 first:rounded-l-lg last:rounded-r-lg">{h}</th>
                     ))}
                   </tr>
@@ -386,18 +399,18 @@ export default function ComponentsPage() {
         {/* 10 FAQ */}
         <Section id="faq" num="10" title="FAQ">
           <Card className="p-5">
-            <h2 className="font-sans font-black text-2xl text-black mb-3">FAQs</h2>
+            <h2 className="font-writer text-2xl text-black mb-3">FAQs</h2>
             <FAQ />
           </Card>
         </Section>
 
         {/* 11 Header */}
         <Section id="header" num="11" title="Header">
-          <div className="bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white px-6 py-6">
-            <Image src="/logo.png" alt="bureau" height={28} width={120} className="h-7 w-auto" />
-            <p className="font-sans text-[15px] text-black mt-2">Compound Interest Calculator</p>
+          <div>
+            <span className="font-writer text-[40px] leading-none text-black">bureau</span>
+            <p className="font-sans text-[15px] text-black mt-1">Compound Interest Calculator</p>
           </div>
-          <p className="font-mono text-[10px] text-subdued mt-3">Logo image h-7 w-auto · subtitle font-sans text-[15px] · mt-2 · same card as all other cards</p>
+          <p className="font-mono text-[10px] text-subdued mt-3">font-writer text-[40px] leading-none · no card · subtitle font-sans text-[15px] · mt-1</p>
         </Section>
 
         <footer className="py-12 font-mono text-[10px] text-subdued">
