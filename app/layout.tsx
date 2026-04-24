@@ -1,8 +1,18 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, DM_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
+
+const ppWriter = localFont({
+  src: [
+    { path: '../fonts/PPWriter-UltraboldItalic.woff2', format: 'woff2' },
+    { path: '../fonts/PPWriter-UltraboldItalic.woff', format: 'woff' },
+  ],
+  variable: '--font-writer',
+  display: 'swap',
+})
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -69,7 +79,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jetbrainsMono.variable} ${dmSans.variable}`}
+      className={`${ppWriter.variable} ${jetbrainsMono.variable} ${dmSans.variable}`}
     >
       <body className="font-sans antialiased">{children}<Analytics /><SpeedInsights /></body>
     </html>
