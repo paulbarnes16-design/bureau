@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
@@ -72,11 +72,38 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 
 export default function Calculator() {
   const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
   const result = useMemo(() => calculate(inputs), [inputs])
+
+  useEffect(() => {
+    if (sheetOpen) {
+      const scrollY = window.scrollY
+      document.documentElement.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+      document.body.style.overflow = 'hidden'
+    } else {
+      const scrollY = parseInt(document.body.style.top || '0') * -1
+      document.documentElement.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+      window.scrollTo(0, scrollY)
+    }
+    return () => {
+      document.documentElement.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+    }
+  }, [sheetOpen])
 
   const sym = inputs.currency.symbol
 
@@ -106,11 +133,6 @@ export default function Calculator() {
 
         {/* ── Right: Results + Analysis + FAQs ── */}
         <div className="space-y-3 lg:space-y-10 lg:col-span-8">
-
-          {/* Mobile: inline input card */}
-          <div className="lg:hidden">
-            <InputPanel values={inputs} onChange={patch} />
-          </div>
 
           {/* Results */}
           <Card className="p-5">
@@ -148,6 +170,13 @@ export default function Calculator() {
               )}
             </p>
 
+            {/* Edit Values (mobile only) */}
+            <button
+              onClick={() => setSheetOpen(true)}
+              className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
+            >
+              Edit Values
+            </button>
           </Card>
 
           {/* Analysis: Graph + Table — tabs on mobile, separate cards on desktop */}
@@ -252,6 +281,49 @@ export default function Calculator() {
         </div>
       </div>
 
+      {/* Mobile: input sheet */}
+      <AnimatePresence>
+        {sheetOpen && (
+          <>
+            <div className="fixed inset-0 z-30 bg-background" style={{ top: '-100px', bottom: '-100px' }} />
+            <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+            className="fixed inset-0 z-40 bg-background flex flex-col"
+            style={{ minHeight: '100dvh' }}
+          >
+            <div className="flex items-center justify-between px-4 py-4 flex-shrink-0" style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
+              <h2 className="font-sans font-black text-2xl text-black">Input values</h2>
+              <button onClick={() => setSheetOpen(false)} className="text-black" aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                  <path d="M2 2l14 14M16 2L2 16" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 pb-0 pt-0">
+              <InputPanel
+                values={inputs}
+                onChange={patch}
+                onClose={() => setSheetOpen(false)}
+                showActions
+                bare
+              />
+            </div>
+            <div className="bg-background px-4 pt-4 pb-4 mb-4 rounded-3xl shadow-[inset_0_2px_0_0_white]">
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-2xl"
+              >
+                Calculate
+              </button>
+            </div>
+          </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
     </>
   )
