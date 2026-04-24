@@ -192,7 +192,7 @@ function Segmented({
           type="button"
           onClick={() => onChange(opt)}
           className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none ${
-            value === opt ? 'text-white' : 'text-black/50 hover:bg-black/5'
+            value === opt ? 'text-white' : 'text-black hover:bg-black/5'
           }`}
         >
           {value === opt && (
