@@ -39,7 +39,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
       <p className="text-[10px] font-sans tracking-[0.1em] uppercase text-subdued mb-2">
         Year {label}
       </p>
-      <p className="font-display font-black text-xl text-black leading-none mb-3">
+      <p className="font-sans font-black text-xl text-black leading-none mb-3">
         £{total.toLocaleString('en-GB')}
       </p>
       <div className="space-y-1.5">

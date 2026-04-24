@@ -24,8 +24,8 @@ const COLOURS = [
 ]
 
 const TYPEFACES = [
-  { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-display font-black text-[40px] leading-none', sample: '£12,345.67' },
-  { name: 'Title',            size: 24, weight: 'Black',   cls: 'font-display font-black text-2xl leading-none',    sample: 'Results'     },
+  { name: 'Display',          size: 40, weight: 'Black',   cls: 'font-sans font-black text-[40px] leading-none', sample: '£12,345.67' },
+  { name: 'Title',            size: 24, weight: 'Black',   cls: 'font-sans font-black text-2xl leading-none',    sample: 'Results'     },
   { name: 'Body bold',        size: 15, weight: 'Bold',    cls: 'font-sans font-bold text-[15px]',                  sample: 'Calculate'   },
   { name: 'Body',             size: 15, weight: 'Regular', cls: 'font-sans text-[15px]',                            sample: 'Compound Interest Calculator' },
   { name: 'Body small bold',  size: 13, weight: 'Bold',    cls: 'font-sans font-bold text-sm',                      sample: 'Edit Values' },
@@ -55,7 +55,7 @@ function Section({ id, num, title, children }: { id: string; num: string; title:
     <section id={id} className="py-14 border-b border-black/8">
       <div className="mb-8">
         <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-subdued mb-2">{num}</p>
-        <h2 className="font-display font-black text-[42px] leading-none tracking-tight text-black">{title}</h2>
+        <h2 className="font-sans font-black text-[42px] leading-none tracking-tight text-black">{title}</h2>
       </div>
       {children}
     </section>
@@ -112,7 +112,7 @@ export default function ComponentsPage() {
       {/* ── Sidebar ── */}
       <nav className="sticky top-0 h-screen overflow-y-auto bg-elevated border-r border-black/8 px-6 py-8 flex flex-col">
         <div>
-          <p className="font-display font-black text-lg text-black">bureau</p>
+          <p className="font-sans font-black text-lg text-black">bureau</p>
           <p className="font-sans text-xs text-subdued mt-0.5 mb-8">component reference</p>
         </div>
         <ol className="space-y-0">
@@ -307,7 +307,7 @@ export default function ComponentsPage() {
         <Section id="results" num="07" title="Results">
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-black text-2xl text-black">Results</h2>
+              <h2 className="font-sans font-black text-2xl text-black">Results</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -316,11 +316,11 @@ export default function ComponentsPage() {
             </div>
             <p className="text-xs font-sans text-subdued mb-1">Future value</p>
             <div className="flex items-center justify-between gap-3 mb-4">
-              <span className="font-display font-black text-[40px] text-black leading-none">{fmt(result.futureValue)}</span>
+              <span className="font-sans font-black text-[40px] text-black leading-none">{fmt(result.futureValue)}</span>
             </div>
             <p className="text-xs font-sans text-subdued mb-1">Interest earned</p>
             <div className="flex items-center justify-between gap-3 mb-5">
-              <span className="font-display font-black text-[40px] text-black leading-none">{fmt(result.interestEarned)}</span>
+              <span className="font-sans font-black text-[40px] text-black leading-none">{fmt(result.interestEarned)}</span>
             </div>
             <p className="text-sm font-sans text-black leading-relaxed">
               Over <strong>{inputs.durationYears} year{inputs.durationYears !== 1 ? 's' : ''}</strong>, starting with{' '}
@@ -386,7 +386,7 @@ export default function ComponentsPage() {
         {/* 10 FAQ */}
         <Section id="faq" num="10" title="FAQ">
           <Card className="p-5">
-            <h2 className="font-display font-black text-2xl text-black mb-3">FAQs</h2>
+            <h2 className="font-sans font-black text-2xl text-black mb-3">FAQs</h2>
             <FAQ />
           </Card>
         </Section>

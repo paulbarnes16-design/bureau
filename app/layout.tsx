@@ -1,19 +1,8 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, DM_Sans } from 'next/font/google'
-import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
-
-const ppWoodland = localFont({
-  src: [
-    { path: './fonts/PPWoodland-Heavy.woff2' },
-    { path: './fonts/PPWoodland-Heavy.woff' },
-  ],
-  weight: '900',
-  variable: '--font-woodland',
-  display: 'swap',
-})
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -80,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ppWoodland.variable} ${jetbrainsMono.variable} ${dmSans.variable}`}
+      className={`${jetbrainsMono.variable} ${dmSans.variable}`}
     >
       <body className="font-sans antialiased">{children}<Analytics /><SpeedInsights /></body>
     </html>

@@ -137,7 +137,7 @@ export default function Calculator() {
           {/* Results */}
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-black text-2xl text-black">Results</h2>
+              <h2 className="font-sans font-black text-2xl text-black">Results</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -148,7 +148,7 @@ export default function Calculator() {
             {/* Future value */}
             <p className="text-sm font-sans text-subdued mb-1">Future value</p>
             <div className="flex items-center justify-between gap-3 mb-4">
-              <span className="font-display font-black text-[40px] text-black leading-none">
+              <span className="font-sans font-black text-[40px] text-black leading-none">
                 <AnimatedValue value={result.futureValue} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.futureValue)} />
@@ -157,7 +157,7 @@ export default function Calculator() {
             {/* Interest earned */}
             <p className="text-sm font-sans text-subdued mb-1">Interest earned</p>
             <div className="flex items-center justify-between gap-3 mb-5">
-              <span className="font-display font-black text-[40px] text-black leading-none">
+              <span className="font-sans font-black text-[40px] text-black leading-none">
                 <AnimatedValue value={result.interestEarned} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.interestEarned)} />
@@ -274,7 +274,7 @@ export default function Calculator() {
 
           {/* FAQs */}
           <Card className="p-5">
-            <h2 className="font-display font-black text-2xl text-black mb-3">FAQs</h2>
+            <h2 className="font-sans font-black text-2xl text-black mb-3">FAQs</h2>
             <FAQ />
           </Card>
 
@@ -295,7 +295,7 @@ export default function Calculator() {
             style={{ minHeight: '100dvh' }}
           >
             <div className="flex items-center justify-between px-4 py-4 flex-shrink-0" style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
-              <h2 className="font-display font-black text-2xl text-black">Input values</h2>
+              <h2 className="font-sans font-black text-2xl text-black">Input values</h2>
               <button onClick={() => setSheetOpen(false)} className="text-black" aria-label="Close">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
                   <path d="M2 2l14 14M16 2L2 16" />
