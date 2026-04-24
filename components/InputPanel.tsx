@@ -152,14 +152,14 @@ function Segmented({
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none ${
-            value === opt ? 'text-white' : 'text-black hover:bg-black/5'
+          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none text-black ${
+            value === opt ? '' : 'hover:bg-black/5'
           }`}
         >
           {value === opt && (
             <motion.div
               layoutId={`${id}-pill`}
-              className="absolute inset-0 bg-black rounded-lg"
+              className="absolute inset-0 ring-1 ring-inset ring-black rounded-lg"
               transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             />
           )}
