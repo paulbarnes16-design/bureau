@@ -30,7 +30,6 @@ function FieldLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-1.5 mb-2">
       <span className="text-[11px] font-sans text-black">{label}</span>
-      <InfoIcon />
     </div>
   )
 }
