@@ -189,13 +189,13 @@ export default function Calculator() {
                   key={t}
                   onClick={() => setTab(t)}
                   className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg capitalize outline-none ${
-                    tab === t ? 'text-black' : 'text-black/50 hover:bg-black/5'
+                    tab === t ? 'text-white' : 'text-black/50 hover:bg-black/5'
                   }`}
                 >
                   {tab === t && (
                     <motion.div
                       layoutId="tab-pill"
-                      className="absolute inset-0 ring-1 ring-inset ring-black rounded-lg"
+                      className="absolute inset-0 bg-black rounded-lg"
                       transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                     />
                   )}
