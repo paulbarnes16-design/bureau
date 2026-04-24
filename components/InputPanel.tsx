@@ -151,8 +151,8 @@ function Segmented({
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none text-black ${
-            value === opt ? '' : 'hover:bg-black/5'
+          className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg outline-none ${
+            value === opt ? 'text-black' : 'text-black/50 hover:bg-black/5'
           }`}
         >
           {value === opt && (
