@@ -7,8 +7,8 @@ import './globals.css'
 
 const ppWriter = localFont({
   src: [
-    { path: '../fonts/PPWriter-UltraboldItalic.woff2', format: 'woff2' },
-    { path: '../fonts/PPWriter-UltraboldItalic.woff', format: 'woff' },
+    { path: '../fonts/PPWriter-UltraboldItalic.woff2' },
+    { path: '../fonts/PPWriter-UltraboldItalic.woff' },
   ],
   variable: '--font-writer',
   display: 'swap',
