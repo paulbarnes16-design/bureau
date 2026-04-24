@@ -301,7 +301,25 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               onChange={(v) => onChange({ adjustForInflation: v })}
             />
           </div>
-          <p className="text-sm font-sans text-subdued mt-1">We default to 2.5%</p>
+          <AnimatePresence initial={false}>
+            {values.adjustForInflation && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="mt-3">
+                  <FieldLabel label="Inflation rate" />
+                  <PercentInput
+                    value={values.inflationRate}
+                    onChange={(v) => onChange({ inflationRate: v })}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Change currency */}
