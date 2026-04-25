@@ -166,7 +166,7 @@ export default function Calculator() {
             </div>
 
             {/* Summary */}
-            <p className="text-[20px] font-sans text-black leading-relaxed">
+            <p className="text-[18px] font-sans text-black leading-relaxed">
               {summaryParts.map((part, i) =>
                 i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
               )}
