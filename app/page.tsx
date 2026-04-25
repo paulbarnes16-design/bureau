@@ -1,9 +1,23 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Calculator from '@/components/Calculator'
+import { faqs } from '@/lib/faq-data'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://bureau.money' },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
 }
 
 const appSchema = {
@@ -33,6 +47,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <div className="min-h-screen bg-background px-4 lg:px-10 pt-6 pb-12">
