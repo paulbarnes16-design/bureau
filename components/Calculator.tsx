@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, type CalcInputs } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
@@ -114,19 +114,6 @@ export default function Calculator() {
   const fmtResult = (n: number) =>
     `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
-  // Summary sentence components
-  const totalYears = inputs.durationYears + inputs.durationMonths / 12
-  const totalDeposits = inputs.initialInvestment + inputs.additionalPayments *
-    (inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1) * totalYears
-  const summaryParts = [
-    `Over `, `${inputs.durationYears} year${inputs.durationYears !== 1 ? 's' : ''}`, `, starting with `,
-    `${sym}${Math.round(totalDeposits).toLocaleString('en-GB')}`,
-    ` returning `, `${inputs.interestRate}%`,
-    ` annually and ${FREQ_LABELS[inputs.additionalPaymentsFreq].toLowerCase()} contributions of `,
-    `${sym}${inputs.additionalPayments.toLocaleString('en-GB')}`,
-    ...(inputs.adjustForInflation ? [` and inflation at `, `${inputs.inflationRate}%`] : []),
-    `.`,
-  ]
 
   return (
     <>
@@ -155,44 +142,27 @@ export default function Calculator() {
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-condensed text-[40px] text-black leading-none">
-                <AnimatedValue value={result.futureValue} symbol={sym} />
+                {hasEdited ? <AnimatedValue value={result.futureValue} symbol={sym} /> : `${sym} Your savings`}
               </span>
-              <CopyButton value={fmtResult(result.futureValue)} />
+              {hasEdited && <CopyButton value={fmtResult(result.futureValue)} />}
             </div>
 
             {/* Interest earned */}
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-condensed text-[40px] text-black leading-none">
-                <AnimatedValue value={result.interestEarned} symbol={sym} />
+                {hasEdited ? <AnimatedValue value={result.interestEarned} symbol={sym} /> : `${sym} Your interest`}
               </span>
-              <CopyButton value={fmtResult(result.interestEarned)} />
+              {hasEdited && <CopyButton value={fmtResult(result.interestEarned)} />}
             </div>
 
-            {/* Summary */}
-            <p className="text-[18px] font-sans text-black leading-relaxed">
-              {summaryParts.map((part, i) =>
-                i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
-              )}
-            </p>
-
             {/* Input values (mobile only) */}
-            {hasEdited ? (
-              <button
-                onClick={() => setSheetOpen(true)}
-                className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
-              >
-                Input values
-              </button>
-            ) : (
-              <button
-                onClick={() => setSheetOpen(true)}
-                className="lg:hidden mt-4 w-full bg-irn rounded-xl py-4 text-sm font-sans font-bold text-white flex flex-col items-center gap-0.5"
-              >
-                <span className="text-[15px]">Set your input values</span>
-                <span className="text-[12px] font-normal opacity-80">Tap to customise your calculation</span>
-              </button>
-            )}
+            <button
+              onClick={() => setSheetOpen(true)}
+              className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
+            >
+              Input values
+            </button>
           </Card>
 
           {/* Analysis: Graph + Table — tabs on mobile, separate cards on desktop */}
