@@ -37,7 +37,9 @@
       "Bash(npm i *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(vercel --prod)",
+      "Bash(npx vercel *)"
     ]
   },
   "hooks": {
