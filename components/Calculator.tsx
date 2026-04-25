@@ -281,46 +281,52 @@ export default function Calculator() {
         </div>
       </div>
 
-      {/* Mobile: input sheet */}
+      {/* Mobile: input lightbox */}
       <AnimatePresence>
         {sheetOpen && (
           <>
-            <div className="fixed inset-0 z-30 bg-background" style={{ top: '-100px', bottom: '-100px' }} />
             <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 32, stiffness: 320 }}
-            className="fixed inset-0 z-40 bg-background flex flex-col"
-            style={{ minHeight: '100dvh' }}
-          >
-            <div className="flex items-center justify-between px-4 py-4 flex-shrink-0" style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
-              <h2 className="font-sans font-bold text-[20px] text-black">Input values</h2>
-              <button onClick={() => setSheetOpen(false)} className="text-black" aria-label="Close">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-                  <path d="M2 2l14 14M16 2L2 16" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4 pb-0 pt-0">
-              <InputPanel
-                values={inputs}
-                onChange={patch}
-                onClose={() => setSheetOpen(false)}
-                showActions
-                bare
-              />
-            </div>
-            <div className="bg-background px-4 pt-4 pb-4 mb-4 rounded-3xl shadow-[inset_0_2px_0_0_white]">
-              <button
-                type="button"
-                onClick={() => setSheetOpen(false)}
-                className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-2xl"
-              >
-                Calculate
-              </button>
-            </div>
-          </motion.div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-30 bg-black/40"
+              onClick={() => setSheetOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+              className="fixed inset-4 z-40 bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white flex flex-col"
+            >
+              <div className="flex items-center justify-between px-4 py-4 flex-shrink-0">
+                <h2 className="font-sans font-bold text-[20px] text-black">Input values</h2>
+                <button onClick={() => setSheetOpen(false)} className="text-black" aria-label="Close">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto px-4 pb-0">
+                <InputPanel
+                  values={inputs}
+                  onChange={patch}
+                  onClose={() => setSheetOpen(false)}
+                  showActions
+                  bare
+                />
+              </div>
+              <div className="px-4 pt-4 pb-4">
+                <button
+                  type="button"
+                  onClick={() => setSheetOpen(false)}
+                  className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-2xl"
+                >
+                  Calculate
+                </button>
+              </div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>
