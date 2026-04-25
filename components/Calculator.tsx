@@ -164,7 +164,7 @@ export default function Calculator() {
             </div>
 
             {/* Summary (desktop only) */}
-            <p className="hidden lg:block text-[18px] font-sans text-black leading-relaxed mb-2">
+            <p className="text-[18px] font-sans text-black leading-relaxed mb-2">
               {summaryParts.map((part, i) =>
                 i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
               )}
