@@ -290,7 +290,8 @@ export default function Calculator() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-30 backdrop-blur-sm"
+              className="fixed z-30 backdrop-blur-sm"
+              style={{ top: '-100px', bottom: '-100px', left: '-100px', right: '-100px' }}
               onClick={() => setSheetOpen(false)}
             />
             <motion.div
