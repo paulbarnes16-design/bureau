@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
@@ -76,6 +76,8 @@ export default function Calculator() {
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
   const [resultPage, setResultPage] = useState(0)
   const [swipeDir, setSwipeDir] = useState(1)
+  const [carouselHeight, setCarouselHeight] = useState<number | undefined>(undefined)
+  const page0Ref = useRef<HTMLDivElement | null>(null)
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
@@ -111,6 +113,12 @@ export default function Calculator() {
       document.body.style.overflow = ''
     }
   }, [sheetOpen])
+
+  useEffect(() => {
+    if (resultPage === 0 && page0Ref.current) {
+      setCarouselHeight(page0Ref.current.scrollHeight)
+    }
+  }, [resultPage, inputs])
 
   const sym = inputs.currency.symbol
 
@@ -174,10 +182,10 @@ export default function Calculator() {
                   if (info.offset.x > 40 && resultPage > 0) goToPage(resultPage - 1)
                 }}
               >
-                <div className="h-[252px] overflow-hidden">
+                <div style={{ height: carouselHeight ?? 'auto', overflow: 'hidden' }}>
                 <AnimatePresence mode="wait" custom={swipeDir}>
                   {resultPage === 0 && (
-                    <motion.div key="p0"
+                    <motion.div key="p0" ref={page0Ref}
                       custom={swipeDir}
                       variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
                       initial="enter" animate="center" exit="exit"
