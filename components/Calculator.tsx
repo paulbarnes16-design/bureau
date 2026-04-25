@@ -185,19 +185,19 @@ export default function Calculator() {
 
           {/* Mobile: tabbed */}
           <Card className="p-5 lg:hidden">
-            <div className="flex rounded-xl ring-1 ring-inset ring-black/[0.12] p-1 gap-1 mb-5">
+            <div className="flex rounded-full ring-1 ring-inset ring-black/[0.12] p-1 gap-1 mb-5">
               {(['graph', 'table'] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-lg capitalize outline-none ${
+                  className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-full capitalize outline-none ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
                 >
                   {tab === t && (
                     <motion.div
                       layoutId="tab-pill"
-                      className="absolute inset-0 bg-black rounded-lg"
+                      className="absolute inset-0 bg-black rounded-full"
                       transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                     />
                   )}
