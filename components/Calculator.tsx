@@ -174,7 +174,7 @@ export default function Calculator() {
                   if (info.offset.x > 40 && resultPage > 0) goToPage(resultPage - 1)
                 }}
               >
-                <div>
+                <div className="h-[252px] overflow-hidden">
                 <AnimatePresence mode="wait" custom={swipeDir}>
                   {resultPage === 0 && (
                     <motion.div key="p0"
@@ -225,9 +225,15 @@ export default function Calculator() {
                       transition={{ duration: 0.18 }}
                     >
                       <p className="text-sm font-sans text-subdued mb-1">Time to double</p>
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">
                           {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
+                        </span>
+                      </div>
+                      <p className="text-sm font-sans text-subdued mb-1">Total contributions</p>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-condensed text-[40px] text-black leading-none">
+                          {sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}
                         </span>
                       </div>
                     </motion.div>
