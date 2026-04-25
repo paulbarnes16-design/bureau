@@ -312,7 +312,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
 
         {/* Additional payments */}
         <div>
-          <FieldLabel label="Additional payments (optional)" />
+          <FieldLabel label="Additional contributions (optional)" />
           <CurrencyInput
             value={values.additionalPayments}
             onChange={(v) => onChange({ additionalPayments: v })}
