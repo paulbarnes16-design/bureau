@@ -2,7 +2,7 @@
 
 import { useState, useId } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import posthog from 'posthog-js'
+const ph = () => (window as any).posthog
 import { CURRENCIES, type CalcInputs, type Currency, type Freq, FREQ_LABELS } from '@/lib/calculate'
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
@@ -334,7 +334,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
             <span className="text-sm font-sans text-black">Adjust for inflation</span>
             <Toggle
               checked={values.adjustForInflation}
-              onChange={(v) => { onChange({ adjustForInflation: v }); posthog.capture('inflation_toggled', { enabled: v }) }}
+              onChange={(v) => { onChange({ adjustForInflation: v }); ph()?.capture('inflation_toggled', { enabled: v }) }}
             />
           </div>
           <AnimatePresence initial={false}>
@@ -386,7 +386,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                       <button
                         key={c.code}
                         type="button"
-                        onClick={() => { onChange({ currency: c }); posthog.capture('currency_changed', { currency: c.code }) }}
+                        onClick={() => { onChange({ currency: c }); ph()?.capture('currency_changed', { currency: c.code }) }}
                         className="w-full flex items-center gap-3 py-1"
                       >
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-sans font-black text-sm ${

@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import posthog from 'posthog-js'
+const ph = () => (window as any).posthog
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
@@ -36,7 +36,7 @@ function CopyButton({ value }: { value: string }) {
       await navigator.clipboard.writeText(value)
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
-      posthog.capture('value_copied', { value })
+      ph()?.capture('value_copied', { value })
     } catch {}
   }
 
@@ -86,27 +86,15 @@ export default function Calculator() {
   const switchTab = (t: 'graph' | 'table') => {
     setTabSwipeDir(tabs.indexOf(t) > tabs.indexOf(tab) ? 1 : -1)
     setTab(t)
-    posthog.capture('analysis_tab_switched', { tab: t })
+    ph()?.capture('analysis_tab_switched', { tab: t })
   }
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
-  useEffect(() => {
-    if (!posthog.__loaded) {
-      posthog.init('phc_yH3VMPxxmynWHeF6fZwNmCZLo42cUGcJBBcWUqDV22xx', {
-        api_host: 'https://us.i.posthog.com',
-        persistence: 'memory',
-        person_profiles: 'never',
-        capture_pageview: true,
-        capture_pageleave: true,
-      })
-    }
-  }, [])
-
   const goToPage = (page: number) => {
     setSwipeDir(page > resultPage ? 1 : -1)
     setResultPage(page)
-    posthog.capture('result_page_viewed', { page })
+    ph()?.capture('result_page_viewed', { page })
   }
 
   const result = useMemo(() => calculate(inputs), [inputs])
@@ -319,7 +307,7 @@ export default function Calculator() {
 
             {/* Input values (mobile only) */}
             <button
-              onClick={() => { setSheetOpen(true); posthog.capture('input_sheet_opened') }}
+              onClick={() => { setSheetOpen(true); ph()?.capture('input_sheet_opened') }}
               className="lg:hidden w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
               Input values
