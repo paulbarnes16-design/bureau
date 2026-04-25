@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
@@ -74,7 +74,15 @@ export default function Calculator() {
   const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
+  const [resultPage, setResultPage] = useState(0)
+  const [swipeDir, setSwipeDir] = useState(1)
+
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
+
+  const goToPage = (page: number) => {
+    setSwipeDir(page > resultPage ? 1 : -1)
+    setResultPage(page)
+  }
 
   const result = useMemo(() => calculate(inputs), [inputs])
 
@@ -108,6 +116,16 @@ export default function Calculator() {
 
   const fmtResult = (n: number) =>
     `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+
+  const n = FREQ_PER_YEAR[inputs.compoundFreq]
+  const effectiveAnnualRate = Math.pow(1 + inputs.interestRate / 100 / n, n) - 1
+  const compoundedRate = effectiveAnnualRate * 100
+  const allTimeReturn = result.totalDeposits > 0
+    ? ((result.futureValue - result.totalDeposits) / result.totalDeposits) * 100
+    : 0
+  const timeToDouble = effectiveAnnualRate > 0
+    ? Math.log(2) / Math.log(1 + effectiveAnnualRate)
+    : Infinity
 
   const totalYears = inputs.durationYears + inputs.durationMonths / 12
   const totalDeposits = inputs.initialInvestment + inputs.additionalPayments *
@@ -145,35 +163,109 @@ export default function Calculator() {
               )}
             </div>
 
-            {/* Future value */}
-            <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
-            <div className="flex items-center justify-between gap-3 mb-4">
-              <span className="font-condensed text-[40px] text-black leading-none">
-                <AnimatedValue value={result.futureValue} symbol={sym} />
-              </span>
-              <CopyButton value={fmtResult(result.futureValue)} />
+            {/* Mobile: swipeable result pages */}
+            <div className="lg:hidden">
+              <motion.div
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.05}
+                onDragEnd={(_, info) => {
+                  if (info.offset.x < -40 && resultPage < 2) goToPage(resultPage + 1)
+                  if (info.offset.x > 40 && resultPage > 0) goToPage(resultPage - 1)
+                }}
+              >
+                <div className="min-h-[152px]">
+                <AnimatePresence mode="wait" custom={swipeDir}>
+                  {resultPage === 0 && (
+                    <motion.div key="p0"
+                      custom={swipeDir}
+                      variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
+                      initial="enter" animate="center" exit="exit"
+                      transition={{ duration: 0.18 }}
+                    >
+                      <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
+                      <div className="flex items-center justify-between gap-3 mb-4">
+                        <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                        <CopyButton value={fmtResult(result.futureValue)} />
+                      </div>
+                      <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                        <CopyButton value={fmtResult(result.interestEarned)} />
+                      </div>
+                    </motion.div>
+                  )}
+                  {resultPage === 1 && (
+                    <motion.div key="p1"
+                      custom={swipeDir}
+                      variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
+                      initial="enter" animate="center" exit="exit"
+                      transition={{ duration: 0.18 }}
+                    >
+                      <p className="text-sm font-sans text-subdued mb-1">All time rate of return</p>
+                      <div className="flex items-center justify-between gap-3 mb-4">
+                        <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
+                      </div>
+                      <p className="text-sm font-sans text-subdued mb-1">Compounded rate of return</p>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
+                      </div>
+                    </motion.div>
+                  )}
+                  {resultPage === 2 && (
+                    <motion.div key="p2"
+                      custom={swipeDir}
+                      variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
+                      initial="enter" animate="center" exit="exit"
+                      transition={{ duration: 0.18 }}
+                    >
+                      <p className="text-sm font-sans text-subdued mb-1">Time to double</p>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-condensed text-[40px] text-black leading-none">
+                          {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                </div>
+              </motion.div>
+
+              {/* Dots */}
+              <div className="flex items-center justify-center gap-2 mt-5 mb-4">
+                {[0, 1, 2].map((i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToPage(i)}
+                    className={`w-1.5 h-1.5 rounded-full transition-colors ${i === resultPage ? 'bg-black' : 'bg-black/20'}`}
+                  />
+                ))}
+              </div>
             </div>
 
-            {/* Interest earned */}
-            <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
-            <div className="flex items-center justify-between gap-3 mb-5">
-              <span className="font-condensed text-[40px] text-black leading-none">
-                <AnimatedValue value={result.interestEarned} symbol={sym} />
-              </span>
-              <CopyButton value={fmtResult(result.interestEarned)} />
+            {/* Desktop: static layout */}
+            <div className="hidden lg:block">
+              <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                <CopyButton value={fmtResult(result.futureValue)} />
+              </div>
+              <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                <CopyButton value={fmtResult(result.interestEarned)} />
+              </div>
+              <p className="text-[18px] font-sans text-black leading-relaxed mb-2">
+                {summaryParts.map((part, i) =>
+                  i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
+                )}
+              </p>
             </div>
-
-            {/* Summary — desktop always, mobile only after editing */}
-            <p className="text-[18px] font-sans text-black leading-relaxed mb-2">
-              {summaryParts.map((part, i) =>
-                i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
-              )}
-            </p>
 
             {/* Input values (mobile only) */}
             <button
               onClick={() => setSheetOpen(true)}
-              className="lg:hidden mt-4 w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
+              className="lg:hidden w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
               Input values
             </button>
