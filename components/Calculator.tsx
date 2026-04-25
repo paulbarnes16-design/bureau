@@ -119,7 +119,9 @@ export default function Calculator() {
     `${sym}${Math.round(totalDeposits).toLocaleString('en-GB')}`,
     ` returning `, `${inputs.interestRate}%`,
     ` annually and ${FREQ_LABELS[inputs.additionalPaymentsFreq].toLowerCase()} payments of `,
-    `${sym}${inputs.additionalPayments.toLocaleString('en-GB')}`, `.`,
+    `${sym}${inputs.additionalPayments.toLocaleString('en-GB')}`,
+    ...(inputs.adjustForInflation ? [` and inflation at `, `${inputs.inflationRate}%`] : []),
+    `.`,
   ]
 
   return (
