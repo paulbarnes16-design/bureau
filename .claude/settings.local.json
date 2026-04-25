@@ -39,7 +39,8 @@
       "Bash(git commit *)",
       "Bash(npx tsc *)",
       "Bash(vercel --prod)",
-      "Bash(npx vercel *)"
+      "Bash(npx vercel *)",
+      "WebFetch(domain:bureau.money)"
     ]
   },
   "hooks": {
