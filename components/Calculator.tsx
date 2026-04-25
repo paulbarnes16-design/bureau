@@ -225,18 +225,18 @@ export default function Calculator() {
                       initial="enter" animate="center" exit="exit"
                       transition={{ duration: 0.18 }}
                     >
-                      <p className="text-sm font-sans text-subdued mb-1">All time rate of return</p>
+                      <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real all time rate of return' : 'All time rate of return'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
                         <CopyButton value={`${allTimeReturn.toFixed(2)}%`} />
                       </div>
-                      <p className="text-sm font-sans text-subdued mb-1">Compounded rate of return</p>
+                      <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real compounded rate of return' : 'Compounded rate of return'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
                         <CopyButton value={`${compoundedRate.toFixed(2)}%`} />
                       </div>
                       <p className="text-[18px] font-sans text-black leading-relaxed">
-                        Over <strong>{inputs.durationYears} year{inputs.durationYears !== 1 ? 's' : ''}</strong> your total return was <strong>{allTimeReturn.toFixed(1)}%</strong>, compounding at <strong>{compoundedRate.toFixed(2)}%</strong> per year.
+                        Over <strong>{inputs.durationYears} year{inputs.durationYears !== 1 ? 's' : ''}</strong> your total return was <strong>{allTimeReturn.toFixed(1)}%</strong>, compounding at <strong>{compoundedRate.toFixed(2)}%</strong> per year{inputs.adjustForInflation ? <>, after <strong>{inputs.inflationRate}%</strong> inflation</> : ''}.
                       </p>
                     </motion.div>
                   )}
@@ -262,7 +262,7 @@ export default function Calculator() {
                         <CopyButton value={`${sym}${Math.round(result.totalDeposits).toLocaleString('en-GB')}`} />
                       </div>
                       <p className="text-[18px] font-sans text-black leading-relaxed">
-                        At <strong>{inputs.interestRate}%</strong> your money doubles every <strong>{isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} years` : '—'}</strong>. You put in <strong>{sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}</strong> of your own money.
+                        With a {inputs.adjustForInflation ? 'real' : ''} return of <strong>{compoundedRate.toFixed(2)}%</strong> your money doubles every <strong>{isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} years` : '—'}</strong>. You put in <strong>{sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}</strong> of your own money.
                       </p>
                     </motion.div>
                   )}
