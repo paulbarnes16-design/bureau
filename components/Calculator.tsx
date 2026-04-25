@@ -91,6 +91,18 @@ export default function Calculator() {
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
+  useEffect(() => {
+    if (!posthog.__loaded) {
+      posthog.init('phc_yH3VMPxxmynWHeF6fZwNmCZLo42cUGcJBBcWUqDV22xx', {
+        api_host: 'https://us.i.posthog.com',
+        persistence: 'memory',
+        person_profiles: 'never',
+        capture_pageview: true,
+        capture_pageleave: true,
+      })
+    }
+  }, [])
+
   const goToPage = (page: number) => {
     setSwipeDir(page > resultPage ? 1 : -1)
     setResultPage(page)
