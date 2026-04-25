@@ -74,8 +74,12 @@ export default function Calculator() {
   const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
+  const [hasEdited, setHasEdited] = useState(false)
 
-  const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
+  const patch = (updates: Partial<CalcInputs>) => {
+    setHasEdited(true)
+    setInputs((prev) => ({ ...prev, ...updates }))
+  }
 
   const result = useMemo(() => calculate(inputs), [inputs])
 
@@ -172,13 +176,23 @@ export default function Calculator() {
               )}
             </p>
 
-            {/* Edit Values (mobile only) */}
-            <button
-              onClick={() => setSheetOpen(true)}
-              className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
-            >
-              Edit Values
-            </button>
+            {/* Input values (mobile only) */}
+            {hasEdited ? (
+              <button
+                onClick={() => setSheetOpen(true)}
+                className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
+              >
+                Input values
+              </button>
+            ) : (
+              <button
+                onClick={() => setSheetOpen(true)}
+                className="lg:hidden mt-4 w-full bg-irn rounded-xl py-4 text-sm font-sans font-bold text-white flex flex-col items-center gap-0.5"
+              >
+                <span className="text-[15px]">Set your input values</span>
+                <span className="text-[12px] font-normal opacity-80">Tap to customise your calculation</span>
+              </button>
+            )}
           </Card>
 
           {/* Analysis: Graph + Table — tabs on mobile, separate cards on desktop */}
