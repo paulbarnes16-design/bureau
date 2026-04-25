@@ -74,12 +74,7 @@ export default function Calculator() {
   const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
-  const [hasEdited, setHasEdited] = useState(false)
-
-  const patch = (updates: Partial<CalcInputs>) => {
-    setHasEdited(true)
-    setInputs((prev) => ({ ...prev, ...updates }))
-  }
+  const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
   const result = useMemo(() => calculate(inputs), [inputs])
 
@@ -142,10 +137,7 @@ export default function Calculator() {
           {/* Results */}
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-sans font-bold text-[20px] text-black">
-                <span className="lg:hidden">{hasEdited ? 'Results' : 'Input your values'}</span>
-                <span className="hidden lg:inline">Results</span>
-              </h2>
+              <h2 className="font-sans font-bold text-[20px] text-black">Results</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -157,8 +149,7 @@ export default function Calculator() {
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-condensed text-[40px] text-black leading-none">
-                <span className="lg:hidden"><AnimatedValue value={hasEdited ? result.futureValue : 0} symbol={sym} /></span>
-                <span className="hidden lg:inline"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                <AnimatedValue value={result.futureValue} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.futureValue)} />
             </div>
@@ -167,14 +158,13 @@ export default function Calculator() {
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-condensed text-[40px] text-black leading-none">
-                <span className="lg:hidden"><AnimatedValue value={hasEdited ? result.interestEarned : 0} symbol={sym} /></span>
-                <span className="hidden lg:inline"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                <AnimatedValue value={result.interestEarned} symbol={sym} />
               </span>
               <CopyButton value={fmtResult(result.interestEarned)} />
             </div>
 
             {/* Summary — desktop always, mobile only after editing */}
-            <p className={`text-[18px] font-sans text-black leading-relaxed mb-2 ${!hasEdited ? 'hidden lg:block' : ''}`}>
+            <p className="text-[18px] font-sans text-black leading-relaxed mb-2">
               {summaryParts.map((part, i) =>
                 i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
               )}
