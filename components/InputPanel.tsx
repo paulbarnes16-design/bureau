@@ -2,7 +2,7 @@
 
 import { useState, useId } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-const ph = () => (window as any).posthog
+const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
 import { CURRENCIES, type CalcInputs, type Currency, type Freq, FREQ_LABELS } from '@/lib/calculate'
 
 // ── Icons ─────────────────────────────────────────────────────────────────────

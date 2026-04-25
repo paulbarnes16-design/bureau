@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-const ph = () => (window as any).posthog
+const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
