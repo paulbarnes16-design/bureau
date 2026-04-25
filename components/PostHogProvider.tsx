@@ -5,8 +5,8 @@ import posthog from 'posthog-js'
 
 export default function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    posthog.init('phc_yH3VMPxxmynWHeF6fZwNmCZLo42cUGcJBBcWUqDV22xx', {
+      api_host: 'https://us.i.posthog.com',
       persistence: 'memory',
       person_profiles: 'never',
       capture_pageview: true,
