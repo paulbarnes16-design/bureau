@@ -35,8 +35,8 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
       />
 
-      <div className="min-h-screen bg-background px-4 lg:px-10 pt-4 pb-12">
-        <div className="space-y-4 lg:space-y-4">
+      <div className="min-h-screen bg-background px-4 lg:px-10 pt-6 pb-12">
+        <div className="space-y-6 lg:space-y-6">
 
           {/* Header */}
           <div>
