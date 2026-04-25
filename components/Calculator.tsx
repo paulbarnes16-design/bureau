@@ -142,18 +142,22 @@ export default function Calculator() {
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-condensed text-[40px] text-black leading-none">
-                {hasEdited ? <AnimatedValue value={result.futureValue} symbol={sym} /> : `${sym} Your savings`}
+                <span className="lg:hidden">{hasEdited ? <AnimatedValue value={result.futureValue} symbol={sym} /> : `${sym} Your savings`}</span>
+                <span className="hidden lg:inline"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
               </span>
-              {hasEdited && <CopyButton value={fmtResult(result.futureValue)} />}
+              <span className="lg:hidden">{hasEdited && <CopyButton value={fmtResult(result.futureValue)} />}</span>
+              <span className="hidden lg:inline"><CopyButton value={fmtResult(result.futureValue)} /></span>
             </div>
 
             {/* Interest earned */}
             <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-condensed text-[40px] text-black leading-none">
-                {hasEdited ? <AnimatedValue value={result.interestEarned} symbol={sym} /> : `${sym} Your interest`}
+                <span className="lg:hidden">{hasEdited ? <AnimatedValue value={result.interestEarned} symbol={sym} /> : `${sym} Your interest`}</span>
+                <span className="hidden lg:inline"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
               </span>
-              {hasEdited && <CopyButton value={fmtResult(result.interestEarned)} />}
+              <span className="lg:hidden">{hasEdited && <CopyButton value={fmtResult(result.interestEarned)} />}</span>
+              <span className="hidden lg:inline"><CopyButton value={fmtResult(result.interestEarned)} /></span>
             </div>
 
             {/* Input values (mobile only) */}
