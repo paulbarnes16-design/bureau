@@ -173,7 +173,7 @@ export default function Calculator() {
             {/* Input values (mobile only) */}
             <button
               onClick={() => setSheetOpen(true)}
-              className="lg:hidden mt-4 w-full bg-black rounded-xl py-3.5 text-sm font-sans font-bold text-white"
+              className="lg:hidden mt-4 w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
               Input values
             </button>
@@ -322,7 +322,7 @@ export default function Calculator() {
                 <button
                   type="button"
                   onClick={() => setSheetOpen(false)}
-                  className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-2xl"
+                  className="w-full bg-black text-white font-sans font-bold text-[15px] py-4 rounded-full"
                 >
                   Calculate
                 </button>
