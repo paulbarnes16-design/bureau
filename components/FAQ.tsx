@@ -42,9 +42,11 @@ export default function FAQ() {
                 transition={{ duration: 0.2, ease: 'easeInOut' }}
                 className="overflow-hidden"
               >
-                <p className="pb-5 pr-8 text-[15px] font-sans text-subdued leading-relaxed">
-                  {faq.answer}
-                </p>
+                <div className="pb-5 pr-8 text-[15px] font-sans text-subdued leading-relaxed space-y-3">
+                  {faq.answer.split('\n\n').map((para, j) => (
+                    <p key={j}>{para}</p>
+                  ))}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

@@ -2,7 +2,7 @@ export const faqs = [
   {
     question: 'What is compound interest?',
     answer:
-      'Compound interest is interest calculated on both your initial deposit and the interest you\'ve already earned. Unlike simple interest, which only accrues on your principal, compound interest means your money grows exponentially over time — often described as "interest on interest". The longer your money is invested, the more dramatic the compounding effect becomes.',
+      'Compound interest is interest calculated on both your initial deposit and the interest you\'ve already earned. Unlike simple interest — which only accrues on your principal — compound interest means your money grows exponentially over time, often described as "interest on interest".\n\nThe formula is: A = P × (1 + r/n)^(n×t)\n\nWhere A is the final amount, P is your principal (starting balance), r is the annual interest rate as a decimal, n is how many times interest compounds per year, and t is the number of years. For example, £1,000 at 5% compounded monthly for 10 years: A = 1,000 × (1 + 0.05/12)^(12×10) = £1,647.',
   },
   {
     question: 'How is compound interest different from simple interest?',

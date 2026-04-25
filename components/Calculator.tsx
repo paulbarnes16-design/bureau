@@ -77,7 +77,14 @@ export default function Calculator() {
   const [resultPage, setResultPage] = useState(0)
   const [swipeDir, setSwipeDir] = useState(1)
   const [carouselHeight, setCarouselHeight] = useState<number | undefined>(undefined)
+  const [tabSwipeDir, setTabSwipeDir] = useState(1)
   const page0Ref = useRef<HTMLDivElement | null>(null)
+
+  const tabs = ['graph', 'table'] as const
+  const switchTab = (t: 'graph' | 'table') => {
+    setTabSwipeDir(tabs.indexOf(t) > tabs.indexOf(tab) ? 1 : -1)
+    setTab(t)
+  }
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
 
@@ -126,13 +133,16 @@ export default function Calculator() {
     `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
   const n = FREQ_PER_YEAR[inputs.compoundFreq]
-  const effectiveAnnualRate = Math.pow(1 + inputs.interestRate / 100 / n, n) - 1
-  const compoundedRate = effectiveAnnualRate * 100
+  const nominalEAR = Math.pow(1 + inputs.interestRate / 100 / n, n) - 1
+  const realEAR = inputs.adjustForInflation
+    ? (1 + nominalEAR) / (1 + inputs.inflationRate / 100) - 1
+    : nominalEAR
+  const compoundedRate = realEAR * 100
   const allTimeReturn = result.totalDeposits > 0
     ? ((result.futureValue - result.totalDeposits) / result.totalDeposits) * 100
     : 0
-  const timeToDouble = effectiveAnnualRate > 0
-    ? Math.log(2) / Math.log(1 + effectiveAnnualRate)
+  const timeToDouble = realEAR > 0
+    ? Math.log(2) / Math.log(1 + realEAR)
     : Infinity
 
   const totalYears = inputs.durationYears + inputs.durationMonths / 12
@@ -218,11 +228,16 @@ export default function Calculator() {
                       <p className="text-sm font-sans text-subdued mb-1">All time rate of return</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
+                        <CopyButton value={`${allTimeReturn.toFixed(2)}%`} />
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">Compounded rate of return</p>
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
+                        <CopyButton value={`${compoundedRate.toFixed(2)}%`} />
                       </div>
+                      <p className="text-[18px] font-sans text-black leading-relaxed">
+                        Over <strong>{inputs.durationYears} year{inputs.durationYears !== 1 ? 's' : ''}</strong> your total return was <strong>{allTimeReturn.toFixed(1)}%</strong>, compounding at <strong>{compoundedRate.toFixed(2)}%</strong> per year.
+                      </p>
                     </motion.div>
                   )}
                   {resultPage === 2 && (
@@ -237,13 +252,18 @@ export default function Calculator() {
                         <span className="font-condensed text-[40px] text-black leading-none">
                           {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
                         </span>
+                        {isFinite(timeToDouble) && <CopyButton value={`${timeToDouble.toFixed(1)} yrs`} />}
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">Total contributions</p>
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none">
                           {sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}
                         </span>
+                        <CopyButton value={`${sym}${Math.round(result.totalDeposits).toLocaleString('en-GB')}`} />
                       </div>
+                      <p className="text-[18px] font-sans text-black leading-relaxed">
+                        At <strong>{inputs.interestRate}%</strong> your money doubles every <strong>{isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} years` : '—'}</strong>. You put in <strong>{sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}</strong> of your own money.
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -298,7 +318,7 @@ export default function Calculator() {
               {(['graph', 'table'] as const).map((t) => (
                 <button
                   key={t}
-                  onClick={() => setTab(t)}
+                  onClick={() => switchTab(t)}
                   className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-full capitalize outline-none ${
                     tab === t ? 'text-white' : 'text-black hover:bg-black/5'
                   }`}
@@ -314,37 +334,63 @@ export default function Calculator() {
                 </button>
               ))}
             </div>
-            {tab === 'graph' ? (
-              <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
-            ) : (
-              <div className="overflow-x-auto -mx-1 outline-none">
-                <table className="w-full text-sm font-sans border-collapse table-fixed">
-                  <colgroup>
-                    <col className="w-14 lg:w-20" />
-                    <col />
-                    <col />
-                    <col />
-                  </colgroup>
-                  <thead>
-                    <tr className="bg-background">
-                      {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
-                        <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {result.rows.map((row, i) => (
-                      <tr key={row.year} className={i % 2 === 0 ? 'bg-white' : 'bg-background/50'}>
-                        <td className="px-3 py-3 text-black">{row.year}</td>
-                        <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
-                        <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
-                        <td className="px-3 py-3 text-black">{row.balance.toLocaleString('en-GB')}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+            <motion.div
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.05}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -40 && tab === 'graph') switchTab('table')
+                if (info.offset.x > 40 && tab === 'table') switchTab('graph')
+              }}
+            >
+              <AnimatePresence mode="wait" custom={tabSwipeDir}>
+                {tab === 'graph' ? (
+                  <motion.div key="graph"
+                    custom={tabSwipeDir}
+                    variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
+                    initial="enter" animate="center" exit="exit"
+                    transition={{ duration: 0.18 }}
+                  >
+                    <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
+                  </motion.div>
+                ) : (
+                  <motion.div key="table"
+                    custom={tabSwipeDir}
+                    variants={{ enter: (d) => ({ x: d * 30, opacity: 0 }), center: { x: 0, opacity: 1 }, exit: (d) => ({ x: d * -30, opacity: 0 }) }}
+                    initial="enter" animate="center" exit="exit"
+                    transition={{ duration: 0.18 }}
+                  >
+                    <div className="overflow-x-auto -mx-1 outline-none">
+                      <table className="w-full text-sm font-sans border-collapse table-fixed">
+                        <colgroup>
+                          <col className="w-14 lg:w-20" />
+                          <col />
+                          <col />
+                          <col />
+                        </colgroup>
+                        <thead>
+                          <tr className="bg-background">
+                            {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
+                              <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {result.rows.map((row, i) => (
+                            <tr key={row.year} className={i % 2 === 0 ? 'bg-white' : 'bg-background/50'}>
+                              <td className="px-3 py-3 text-black">{row.year}</td>
+                              <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
+                              <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
+                              <td className="px-3 py-3 text-black">{row.balance.toLocaleString('en-GB')}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </Card>
 
           {/* Desktop: graph card */}
