@@ -3,6 +3,7 @@ import { IBM_Plex_Sans, IBM_Plex_Sans_Condensed, JetBrains_Mono } from 'next/fon
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import PostHogProvider from '@/components/PostHogProvider'
 import './globals.css'
 
 const ppWriter = localFont({
@@ -89,7 +90,7 @@ export default function RootLayout({
       lang="en"
       className={`${ppWriter.variable} ${ibmPlexSans.variable} ${ibmPlexSansCondensed.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="font-sans antialiased">{children}<Analytics /><SpeedInsights /></body>
+      <body className="font-sans antialiased"><PostHogProvider>{children}</PostHogProvider><Analytics /><SpeedInsights /></body>
     </html>
   )
 }

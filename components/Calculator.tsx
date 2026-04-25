@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import posthog from 'posthog-js'
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
@@ -35,6 +36,7 @@ function CopyButton({ value }: { value: string }) {
       await navigator.clipboard.writeText(value)
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
+      posthog.capture('value_copied', { value })
     } catch {}
   }
 
@@ -84,6 +86,7 @@ export default function Calculator() {
   const switchTab = (t: 'graph' | 'table') => {
     setTabSwipeDir(tabs.indexOf(t) > tabs.indexOf(tab) ? 1 : -1)
     setTab(t)
+    posthog.capture('analysis_tab_switched', { tab: t })
   }
 
   const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
@@ -91,6 +94,7 @@ export default function Calculator() {
   const goToPage = (page: number) => {
     setSwipeDir(page > resultPage ? 1 : -1)
     setResultPage(page)
+    posthog.capture('result_page_viewed', { page })
   }
 
   const result = useMemo(() => calculate(inputs), [inputs])
@@ -303,7 +307,7 @@ export default function Calculator() {
 
             {/* Input values (mobile only) */}
             <button
-              onClick={() => setSheetOpen(true)}
+              onClick={() => { setSheetOpen(true); posthog.capture('input_sheet_opened') }}
               className="lg:hidden w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
               Input values
