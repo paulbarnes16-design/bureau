@@ -174,7 +174,7 @@ export default function Calculator() {
                   if (info.offset.x > 40 && resultPage > 0) goToPage(resultPage - 1)
                 }}
               >
-                <div className="min-h-[152px]">
+                <div>
                 <AnimatePresence mode="wait" custom={swipeDir}>
                   {resultPage === 0 && (
                     <motion.div key="p0"
@@ -189,10 +189,15 @@ export default function Calculator() {
                         <CopyButton value={fmtResult(result.futureValue)} />
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
-                      <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center justify-between gap-3 mb-4">
                         <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
                         <CopyButton value={fmtResult(result.interestEarned)} />
                       </div>
+                      <p className="text-[18px] font-sans text-black leading-relaxed">
+                        {summaryParts.map((part, i) =>
+                          i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
+                        )}
+                      </p>
                     </motion.div>
                   )}
                   {resultPage === 1 && (
