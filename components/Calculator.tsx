@@ -146,7 +146,7 @@ export default function Calculator() {
             </div>
 
             {/* Future value */}
-            <p className="text-sm font-sans text-subdued mb-1">Future value</p>
+            <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
             <div className="flex items-center justify-between gap-3 mb-4">
               <span className="font-condensed text-[40px] text-black leading-none">
                 <AnimatedValue value={result.futureValue} symbol={sym} />
@@ -155,7 +155,7 @@ export default function Calculator() {
             </div>
 
             {/* Interest earned */}
-            <p className="text-sm font-sans text-subdued mb-1">Interest earned</p>
+            <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
             <div className="flex items-center justify-between gap-3 mb-5">
               <span className="font-condensed text-[40px] text-black leading-none">
                 <AnimatedValue value={result.interestEarned} symbol={sym} />
