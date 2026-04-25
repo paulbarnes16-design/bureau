@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { calculate, DEFAULT_INPUTS, type CalcInputs } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS } from '@/lib/calculate'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
@@ -114,6 +114,18 @@ export default function Calculator() {
   const fmtResult = (n: number) =>
     `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
+  const totalYears = inputs.durationYears + inputs.durationMonths / 12
+  const totalDeposits = inputs.initialInvestment + inputs.additionalPayments *
+    (inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1) * totalYears
+  const summaryParts = [
+    `Over `, `${inputs.durationYears} year${inputs.durationYears !== 1 ? 's' : ''}`, `, starting with `,
+    `${sym}${Math.round(totalDeposits).toLocaleString('en-GB')}`,
+    ` returning `, `${inputs.interestRate}%`,
+    ` annually and ${FREQ_LABELS[inputs.additionalPaymentsFreq].toLowerCase()} contributions of `,
+    `${sym}${inputs.additionalPayments.toLocaleString('en-GB')}`,
+    ...(inputs.adjustForInflation ? [` and inflation at `, `${inputs.inflationRate}%`] : []),
+    `.`,
+  ]
 
   return (
     <>
@@ -159,6 +171,13 @@ export default function Calculator() {
               <span className="lg:hidden">{hasEdited && <CopyButton value={fmtResult(result.interestEarned)} />}</span>
               <span className="hidden lg:inline"><CopyButton value={fmtResult(result.interestEarned)} /></span>
             </div>
+
+            {/* Summary (desktop only) */}
+            <p className="hidden lg:block text-[18px] font-sans text-black leading-relaxed mb-2">
+              {summaryParts.map((part, i) =>
+                i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
+              )}
+            </p>
 
             {/* Input values (mobile only) */}
             <button
