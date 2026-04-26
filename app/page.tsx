@@ -58,8 +58,8 @@ export default function Home() {
 
           {/* Header */}
           <div>
-            <span className="font-writer text-[32px] leading-none text-black">bureau</span>
-            <p className="font-sans text-[15px] text-black mt-1">Compound Interest Calculator</p>
+            <span className="font-writer text-[20px] leading-none text-black">bureau</span>
+            <p className="font-sans text-[20px] text-black mt-2">Compound Interest Calculator</p>
           </div>
 
           <h1 className="sr-only">Compound Interest Calculator</h1>
