@@ -288,17 +288,61 @@ export default function Calculator() {
 
             {/* Desktop: static layout */}
             <div className="hidden lg:block">
-              <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
-                <CopyButton value={fmtResult(result.futureValue)} />
+              <div className="grid grid-cols-2 gap-x-8 gap-y-5 mb-5">
+                {/* Left column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                    <CopyButton value={fmtResult(result.futureValue)} />
+                  </div>
+                </div>
+                {/* Right column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real all time rate of return' : 'All time rate of return'}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
+                    <CopyButton value={`${allTimeReturn.toFixed(2)}%`} />
+                  </div>
+                </div>
+                {/* Left column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                    <CopyButton value={fmtResult(result.interestEarned)} />
+                  </div>
+                </div>
+                {/* Right column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real compounded rate of return' : 'Compounded rate of return'}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
+                    <CopyButton value={`${compoundedRate.toFixed(2)}%`} />
+                  </div>
+                </div>
+                {/* Left column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">Total contributions</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none">
+                      {sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}
+                    </span>
+                    <CopyButton value={`${sym}${Math.round(result.totalDeposits).toLocaleString('en-GB')}`} />
+                  </div>
+                </div>
+                {/* Right column */}
+                <div>
+                  <p className="text-sm font-sans text-subdued mb-1">Time to double</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-condensed text-[40px] text-black leading-none">
+                      {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
+                    </span>
+                    {isFinite(timeToDouble) && <CopyButton value={`${timeToDouble.toFixed(1)} yrs`} />}
+                  </div>
+                </div>
               </div>
-              <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
-              <div className="flex items-center justify-between gap-3 mb-5">
-                <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
-                <CopyButton value={fmtResult(result.interestEarned)} />
-              </div>
-              <p className="text-[18px] font-sans text-black leading-relaxed mb-2">
+              <p className="text-[18px] font-sans text-black leading-relaxed">
                 {summaryParts.map((part, i) =>
                   i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
                 )}
