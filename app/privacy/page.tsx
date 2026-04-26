@@ -26,8 +26,8 @@ export default function Privacy() {
           <section>
             <h2 className="font-sans font-bold text-[17px] text-black mb-3">What we collect</h2>
             <p className="font-sans text-[15px] text-black leading-relaxed">
-              Bureau does not use cookies and does not track you across other websites. We use Plausible Analytics to understand how people use Bureau — this is a privacy-first analytics tool that collects no personal data and requires no cookie consent. You can read about how Plausible works at{' '}
-              <a href="https://plausible.io/privacy" className="underline">plausible.io/privacy</a>.
+              Bureau does not use cookies and does not track you across other websites. We use PostHog Analytics to understand how people use Bureau — it is configured in memory-only mode, meaning no data is written to your device and no cookie consent is required. You can read about how PostHog works at{' '}
+              <a href="https://posthog.com/privacy" className="underline">posthog.com/privacy</a>.
             </p>
             <p className="font-sans text-[15px] text-black leading-relaxed mt-3">
               When you use the calculator, the numbers you enter stay entirely in your browser. We do not store, transmit, or have access to any figures you input.
