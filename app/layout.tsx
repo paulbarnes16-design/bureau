@@ -36,7 +36,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bureau.money'),
-  title: 'Compound Interest Calculator — Bureau',
+  title: 'Compound Interest — bureau',
   description:
     'Free compound interest calculator. Enter your starting balance, interest rate, and monthly contributions to see exactly how your savings or investments grow over time.',
   keywords: [
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     google: 'reSQj501BxtbXf1YmfQFjz8F-PAJ1BiS0KZiTeEkx6c',
   },
   openGraph: {
-    title: 'Compound Interest Calculator — Bureau',
+    title: 'Compound Interest — bureau',
     description:
       'Free compound interest calculator. See exactly how your savings and investments grow over time.',
     type: 'website',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Compound Interest Calculator — Bureau',
+    title: 'Compound Interest — bureau',
     description: 'Free compound interest calculator. See how your money grows over time.',
   },
   robots: {
