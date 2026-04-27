@@ -41,7 +41,10 @@
       "Bash(vercel --prod)",
       "Bash(npx vercel *)",
       "WebFetch(domain:bureau.money)",
-      "WebFetch(domain:posthog.com)"
+      "WebFetch(domain:posthog.com)",
+      "Bash(xargs cat *)",
+      "Bash(curl -sI https://bureau.money)",
+      "Bash(curl -sI https://www.bureau.money)"
     ]
   },
   "hooks": {
