@@ -40,7 +40,8 @@
       "Bash(npx tsc *)",
       "Bash(vercel --prod)",
       "Bash(npx vercel *)",
-      "WebFetch(domain:bureau.money)"
+      "WebFetch(domain:bureau.money)",
+      "WebFetch(domain:posthog.com)"
     ]
   },
   "hooks": {
