@@ -49,8 +49,10 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon_light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
+      { url: '/favicon_dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon_light.png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
+      { url: '/favicon_dark.png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
     ],
     apple: '/apple-touch-icon.png',
   },
