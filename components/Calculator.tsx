@@ -161,7 +161,7 @@ export default function Calculator() {
     (inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1) * totalYears
   const summaryParts = [
     `Over `, `${inputs.durationYears} year${inputs.durationYears !== 1 ? 's' : ''}`, `, starting with `,
-    `${sym}${Math.round(totalDeposits).toLocaleString('en-GB')}`,
+    `${sym}${Math.round(inputs.initialInvestment).toLocaleString('en-GB')}`,
     ` returning `, `${inputs.interestRate}%`,
     ` annually and ${FREQ_LABELS[inputs.additionalPaymentsFreq].toLowerCase()} contributions of `,
     `${sym}${inputs.additionalPayments.toLocaleString('en-GB')}`,
