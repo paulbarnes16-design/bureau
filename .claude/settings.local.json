@@ -44,7 +44,8 @@
       "WebFetch(domain:posthog.com)",
       "Bash(xargs cat *)",
       "Bash(curl -sI https://bureau.money)",
-      "Bash(curl -sI https://www.bureau.money)"
+      "Bash(curl -sI https://www.bureau.money)",
+      "Bash(python3 -c \"import uuid; print\\(str\\(uuid.uuid4\\(\\)\\).replace\\('-', ''\\)\\)\")"
     ]
   },
   "hooks": {
