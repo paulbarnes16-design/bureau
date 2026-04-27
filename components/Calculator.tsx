@@ -81,6 +81,7 @@ export default function Calculator() {
   const [carouselHeight, setCarouselHeight] = useState<number | undefined>(undefined)
   const [tabSwipeDir, setTabSwipeDir] = useState(1)
   const page0Ref = useRef<HTMLDivElement | null>(null)
+  const hasEngaged = useRef(false)
 
   const tabs = ['graph', 'table'] as const
   const switchTab = (t: 'graph' | 'table') => {
@@ -89,7 +90,13 @@ export default function Calculator() {
     ph()?.capture('analysis_tab_switched', { tab: t })
   }
 
-  const patch = (updates: Partial<CalcInputs>) => setInputs((prev) => ({ ...prev, ...updates }))
+  const patch = (updates: Partial<CalcInputs>) => {
+    setInputs((prev) => ({ ...prev, ...updates }))
+    if (!hasEngaged.current) {
+      hasEngaged.current = true
+      ph()?.capture('user_engaged')
+    }
+  }
 
   const goToPage = (page: number) => {
     setSwipeDir(page > resultPage ? 1 : -1)
