@@ -93,8 +93,11 @@ export default function Calculator() {
   const patch = (updates: Partial<CalcInputs>) => {
     setInputs((prev) => ({ ...prev, ...updates }))
     if (!hasEngaged.current) {
-      hasEngaged.current = true
-      ph()?.capture('user_engaged')
+      const posthog = ph()
+      if (posthog) {
+        hasEngaged.current = true
+        posthog.capture('user_engaged')
+      }
     }
   }
 
@@ -358,7 +361,17 @@ export default function Calculator() {
 
             {/* Input values (mobile only) */}
             <button
-              onClick={() => { setSheetOpen(true); ph()?.capture('input_sheet_opened') }}
+              onClick={() => {
+        setSheetOpen(true)
+        ph()?.capture('input_sheet_opened')
+        if (!hasEngaged.current) {
+          const posthog = ph()
+          if (posthog) {
+            hasEngaged.current = true
+            posthog.capture('user_engaged')
+          }
+        }
+      }}
               className="lg:hidden w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
               Input values
