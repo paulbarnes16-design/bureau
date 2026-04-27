@@ -54,9 +54,9 @@ function niceTicks(max: number, count = 5): number[] {
 }
 
 export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
-  const ticks = useMemo(() => {
+  const { ticks, max } = useMemo(() => {
     const max = Math.max(...rows.map(r => r.balance))
-    return niceTicks(max)
+    return { ticks: niceTicks(max), max }
   }, [rows])
 
   return (
@@ -77,7 +77,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
             tickLine={false}
             width={40}
             ticks={ticks}
-            domain={[0, 'auto']}
+            domain={[0, max]}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
