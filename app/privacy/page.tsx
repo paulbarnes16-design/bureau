@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Bureau',
-  alternates: { canonical: 'https://www.bureau.money/privacy' },
+  alternates: { canonical: 'https://bureau.money/privacy' },
   robots: { index: false },
 }
 

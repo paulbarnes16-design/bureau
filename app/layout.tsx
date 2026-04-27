@@ -35,7 +35,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.bureau.money'),
+  metadataBase: new URL('https://bureau.money'),
   title: 'Compound Interest Calculator — Bureau',
   description:
     'Free compound interest calculator. Enter your starting balance, interest rate, and monthly contributions to see exactly how your savings or investments grow over time.',

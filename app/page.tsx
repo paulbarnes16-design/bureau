@@ -4,7 +4,7 @@ import Calculator from '@/components/Calculator'
 import { faqs } from '@/lib/faq-data'
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://www.bureau.money' },
+  alternates: { canonical: 'https://bureau.money' },
 }
 
 const faqSchema = {
