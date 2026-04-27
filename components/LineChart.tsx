@@ -54,15 +54,16 @@ function niceTicks(max: number, count = 5): number[] {
 }
 
 export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
-  const { ticks, max } = useMemo(() => {
-    const max = Math.max(...rows.map(r => r.balance))
-    return { ticks: niceTicks(max), max }
+  const { ticks, max, data } = useMemo(() => {
+    const data = rows.map(r => ({ ...r, cumulativeInterest: r.balance - r.cumulativeDeposits }))
+    const max = Math.max(...data.map(r => r.balance))
+    return { ticks: niceTicks(max), max, data }
   }, [rows])
 
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }} barCategoryGap="20%">
+        <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }} barCategoryGap="20%">
           <CartesianGrid strokeDasharray="3 6" stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
             dataKey="year"
@@ -94,7 +95,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
             )}
           />
           <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="#9EE7FF" radius={[0, 0, 0, 0]} />
-          <Bar dataKey={(row) => row.balance - row.cumulativeDeposits} name={inflation ? 'Real interest earned' : 'Interest earned'} stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="cumulativeInterest" name={inflation ? 'Real interest earned' : 'Interest earned'} stackId="a" fill="#FF5500" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
