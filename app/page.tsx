@@ -6,7 +6,14 @@ const locale = LOCALES.uk
 
 export const metadata: Metadata = {
   ...locale.metadata,
-  alternates: { canonical: 'https://bureau.money' },
+  alternates: {
+    canonical: 'https://bureau.money',
+    languages: {
+      'en-GB': 'https://bureau.money',
+      'en-US': 'https://bureau.money/us',
+      'x-default': 'https://bureau.money',
+    },
+  },
 }
 
 export default function Home() {
