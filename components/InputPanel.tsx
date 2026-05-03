@@ -224,7 +224,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       }`}
     >
       <span
-        className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md transition-transform duration-200 ${
+        className={`absolute top-1 left-1 w-4 h-4 rounded-full shadow-md transition-transform duration-200 ${
           checked ? 'bg-white translate-x-6' : 'bg-black translate-x-0'
         }`}
       />
