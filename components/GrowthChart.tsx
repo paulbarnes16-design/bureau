@@ -83,8 +83,8 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
               <stop offset="95%" stopColor="#9EE7FF" stopOpacity={0.5} />
             </linearGradient>
             <linearGradient id="gradGrowth" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#FF5500" stopOpacity={0.95} />
-              <stop offset="95%" stopColor="#FF5500" stopOpacity={0.6} />
+              <stop offset="5%"  stopColor="#FF5E6C" stopOpacity={0.95} />
+              <stop offset="95%" stopColor="#FF5E6C" stopOpacity={0.6} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="2 4" stroke="rgba(0,0,0,0.06)" vertical={false} />
@@ -126,7 +126,7 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
             dataKey="interest"
             name="Growth"
             stackId="1"
-            stroke="#FF5500"
+            stroke="#FF5E6C"
             fill="url(#gradGrowth)"
             strokeWidth={1.5}
           />

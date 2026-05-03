@@ -56,7 +56,7 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
-  background-color: #FF5500;
+  background-color: #FF5E6C;
   transform: scale(1.25);
 }
 

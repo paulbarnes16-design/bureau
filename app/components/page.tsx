@@ -18,7 +18,7 @@ const COLOURS = [
   { name: 'White',       hex: '#FFFFFF', usage: 'Input fields, card inner ring'     },
   { name: 'Black',       hex: '#000000', usage: 'Primary text, active controls'     },
   { name: 'Subdued',     hex: '#5E5E5E', usage: 'Secondary text, labels'            },
-  { name: 'IRN',         hex: '#FF5500', usage: 'Accent, compound interest series'  },
+  { name: 'Magenta',     hex: '#FF5E6C', usage: 'Accent, compound interest series'  },
   { name: 'Sky Blue',    hex: '#9EE7FF', usage: 'Deposits series'                   },
 ]
 
@@ -272,7 +272,7 @@ export default function ComponentsPage() {
                   <span className="text-sm font-sans text-black">Adjust for inflation</span>
                   <Toggle checked={toggleB} onChange={setToggleB} />
                 </div>
-                <p className="font-mono text-[10px] text-subdued mt-1.5">bg-irn (#FF5500) · white handle · translate-x-6</p>
+                <p className="font-mono text-[10px] text-subdued mt-1.5">bg-irn (#FF5E6C) · white handle · translate-x-6</p>
               </div>
             </div>
           </div>
@@ -356,7 +356,7 @@ export default function ComponentsPage() {
               <Label>Compound interest series</Label>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-sm bg-irn flex-shrink-0" />
-                <span className="font-mono text-[10px] text-subdued">#FF5500 · strokeWidth 2</span>
+                <span className="font-mono text-[10px] text-subdued">#FF5E6C · strokeWidth 2</span>
               </div>
             </div>
             <div>

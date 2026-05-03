@@ -12,7 +12,7 @@ const config: Config = {
         background: '#EDEDED',
         elevated:   '#FAFAFA',
         subdued:    '#5E5E5E',
-        irn:        '#FF5500',
+        irn:        '#FF5E6C',
         'sky-blue': '#9EE7FF',
       },
       boxShadow: {
