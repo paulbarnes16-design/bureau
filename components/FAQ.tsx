@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { faqs } from '@/lib/faq-data'
+import type { FaqItem } from '@/lib/schemas'
 
-export default function FAQ() {
+export default function FAQ({ faqs }: { faqs: FaqItem[] }) {
   const [open, setOpen] = useState<number | null>(null)
 
   return (

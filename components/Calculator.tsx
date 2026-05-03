@@ -73,8 +73,8 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 
 // ── Main Calculator ────────────────────────────────────────────────────────────
 
-export default function Calculator() {
-  const [inputs, setInputs] = useState<CalcInputs>(DEFAULT_INPUTS)
+export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Partial<CalcInputs>; faqs: import('@/lib/schemas').FaqItem[] }) {
+  const [inputs, setInputs] = useState<CalcInputs>({ ...DEFAULT_INPUTS, ...defaultInputs })
   const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
   const [resultPage, setResultPage] = useState(0)
@@ -503,7 +503,7 @@ export default function Calculator() {
           {/* FAQs */}
           <Card className="p-5">
             <h2 className="font-sans font-bold text-[20px] text-black mb-3">FAQs</h2>
-            <FAQ />
+            <FAQ faqs={faqs} />
           </Card>
 
         </div>

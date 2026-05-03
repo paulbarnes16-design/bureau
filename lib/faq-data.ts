@@ -1,4 +1,4 @@
-export const faqs = [
+export const faqsUK = [
   {
     question: 'What is compound interest?',
     answer:

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import InputPanel from '@/components/InputPanel'
 import FAQ from '@/components/FAQ'
 import { DEFAULT_INPUTS, calculate, type CalcInputs } from '@/lib/calculate'
+import { faqsUK } from '@/lib/faq-data'
 
 const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false })
 
@@ -402,7 +403,7 @@ export default function ComponentsPage() {
         <Section id="faq" num="10" title="FAQ">
           <Card className="p-5">
             <h2 className="font-sans font-bold text-[20px] text-black mb-3">FAQs</h2>
-            <FAQ />
+            <FAQ faqs={faqsUK} />
           </Card>
         </Section>
 

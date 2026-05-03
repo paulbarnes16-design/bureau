@@ -4,7 +4,6 @@ import localFont from 'next/font/local'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { appSchema, faqSchema } from '@/lib/schemas'
 import './globals.css'
 
 const ppWriter = localFont({
@@ -94,10 +93,6 @@ export default function RootLayout({
       lang="en"
       className={`${ppWriter.variable} ${ibmPlexSans.variable} ${ibmPlexSansCondensed.variable} ${jetbrainsMono.variable}`}
     >
-      <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      </head>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
