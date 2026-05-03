@@ -385,6 +385,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
           {/* Mobile: tabbed */}
           <Card className="p-5 lg:hidden">
+            <h2 className="font-sans font-bold text-[20px] text-black mb-3">{tab === 'graph' ? 'Chart' : 'Table'}</h2>
             <div className="flex rounded-full ring-1 ring-inset ring-black/[0.12] p-1 gap-1 mb-5">
               {(['graph', 'table'] as const).map((t) => (
                 <button
@@ -466,11 +467,13 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
           {/* Desktop: graph card */}
           <Card className="hidden lg:block p-5">
+            <h2 className="font-sans font-bold text-[20px] text-black mb-3">Chart</h2>
             <LineChart rows={result.rows} initialValue={inputs.initialInvestment} inflation={inputs.adjustForInflation} />
           </Card>
 
           {/* Desktop: table card */}
           <Card className="hidden lg:block p-5">
+            <h2 className="font-sans font-bold text-[20px] text-black mb-3">Table</h2>
             <div className="overflow-x-auto -mx-1 outline-none">
               <table className="w-full text-sm font-sans border-collapse table-fixed">
                 <colgroup>
