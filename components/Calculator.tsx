@@ -385,7 +385,6 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
           {/* Mobile: tabbed */}
           <Card className="p-5 lg:hidden">
-            <h2 className="font-sans font-bold text-[20px] text-black mb-3">{tab === 'graph' ? 'Chart' : 'Table'}</h2>
             <div className="flex rounded-full ring-1 ring-inset ring-black/[0.12] p-1 gap-1 mb-5">
               {(['graph', 'table'] as const).map((t) => (
                 <button
