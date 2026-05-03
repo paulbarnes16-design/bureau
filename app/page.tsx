@@ -15,7 +15,7 @@ export default function Home() {
 
           {/* Header */}
           <div>
-            <span className="font-writer text-[20px] leading-none text-black">bureau</span>
+            <span className="font-writer text-[24px] leading-none text-black">bureau</span>
             <p className="font-sans text-[15px] font-normal text-black">Compound Interest Calculator</p>
           </div>
 
