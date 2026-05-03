@@ -94,7 +94,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
               </div>
             )}
           />
-          <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="#3E5AD5" radius={[0, 0, 0, 0]} />
+          <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="rgba(255, 94, 108, 0.3)" radius={[0, 0, 0, 0]} />
           <Bar dataKey="cumulativeInterest" name={inflation ? 'Real interest earned' : 'Interest earned'} stackId="a" fill="#FF5E6C" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
