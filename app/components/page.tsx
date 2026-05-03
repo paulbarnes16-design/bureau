@@ -103,8 +103,10 @@ export default function ComponentsPage() {
   const patch = (u: Partial<CalcInputs>) => setInputs((p) => ({ ...p, ...u }))
   const result = useMemo(() => calculate(inputs), [inputs])
   const sym = inputs.currency.symbol
-  const fmt = (n: number) =>
-    `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const fmt = (n: number) => {
+    const abs = Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return n < 0 ? `-${sym}${abs}` : `${sym}${abs}`
+  }
 
   return (
     <div className="grid grid-cols-[220px_1fr] min-h-screen bg-background">
