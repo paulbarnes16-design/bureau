@@ -402,7 +402,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                       transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                     />
                   )}
-                  <span className="relative z-10 capitalize">{t === 'graph' ? 'Graph' : 'Table'}</span>
+                  <span className="relative z-10 capitalize">{t === 'graph' ? 'Chart' : 'Table'}</span>
                 </button>
               ))}
             </div>
