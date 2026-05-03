@@ -14,9 +14,10 @@ const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
 
 function AnimatedValue({ value, symbol }: { value: number; symbol: string }) {
   const motionValue = useMotionValue(value)
-  const display = useTransform(motionValue, (v) =>
-    `${symbol}${Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  )
+  const display = useTransform(motionValue, (v) => {
+    const abs = Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return v < 0 ? `-${symbol}${abs}` : `${symbol}${abs}`
+  })
 
   useEffect(() => {
     const controls = animate(motionValue, value, { duration: 0.35, ease: 'easeOut' })
@@ -143,8 +144,10 @@ export default function Calculator() {
 
   const sym = inputs.currency.symbol
 
-  const fmtResult = (n: number) =>
-    `${sym}${Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const fmtResult = (n: number) => {
+    const abs = Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return n < 0 ? `-${sym}${abs}` : `${sym}${abs}`
+  }
 
   const n = FREQ_PER_YEAR[inputs.compoundFreq]
   const nominalEAR = Math.pow(1 + inputs.interestRate / 100 / n, n) - 1
