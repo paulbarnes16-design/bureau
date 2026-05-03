@@ -13,7 +13,7 @@ const config: Config = {
         elevated:   '#FAFAFA',
         subdued:    '#5E5E5E',
         irn:        '#FF5E6C',
-        'sky-blue': '#9EE7FF',
+        'sky-blue': '#3E5AD5',
       },
       boxShadow: {
         card: '-6px -5px 7.5px rgba(255,255,255,0.4), 6px 5px 14px rgba(0,0,0,0.12)',

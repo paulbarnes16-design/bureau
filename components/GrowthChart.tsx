@@ -79,8 +79,8 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
         <AreaChart data={data} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
           <defs>
             <linearGradient id="gradContrib" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#9EE7FF" stopOpacity={0.9} />
-              <stop offset="95%" stopColor="#9EE7FF" stopOpacity={0.5} />
+              <stop offset="5%"  stopColor="#3E5AD5" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#3E5AD5" stopOpacity={0.5} />
             </linearGradient>
             <linearGradient id="gradGrowth" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%"  stopColor="#FF5E6C" stopOpacity={0.95} />
@@ -117,7 +117,7 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
             dataKey="contributions"
             name="Contributions"
             stackId="1"
-            stroke="#9EE7FF"
+            stroke="#3E5AD5"
             fill="url(#gradContrib)"
             strokeWidth={1.5}
           />

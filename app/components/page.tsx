@@ -19,7 +19,7 @@ const COLOURS = [
   { name: 'Black',       hex: '#000000', usage: 'Primary text, active controls'     },
   { name: 'Subdued',     hex: '#5E5E5E', usage: 'Secondary text, labels'            },
   { name: 'Magenta',     hex: '#FF5E6C', usage: 'Accent, compound interest series'  },
-  { name: 'Sky Blue',    hex: '#9EE7FF', usage: 'Deposits series'                   },
+  { name: 'Sky Blue',    hex: '#3E5AD5', usage: 'Deposits series'                   },
 ]
 
 const TYPEFACES = [
@@ -363,7 +363,7 @@ export default function ComponentsPage() {
               <Label>Deposits series</Label>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-sm bg-sky-blue flex-shrink-0" />
-                <span className="font-mono text-[10px] text-subdued">#9EE7FF · strokeWidth 2</span>
+                <span className="font-mono text-[10px] text-subdued">#3E5AD5 · strokeWidth 2</span>
               </div>
             </div>
           </div>
