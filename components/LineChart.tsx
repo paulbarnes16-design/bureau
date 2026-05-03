@@ -80,7 +80,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
             ticks={ticks}
             domain={[0, max]}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.05)' }} />
           <Legend
             wrapperStyle={{ paddingTop: 12 }}
             content={({ payload }) => (
