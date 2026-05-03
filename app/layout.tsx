@@ -51,10 +51,11 @@ export const metadata: Metadata = {
     icon: [
       { url: '/favicon_light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
       { url: '/favicon_dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
-      { url: '/favicon_light.png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
-      { url: '/favicon_dark.png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon_light.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
+      { url: '/favicon_dark.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon_light.png', type: 'image/png', sizes: '32x32' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   authors: [{ name: 'Bureau' }],
   verification: {
