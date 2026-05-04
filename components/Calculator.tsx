@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from '
 import dynamic from 'next/dynamic'
 const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
 import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
+import { encodeInputs, decodeInputs } from '@/lib/url-params'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
@@ -74,7 +75,11 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 // ── Main Calculator ────────────────────────────────────────────────────────────
 
 export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Partial<CalcInputs>; faqs: import('@/lib/schemas').FaqItem[] }) {
-  const [inputs, setInputs] = useState<CalcInputs>({ ...DEFAULT_INPUTS, ...defaultInputs })
+  const [inputs, setInputs] = useState<CalcInputs>(() => {
+    const base = { ...DEFAULT_INPUTS, ...defaultInputs }
+    if (typeof window === 'undefined') return base
+    return decodeInputs(window.location.search, base)
+  })
   const [sheetOpen, setSheetOpen] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
   const [resultPage, setResultPage] = useState(0)
@@ -90,6 +95,14 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
     setTab(t)
     ph()?.capture('analysis_tab_switched', { tab: t })
   }
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const qs = encodeInputs(inputs)
+      window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname)
+    }, 300)
+    return () => clearTimeout(id)
+  }, [inputs])
 
   const patch = (updates: Partial<CalcInputs>) => {
     setInputs((prev) => ({ ...prev, ...updates }))
