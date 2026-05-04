@@ -54,17 +54,18 @@ function niceTicks(max: number, count = 5): number[] {
 }
 
 export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
-  const { ticks, max, data } = useMemo(() => {
+  const { ticks, domainMax, data } = useMemo(() => {
     const data = rows.map(r => ({ ...r, cumulativeInterest: r.balance - r.cumulativeDeposits }))
     const max = Math.max(...data.map(r => r.balance))
-    return { ticks: niceTicks(max), max, data }
+    const ticks = niceTicks(max)
+    return { ticks, domainMax: ticks[ticks.length - 1] ?? max, data }
   }, [rows])
 
   return (
     <div className="w-full h-56 md:h-64">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }} barCategoryGap="20%">
-          <CartesianGrid strokeDasharray="3 6" stroke="rgba(0,0,0,0.06)" vertical={false} />
+          <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
             dataKey="year"
             tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
@@ -78,7 +79,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
             tickLine={false}
             width={40}
             ticks={ticks}
-            domain={[0, max]}
+            domain={[0, domainMax]}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.05)' }} />
           <Legend

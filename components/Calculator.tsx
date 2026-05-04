@@ -461,7 +461,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                         </thead>
                         <tbody>
                           {result.rows.map((row, i) => (
-                            <tr key={row.year} className={i % 2 === 0 ? 'bg-white' : 'bg-background/50'}>
+                            <tr key={row.year} className={i % 2 === 0 ? 'bg-irn/[0.08]' : 'bg-white'}>
                               <td className="px-3 py-3 text-black">{row.year}</td>
                               <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                               <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
@@ -503,7 +503,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 </thead>
                 <tbody>
                   {result.rows.map((row, i) => (
-                    <tr key={row.year} className={i % 2 === 0 ? 'bg-white' : 'bg-background/50'}>
+                    <tr key={row.year} className={i % 2 === 0 ? 'bg-irn/[0.08]' : 'bg-white'}>
                       <td className="px-3 py-3 text-black">{row.year}</td>
                       <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                       <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
