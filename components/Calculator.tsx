@@ -521,7 +521,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                         </tbody>
                       </table>
                       <div className="px-3 pt-3 pb-1">
-                        <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+                        <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans font-bold text-white bg-black rounded-full px-4 py-1.5 hover:opacity-70 transition-opacity">Export to CSV</button>
                       </div>
                     </div>
                   </motion.div>
@@ -566,7 +566,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 </tbody>
               </table>
               <div className="px-3 pt-3 pb-1">
-                <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+                <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans font-bold text-white bg-black rounded-full px-4 py-1.5 hover:opacity-70 transition-opacity">Export to CSV</button>
               </div>
             </div>
           </Card>
