@@ -453,7 +453,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                           <col />
                         </colgroup>
                         <thead>
-                          <tr className="bg-background">
+                          <tr className="bg-irn/[0.08]">
                             {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                               <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                             ))}
@@ -495,7 +495,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                   <col />
                 </colgroup>
                 <thead>
-                  <tr className="bg-background">
+                  <tr className="bg-irn/[0.08]">
                     {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                       <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                     ))}
