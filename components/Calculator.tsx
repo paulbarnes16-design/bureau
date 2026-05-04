@@ -62,6 +62,21 @@ function CopyButton({ value }: { value: string }) {
   )
 }
 
+// ── CSV export ─────────────────────────────────────────────────────────────────
+
+function exportToCsv(rows: { year: number; deposits: number; interestEarned: number; balance: number }[]) {
+  const header = 'Year,Deposits,Interest Earned,Balance'
+  const lines = rows.map(r => `${r.year},${r.deposits},${r.interestEarned},${r.balance}`)
+  const csv = [header, ...lines].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'compound-interest.csv'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 // ── Card wrapper ───────────────────────────────────────────────────────────────
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -470,6 +485,9 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                           ))}
                         </tbody>
                       </table>
+                      <div className="px-3 pt-3 pb-1">
+                        <button onClick={() => exportToCsv(result.rows)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -512,6 +530,9 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                   ))}
                 </tbody>
               </table>
+              <div className="px-3 pt-3 pb-1">
+                <button onClick={() => exportToCsv(result.rows)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+              </div>
             </div>
           </Card>
 
