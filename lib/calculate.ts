@@ -42,6 +42,12 @@ export interface CalcInputs {
   adjustForInflation: boolean
   inflationRate: number
   currency: Currency
+  // Advanced
+  managementFee: number
+  depositGrowthRate: number
+  depositsAtStart: boolean
+  withdrawals: number
+  withdrawalsFreq: Freq
 }
 
 export interface YearRow {
@@ -70,6 +76,11 @@ export const DEFAULT_INPUTS: CalcInputs = {
   adjustForInflation: false,
   inflationRate: 2.5,
   currency: CURRENCIES[0],
+  managementFee: 0,
+  depositGrowthRate: 0,
+  depositsAtStart: false,
+  withdrawals: 0,
+  withdrawalsFreq: 'monthly',
 }
 
 export function calculate(inputs: CalcInputs): CalcResult {
@@ -78,54 +89,82 @@ export function calculate(inputs: CalcInputs): CalcResult {
     durationYears, durationMonths,
     additionalPayments, additionalPaymentsFreq,
     adjustForInflation, inflationRate,
+    managementFee, depositGrowthRate, depositsAtStart,
+    withdrawals, withdrawalsFreq,
   } = inputs
 
   const n = FREQ_PER_YEAR[compoundFreq]
   const ppy = FREQ_PER_YEAR[additionalPaymentsFreq]
-  const r = interestRate / 100
-  const rPeriod = n > 0 ? r / n : 0
+  const wpy = FREQ_PER_YEAR[withdrawalsFreq]
+  const rPeriod = interestRate / 100 / n
+  const feePeriod = managementFee / 100 / n
   const totalYears = durationYears + durationMonths / 12
-  const payPerPeriod = additionalPayments * ppy / n
-
-  function nominalBalance(periods: number): number {
-    if (periods === 0) return initialInvestment
-    const cf = Math.pow(1 + rPeriod, periods)
-    const annuity = rPeriod === 0
-      ? payPerPeriod * periods
-      : payPerPeriod * (cf - 1) / rPeriod
-    return initialInvestment * cf + annuity
-  }
-
-  function realValue(nominal: number, years: number): number {
-    if (!adjustForInflation || years === 0) return nominal
-    return nominal / Math.pow(1 + inflationRate / 100, years)
-  }
-
   const totalPeriods = Math.round(n * totalYears)
-  const nomFV = nominalBalance(totalPeriods)
-  const futureValue = realValue(nomFV, totalYears)
-  const totalDeposits = initialInvestment + additionalPayments * ppy * totalYears
-  const interestEarned = futureValue - totalDeposits
+  const baseDepPerPeriod = additionalPayments * ppy / n
+  const wdPerPeriod = withdrawals * wpy / n
+  const growthRate = depositGrowthRate / 100
 
-  const maxYears = Math.ceil(totalYears)
+  function deflate(v: number, years: number): number {
+    return adjustForInflation && years > 0 ? v / Math.pow(1 + inflationRate / 100, years) : v
+  }
+
+  let balance = initialInvestment
+  let cumNetDeps = initialInvestment
   const rows: YearRow[] = []
-  let prevBal = 0
-  let cumDeps = 0
-  for (let y = 0; y <= maxYears; y++) {
-    const nomBal = nominalBalance(Math.round(n * y))
-    const bal = realValue(nomBal, y)
-    const deps = y === 0 ? initialInvestment : additionalPayments * ppy
-    cumDeps += deps
-    const interest = Math.round(bal - prevBal - deps)
+
+  rows.push({
+    year: 0,
+    deposits: initialInvestment,
+    cumulativeDeposits: initialInvestment,
+    interestEarned: 0,
+    balance: initialInvestment,
+  })
+
+  let prevRealBal = initialInvestment
+  const maxYear = Math.ceil(totalYears)
+
+  for (let y = 1; y <= maxYear; y++) {
+    const startPeriod = Math.round(n * (y - 1)) + 1
+    const endPeriod = Math.min(Math.round(n * y), totalPeriods)
+    if (startPeriod > totalPeriods) break
+
+    let yearDeps = 0
+    let yearWds = 0
+
+    for (let p = startPeriod; p <= endPeriod; p++) {
+      const completedYears = Math.floor((p - 1) / n)
+      const dep = baseDepPerPeriod * Math.pow(1 + growthRate, completedYears)
+
+      if (depositsAtStart) balance += dep
+      balance = balance * (1 + rPeriod) * (1 - feePeriod)
+      if (!depositsAtStart) balance += dep
+      const wd = Math.min(wdPerPeriod, balance)
+      balance -= wd
+
+      yearDeps += dep
+      yearWds += wd
+    }
+
+    const netDepsThisYear = yearDeps - yearWds
+    cumNetDeps += netDepsThisYear
+    const realBal = deflate(balance, y)
+    const interest = Math.round(realBal - prevRealBal - netDepsThisYear)
+
     rows.push({
       year: y,
-      deposits: Math.round(deps),
-      cumulativeDeposits: Math.round(cumDeps),
+      deposits: Math.round(netDepsThisYear),
+      cumulativeDeposits: Math.round(cumNetDeps),
       interestEarned: interest,
-      balance: Math.round(bal),
+      balance: Math.round(realBal),
     })
-    prevBal = bal
+
+    prevRealBal = realBal
   }
+
+  const finalRow = rows[rows.length - 1]
+  const futureValue = finalRow.balance
+  const totalDeposits = finalRow.cumulativeDeposits
+  const interestEarned = futureValue - totalDeposits
 
   return { futureValue, interestEarned, totalDeposits, rows }
 }

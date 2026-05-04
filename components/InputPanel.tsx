@@ -247,14 +247,16 @@ interface Props {
 
 export default function InputPanel({ values, onChange, onClose, showActions, bare }: Props) {
   const [currencyOpen, setCurrencyOpen] = useState(false)
+  const [inputTab, setInputTab] = useState<'basic' | 'advanced'>('basic')
+
   return (
     <div className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
       {/* Header — hidden in bare mode (sheet renders its own fixed header) */}
       {!bare && (
         <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
-          <h2 className="font-sans font-bold text-[20px] text-black mb-5">Input values</h2>
+          <h2 className="font-sans font-bold text-[20px] text-black">Input values</h2>
           {showActions && onClose && (
-            <button onClick={onClose} className="text-black/40 hover:text-black -mt-5" aria-label="Close">
+            <button onClick={onClose} className="text-black/40 hover:text-black" aria-label="Close">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
                 <path d="M2 2l14 14M16 2L2 16" />
               </svg>
@@ -263,146 +265,221 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
         </div>
       )}
 
-      <div className={`${bare ? '' : 'px-5 pb-5'} space-y-5`}>
-        {/* Initial Investment */}
-        <div>
-          <FieldLabel label="Initial Investment" />
-          <CurrencyInput
-            value={values.initialInvestment}
-            onChange={(v) => onChange({ initialInvestment: v })}
-            symbol={values.currency.symbol}
-            step={1000}
-          />
-        </div>
-
-        {/* Interest rate */}
-        <div>
-          <FieldLabel label="Interest rate" />
-          <PercentInput
-            value={values.interestRate}
-            onChange={(v) => onChange({ interestRate: v })}
-          />
-        </div>
-
-        {/* Compound frequency */}
-        <div>
-          <FieldLabel label="Compound frequency" />
-          <Segmented
-            options={FREQ_OPTIONS}
-            value={values.compoundFreq}
-            onChange={(v) => onChange({ compoundFreq: v })}
-          />
-        </div>
-
-        {/* Duration */}
-        <div>
-          <FieldLabel label="Compound duration" />
-          <div className="grid grid-cols-2 gap-2">
-            <DurationInput
-              value={values.durationYears}
-              onChange={(v) => onChange({ durationYears: v })}
-              unit="years"
-            />
-            <DurationInput
-              value={values.durationMonths}
-              onChange={(v) => onChange({ durationMonths: v })}
-              unit="months"
+      {/* Basic / Advanced tabs */}
+      {!bare && (
+        <div className="px-5 mt-4">
+          <div className="flex">
+            {(['basic', 'advanced'] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setInputTab(t)}
+                className={`flex-1 pb-3 text-[13px] font-sans capitalize text-center outline-none transition-colors ${
+                  inputTab === t ? 'text-black font-bold' : 'text-black/40'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          <div className="relative h-[2px] mx-4 rounded-full bg-black/[0.08]">
+            <motion.div
+              className="absolute top-0 h-full w-1/2 rounded-full bg-irn"
+              animate={{ left: inputTab === 'basic' ? '0%' : '50%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             />
           </div>
         </div>
+      )}
 
-        {/* Additional payments */}
-        <div>
-          <FieldLabel label="Additional contributions (optional)" />
-          <CurrencyInput
-            value={values.additionalPayments}
-            onChange={(v) => onChange({ additionalPayments: v })}
-            symbol={values.currency.symbol}
-          />
-        </div>
+      <div className={`${bare ? '' : 'px-5 pb-5'} space-y-5 mt-5`}>
+        {inputTab === 'basic' ? (
+          <>
+            {/* Initial Investment */}
+            <div>
+              <FieldLabel label="Initial Investment" />
+              <CurrencyInput
+                value={values.initialInvestment}
+                onChange={(v) => onChange({ initialInvestment: v })}
+                symbol={values.currency.symbol}
+                step={1000}
+              />
+            </div>
 
-        {/* Additional payments frequency */}
-        <Segmented
-          options={FREQ_OPTIONS}
-          value={values.additionalPaymentsFreq}
-          onChange={(v) => onChange({ additionalPaymentsFreq: v })}
-        />
+            {/* Interest rate */}
+            <div>
+              <FieldLabel label="Interest rate" />
+              <PercentInput
+                value={values.interestRate}
+                onChange={(v) => onChange({ interestRate: v })}
+              />
+            </div>
 
-        {/* Inflation toggle */}
-        <div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-sans text-black">Adjust for inflation</span>
-            <Toggle
-              checked={values.adjustForInflation}
-              onChange={(v) => { onChange({ adjustForInflation: v }); ph()?.capture('inflation_toggled', { enabled: v }) }}
+            {/* Compound frequency */}
+            <div>
+              <FieldLabel label="Compound frequency" />
+              <Segmented
+                options={FREQ_OPTIONS}
+                value={values.compoundFreq}
+                onChange={(v) => onChange({ compoundFreq: v })}
+              />
+            </div>
+
+            {/* Duration */}
+            <div>
+              <FieldLabel label="Compound duration" />
+              <div className="grid grid-cols-2 gap-2">
+                <DurationInput
+                  value={values.durationYears}
+                  onChange={(v) => onChange({ durationYears: v })}
+                  unit="years"
+                />
+                <DurationInput
+                  value={values.durationMonths}
+                  onChange={(v) => onChange({ durationMonths: v })}
+                  unit="months"
+                />
+              </div>
+            </div>
+
+            {/* Additional contributions */}
+            <div>
+              <FieldLabel label="Additional contributions (optional)" />
+              <CurrencyInput
+                value={values.additionalPayments}
+                onChange={(v) => onChange({ additionalPayments: v })}
+                symbol={values.currency.symbol}
+              />
+            </div>
+
+            {/* Additional contributions frequency */}
+            <Segmented
+              options={FREQ_OPTIONS}
+              value={values.additionalPaymentsFreq}
+              onChange={(v) => onChange({ additionalPaymentsFreq: v })}
             />
-          </div>
-          <AnimatePresence initial={false}>
-            {values.adjustForInflation && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <div className="mt-3">
-                  <FieldLabel label="Inflation rate" />
-                  <PercentInput
-                    value={values.inflationRate}
-                    onChange={(v) => onChange({ inflationRate: v })}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+          </>
+        ) : (
+          <>
+            {/* Management fee */}
+            <div>
+              <FieldLabel label="Management fee %" />
+              <PercentInput
+                value={values.managementFee}
+                onChange={(v) => onChange({ managementFee: v })}
+              />
+            </div>
 
-        {/* Change currency */}
-        <div>
-          <button
-            type="button"
-            onClick={() => setCurrencyOpen((o) => !o)}
-            className="w-full flex items-center justify-between py-1"
-          >
-            <span className="text-sm font-sans text-black">Change currency</span>
-            <motion.span animate={{ rotate: currencyOpen ? 180 : 0 }} transition={{ duration: 0.18 }}>
-              <ChevronDown />
-            </motion.span>
-          </button>
-          <AnimatePresence initial={false}>
-            {currencyOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="overflow-hidden px-4 -mx-4 pb-4 -mb-4"
+            {/* Annual increase in contributions */}
+            <div>
+              <FieldLabel label="Annual increase in contributions %" />
+              <PercentInput
+                value={values.depositGrowthRate}
+                onChange={(v) => onChange({ depositGrowthRate: v })}
+              />
+            </div>
+
+            {/* Deposits at start of period */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-sans text-black">Deposits at start of period</span>
+              <Toggle
+                checked={values.depositsAtStart}
+                onChange={(v) => onChange({ depositsAtStart: v })}
+              />
+            </div>
+
+            {/* Withdrawals */}
+            <div>
+              <FieldLabel label="Withdrawals (optional)" />
+              <CurrencyInput
+                value={values.withdrawals}
+                onChange={(v) => onChange({ withdrawals: v })}
+                symbol={values.currency.symbol}
+              />
+            </div>
+            <Segmented
+              options={FREQ_OPTIONS}
+              value={values.withdrawalsFreq}
+              onChange={(v) => onChange({ withdrawalsFreq: v })}
+            />
+
+            {/* Inflation toggle */}
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-sans text-black">Adjust for inflation</span>
+                <Toggle
+                  checked={values.adjustForInflation}
+                  onChange={(v) => { onChange({ adjustForInflation: v }); ph()?.capture('inflation_toggled', { enabled: v }) }}
+                />
+              </div>
+              <AnimatePresence initial={false}>
+                {values.adjustForInflation && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-3">
+                      <FieldLabel label="Inflation rate" />
+                      <PercentInput
+                        value={values.inflationRate}
+                        onChange={(v) => onChange({ inflationRate: v })}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Change currency */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setCurrencyOpen((o) => !o)}
+                className="w-full flex items-center justify-between py-1"
               >
-                <div className="pt-3 space-y-1">
-                  {(CURRENCIES as Currency[]).map((c) => {
-                    const isSelected = c.code === values.currency.code
-                    return (
-                      <button
-                        key={c.code}
-                        type="button"
-                        onClick={() => { onChange({ currency: c }); ph()?.capture('currency_changed', { currency: c.code }) }}
-                        className="w-full flex items-center gap-3 py-1"
-                      >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-sans font-black text-sm ${
-                          isSelected ? 'bg-black text-white shadow-card' : 'bg-elevated text-black shadow-[inset_0_0_0_2px_white,-6px_-5px_7.5px_rgba(255,255,255,0.4),6px_5px_14px_rgba(0,0,0,0.12)]'
-                        }`}>
-                          {c.symbol}
-                        </div>
-                        <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                <span className="text-sm font-sans text-black">Change currency</span>
+                <motion.span animate={{ rotate: currencyOpen ? 180 : 0 }} transition={{ duration: 0.18 }}>
+                  <ChevronDown />
+                </motion.span>
+              </button>
+              <AnimatePresence initial={false}>
+                {currencyOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className="overflow-hidden px-4 -mx-4 pb-4 -mb-4"
+                  >
+                    <div className="pt-3 space-y-1">
+                      {(CURRENCIES as Currency[]).map((c) => {
+                        const isSelected = c.code === values.currency.code
+                        return (
+                          <button
+                            key={c.code}
+                            type="button"
+                            onClick={() => { onChange({ currency: c }); ph()?.capture('currency_changed', { currency: c.code }) }}
+                            className="w-full flex items-center gap-3 py-1"
+                          >
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-sans font-black text-sm ${
+                              isSelected ? 'bg-black text-white shadow-card' : 'bg-elevated text-black shadow-[inset_0_0_0_2px_white,-6px_-5px_7.5px_rgba(255,255,255,0.4),6px_5px_14px_rgba(0,0,0,0.12)]'
+                            }`}>
+                              {c.symbol}
+                            </div>
+                            <span className="flex-1 text-left font-sans text-sm text-black">{c.name}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </>
+        )}
 
         <div className="h-16 lg:hidden" />
       </div>
