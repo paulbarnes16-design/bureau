@@ -281,7 +281,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               </button>
             ))}
           </div>
-          <div className="relative h-[2px] mx-4 rounded-full bg-black/[0.08]">
+          <div className="relative h-[2px] rounded-full bg-black/[0.08]">
             <motion.div
               className="absolute top-0 h-full w-1/2 rounded-full bg-irn"
               animate={{ left: inputTab === 'basic' ? '0%' : '50%' }}
@@ -356,80 +356,6 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               value={values.additionalPaymentsFreq}
               onChange={(v) => onChange({ additionalPaymentsFreq: v })}
             />
-          </>
-        ) : (
-          <>
-            {/* Management fee */}
-            <div>
-              <FieldLabel label="Management fee %" />
-              <PercentInput
-                value={values.managementFee}
-                onChange={(v) => onChange({ managementFee: v })}
-              />
-            </div>
-
-            {/* Annual increase in contributions */}
-            <div>
-              <FieldLabel label="Annual increase in contributions %" />
-              <PercentInput
-                value={values.depositGrowthRate}
-                onChange={(v) => onChange({ depositGrowthRate: v })}
-              />
-            </div>
-
-            {/* Deposits at start of period */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-sans text-black">Deposits at start of period</span>
-              <Toggle
-                checked={values.depositsAtStart}
-                onChange={(v) => onChange({ depositsAtStart: v })}
-              />
-            </div>
-
-            {/* Withdrawals */}
-            <div>
-              <FieldLabel label="Withdrawals (optional)" />
-              <CurrencyInput
-                value={values.withdrawals}
-                onChange={(v) => onChange({ withdrawals: v })}
-                symbol={values.currency.symbol}
-              />
-            </div>
-            <Segmented
-              options={FREQ_OPTIONS}
-              value={values.withdrawalsFreq}
-              onChange={(v) => onChange({ withdrawalsFreq: v })}
-            />
-
-            {/* Inflation toggle */}
-            <div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-sans text-black">Adjust for inflation</span>
-                <Toggle
-                  checked={values.adjustForInflation}
-                  onChange={(v) => { onChange({ adjustForInflation: v }); ph()?.capture('inflation_toggled', { enabled: v }) }}
-                />
-              </div>
-              <AnimatePresence initial={false}>
-                {values.adjustForInflation && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2, ease: 'easeInOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="mt-3">
-                      <FieldLabel label="Inflation rate" />
-                      <PercentInput
-                        value={values.inflationRate}
-                        onChange={(v) => onChange({ inflationRate: v })}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
 
             {/* Change currency */}
             <div>
@@ -476,6 +402,81 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
                 )}
               </AnimatePresence>
             </div>
+          </>
+        ) : (
+          <>
+            {/* Inflation toggle */}
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-sans text-black">Adjust for inflation</span>
+                <Toggle
+                  checked={values.adjustForInflation}
+                  onChange={(v) => { onChange({ adjustForInflation: v }); ph()?.capture('inflation_toggled', { enabled: v }) }}
+                />
+              </div>
+              <AnimatePresence initial={false}>
+                {values.adjustForInflation && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-3">
+                      <FieldLabel label="Inflation rate" />
+                      <PercentInput
+                        value={values.inflationRate}
+                        onChange={(v) => onChange({ inflationRate: v })}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Management fee */}
+            <div>
+              <FieldLabel label="Management fee %" />
+              <PercentInput
+                value={values.managementFee}
+                onChange={(v) => onChange({ managementFee: v })}
+              />
+            </div>
+
+            {/* Annual increase in contributions */}
+            <div>
+              <FieldLabel label="Annual increase in contributions %" />
+              <PercentInput
+                value={values.depositGrowthRate}
+                onChange={(v) => onChange({ depositGrowthRate: v })}
+              />
+            </div>
+
+            {/* Deposits at start of period */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-sans text-black">Deposits at start of period</span>
+              <Toggle
+                checked={values.depositsAtStart}
+                onChange={(v) => onChange({ depositsAtStart: v })}
+              />
+            </div>
+
+            {/* Withdrawals */}
+            <div>
+              <FieldLabel label="Withdrawals (optional)" />
+              <CurrencyInput
+                value={values.withdrawals}
+                onChange={(v) => onChange({ withdrawals: v })}
+                symbol={values.currency.symbol}
+              />
+            </div>
+            <Segmented
+              options={FREQ_OPTIONS}
+              value={values.withdrawalsFreq}
+              onChange={(v) => onChange({ withdrawalsFreq: v })}
+            />
+
           </>
         )}
 
