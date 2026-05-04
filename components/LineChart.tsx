@@ -50,7 +50,7 @@ function niceTicks(max: number, count = 5): number[] {
   let niceStep = Math.ceil(step / mag) * mag
   const minStep = max >= 1_000_000 ? 100_000 : max >= 1_000 ? 100 : 1
   niceStep = Math.max(niceStep, minStep)
-  return Array.from({ length: count }, (_, i) => Math.round(i * niceStep)).filter(v => v <= max * 1.15)
+  return Array.from({ length: count }, (_, i) => Math.round(i * niceStep))
 }
 
 export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
