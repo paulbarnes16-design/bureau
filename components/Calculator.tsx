@@ -453,7 +453,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                           <col />
                         </colgroup>
                         <thead>
-                          <tr>
+                          <tr className="bg-irn/10">
                             {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                               <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                             ))}
@@ -461,7 +461,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                         </thead>
                         <tbody>
                           {result.rows.map((row, i) => (
-                            <tr key={row.year} className={i % 2 === 0 ? 'bg-irn/10' : 'bg-white'}>
+                            <tr key={row.year} className={i % 2 === 1 ? 'bg-irn/10' : ''}>
                               <td className="px-3 py-3 text-black">{row.year}</td>
                               <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                               <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
@@ -495,7 +495,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                   <col />
                 </colgroup>
                 <thead>
-                  <tr>
+                  <tr className="bg-irn/10">
                     {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                       <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                     ))}
@@ -503,7 +503,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 </thead>
                 <tbody>
                   {result.rows.map((row, i) => (
-                    <tr key={row.year} className={i % 2 === 0 ? 'bg-irn/10' : 'bg-white'}>
+                    <tr key={row.year} className={i % 2 === 1 ? 'bg-irn/10' : ''}>
                       <td className="px-3 py-3 text-black">{row.year}</td>
                       <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                       <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
