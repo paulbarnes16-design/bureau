@@ -48,6 +48,8 @@ export interface CalcInputs {
   depositsAtStart: boolean
   withdrawals: number
   withdrawalsFreq: Freq
+  taxFreeAmount: number
+  taxRate: number
 }
 
 export interface YearRow {
@@ -81,6 +83,8 @@ export const DEFAULT_INPUTS: CalcInputs = {
   depositsAtStart: false,
   withdrawals: 0,
   withdrawalsFreq: 'monthly',
+  taxFreeAmount: 0,
+  taxRate: 0,
 }
 
 export function calculate(inputs: CalcInputs): CalcResult {
@@ -91,6 +95,7 @@ export function calculate(inputs: CalcInputs): CalcResult {
     adjustForInflation, inflationRate,
     managementFee, depositGrowthRate, depositsAtStart,
     withdrawals, withdrawalsFreq,
+    taxFreeAmount, taxRate,
   } = inputs
 
   const n = FREQ_PER_YEAR[compoundFreq]
@@ -121,6 +126,7 @@ export function calculate(inputs: CalcInputs): CalcResult {
   })
 
   let prevRealBal = initialInvestment
+  let prevNomBal = initialInvestment
   const maxYear = Math.ceil(totalYears)
 
   for (let y = 1; y <= maxYear; y++) {
@@ -147,6 +153,15 @@ export function calculate(inputs: CalcInputs): CalcResult {
 
     const netDepsThisYear = yearDeps - yearWds
     cumNetDeps += netDepsThisYear
+
+    // Apply tax annually on nominal interest above tax-free allowance
+    if (taxRate > 0) {
+      const nomInterest = balance - prevNomBal - netDepsThisYear
+      const taxable = Math.max(0, nomInterest - taxFreeAmount)
+      balance = Math.max(0, balance - taxable * taxRate / 100)
+    }
+    prevNomBal = balance
+
     const realBal = deflate(balance, y)
     const interest = Math.round(realBal - prevRealBal - netDepsThisYear)
 

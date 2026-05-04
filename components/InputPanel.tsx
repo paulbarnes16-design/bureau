@@ -442,6 +442,25 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               </AnimatePresence>
             </div>
 
+            {/* Tax-free interest amount */}
+            <div>
+              <FieldLabel label="Tax-free interest amount" />
+              <CurrencyInput
+                value={values.taxFreeAmount}
+                onChange={(v) => onChange({ taxFreeAmount: v })}
+                symbol={values.currency.symbol}
+              />
+            </div>
+
+            {/* Tax rate on interest */}
+            <div>
+              <FieldLabel label="Tax rate on interest" />
+              <PercentInput
+                value={values.taxRate}
+                onChange={(v) => onChange({ taxRate: v })}
+              />
+            </div>
+
             {/* Management fee */}
             <div>
               <FieldLabel label="Management fee %" />
