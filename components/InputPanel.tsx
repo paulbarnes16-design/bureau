@@ -266,8 +266,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
       )}
 
       {/* Basic / Advanced tabs */}
-      {!bare && (
-        <div className="px-5 mt-4">
+      <div className={`${bare ? 'mt-0' : 'px-5 mt-4'}`}>
           <div className="flex">
             {(['basic', 'advanced'] as const).map((t) => (
               <button
@@ -289,8 +288,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
               transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             />
           </div>
-        </div>
-      )}
+      </div>
 
       <div className={`${bare ? '' : 'px-5 pb-5'} space-y-5 mt-5`}>
         {inputTab === 'basic' ? (

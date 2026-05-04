@@ -45,7 +45,9 @@
       "Bash(xargs cat *)",
       "Bash(curl -sI https://bureau.money)",
       "Bash(curl -sI https://www.bureau.money)",
-      "Bash(python3 -c \"import uuid; print\\(str\\(uuid.uuid4\\(\\)\\).replace\\('-', ''\\)\\)\")"
+      "Bash(python3 -c \"import uuid; print\\(str\\(uuid.uuid4\\(\\)\\).replace\\('-', ''\\)\\)\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__browser_batch"
     ]
   },
   "hooks": {
