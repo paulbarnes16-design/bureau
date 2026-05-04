@@ -64,10 +64,45 @@ function CopyButton({ value }: { value: string }) {
 
 // ── CSV export ─────────────────────────────────────────────────────────────────
 
-function exportToCsv(rows: { year: number; deposits: number; interestEarned: number; balance: number }[]) {
-  const header = 'Year,Deposits,Interest Earned,Balance'
-  const lines = rows.map(r => `${r.year},${r.deposits},${r.interestEarned},${r.balance}`)
-  const csv = [header, ...lines].join('\n')
+function exportToCsv(rows: { year: number; deposits: number; interestEarned: number; balance: number }[], inputs: CalcInputs) {
+  const freqMult = inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1
+  const annualDep = inputs.additionalPayments * freqMult
+
+  // Inputs block (rows 1–8)
+  const inputBlock = [
+    `Initial Investment,${inputs.initialInvestment}`,
+    `Annual Interest Rate (%),${inputs.interestRate}`,
+    `Compound Frequency,${inputs.compoundFreq}`,
+    `Duration (Years),${inputs.durationYears}`,
+    `Additional Contributions (${inputs.additionalPaymentsFreq}),${inputs.additionalPayments}`,
+    `Annual Deposits,${annualDep}`,
+    `Annual Fee (%),${inputs.managementFee}`,
+    ``,
+  ]
+  // Data header at row 9, data starts at row 10
+  const H = inputBlock.length + 1 // header row (1-indexed) = 9
+  const D = H + 1                 // first data row = 10
+
+  const csvRows: string[] = [
+    ...inputBlock,
+    `Year,Deposits,Interest Earned,Balance`,
+    // Year 0: initial deposit, no interest
+    `${rows[0].year},${rows[0].deposits},0,=B1`,
+    // Subsequent years with formulas
+    ...rows.slice(1).map((r, i) => {
+      const prevD = D + i          // previous balance row (1-indexed)
+      const curD  = D + i + 1     // current row
+      const prevBal = `D${prevD}`
+      const rate    = `($B$2/100)`
+      const fee     = `(1-$B$7/100)`
+      const dep     = `$B$6`
+      const interest = `=${prevBal}*${rate}*${fee}`
+      const balance  = `=${prevBal}*(1+${rate})*${fee}+${dep}`
+      return `${r.year},${dep},${interest},${balance}`
+    }),
+  ]
+
+  const csv = csvRows.join('\n')
   const blob = new Blob([csv], { type: 'text/csv' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -468,7 +503,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                           <col />
                         </colgroup>
                         <thead>
-                          <tr className="bg-irn/10">
+                          <tr className="bg-black/[0.06]">
                             {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                               <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                             ))}
@@ -476,7 +511,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                         </thead>
                         <tbody>
                           {result.rows.map((row, i) => (
-                            <tr key={row.year} className={i % 2 === 1 ? 'bg-irn/10' : ''}>
+                            <tr key={row.year} className={i % 2 === 1 ? 'bg-black/[0.06]' : ''}>
                               <td className="px-3 py-3 text-black">{row.year}</td>
                               <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                               <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
@@ -486,7 +521,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                         </tbody>
                       </table>
                       <div className="px-3 pt-3 pb-1">
-                        <button onClick={() => exportToCsv(result.rows)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+                        <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
                       </div>
                     </div>
                   </motion.div>
@@ -513,7 +548,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                   <col />
                 </colgroup>
                 <thead>
-                  <tr className="bg-irn/10">
+                  <tr className="bg-black/[0.06]">
                     {['Year', 'Deposits', inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned', 'Balance'].map((h) => (
                       <th key={h} className="text-left text-xs font-bold text-black px-3 py-3">{h}</th>
                     ))}
@@ -521,7 +556,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 </thead>
                 <tbody>
                   {result.rows.map((row, i) => (
-                    <tr key={row.year} className={i % 2 === 1 ? 'bg-irn/10' : ''}>
+                    <tr key={row.year} className={i % 2 === 1 ? 'bg-black/[0.06]' : ''}>
                       <td className="px-3 py-3 text-black">{row.year}</td>
                       <td className="px-3 py-3 text-black">{row.deposits.toLocaleString('en-GB')}</td>
                       <td className="px-3 py-3 text-black">{row.interestEarned.toLocaleString('en-GB')}</td>
@@ -531,7 +566,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 </tbody>
               </table>
               <div className="px-3 pt-3 pb-1">
-                <button onClick={() => exportToCsv(result.rows)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
+                <button onClick={() => exportToCsv(result.rows, inputs)} className="text-[13px] font-sans text-black/50 hover:text-black transition-colors">Export to CSV</button>
               </div>
             </div>
           </Card>
