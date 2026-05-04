@@ -249,8 +249,15 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
   const [currencyOpen, setCurrencyOpen] = useState(false)
   const [inputTab, setInputTab] = useState<'basic' | 'advanced'>('basic')
 
+  const handlePanEnd = (_: never, info: { offset: { x: number; y: number } }) => {
+    if (Math.abs(info.offset.x) > Math.abs(info.offset.y) && Math.abs(info.offset.x) > 50) {
+      if (info.offset.x < 0 && inputTab === 'basic') setInputTab('advanced')
+      if (info.offset.x > 0 && inputTab === 'advanced') setInputTab('basic')
+    }
+  }
+
   return (
-    <div className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
+    <motion.div onPanEnd={handlePanEnd} className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
       {/* Header — hidden in bare mode (sheet renders its own fixed header) */}
       {!bare && (
         <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
@@ -482,6 +489,6 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
 
         <div className="h-16 lg:hidden" />
       </div>
-    </div>
+    </motion.div>
   )
 }
