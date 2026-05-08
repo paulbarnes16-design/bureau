@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
-import { calculate, DEFAULT_INPUTS, type CalcInputs, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
+import { calculate, DEFAULT_INPUTS, type CalcInputs, type YearRow, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
 import { encodeInputs, decodeInputs } from '@/lib/url-params'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
@@ -64,11 +64,9 @@ function CopyButton({ value }: { value: string }) {
 
 // ── CSV export ─────────────────────────────────────────────────────────────────
 
-function exportToCsv(rows: { year: number; deposits: number; interestEarned: number; balance: number }[], inputs: CalcInputs) {
-  const freqMult = inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1
-  const annualDep = inputs.additionalPayments * freqMult
+function exportToCsv(rows: YearRow[], inputs: CalcInputs) {
+  const annualDep = inputs.additionalPayments * FREQ_PER_YEAR[inputs.additionalPaymentsFreq]
 
-  // Inputs block (rows 1–8)
   const inputBlock = [
     `Initial Investment,${inputs.initialInvestment}`,
     `Annual Interest Rate (%),${inputs.interestRate}`,
@@ -79,37 +77,33 @@ function exportToCsv(rows: { year: number; deposits: number; interestEarned: num
     `Annual Fee (%),${inputs.managementFee}`,
     ``,
   ]
-  // Data header at row 9, data starts at row 10
-  const H = inputBlock.length + 1 // header row (1-indexed) = 9
-  const D = H + 1                 // first data row = 10
+  const dataStartRow = inputBlock.length + 2 // +1 for header row, +1 for 1-indexing
+
+  const rate = `($B$2/100)`
+  const fee  = `(1-$B$7/100)`
+  const dep  = `$B$6`
 
   const csvRows: string[] = [
     ...inputBlock,
     `Year,Deposits,Interest Earned,Balance`,
-    // Year 0: initial deposit, no interest
     `${rows[0].year},${rows[0].deposits},0,=B1`,
-    // Subsequent years with formulas
     ...rows.slice(1).map((r, i) => {
-      const prevD = D + i          // previous balance row (1-indexed)
-      const curD  = D + i + 1     // current row
-      const prevBal = `D${prevD}`
-      const rate    = `($B$2/100)`
-      const fee     = `(1-$B$7/100)`
-      const dep     = `$B$6`
-      const interest = `=${prevBal}*${rate}*${fee}`
-      const balance  = `=${prevBal}*(1+${rate})*${fee}+${dep}`
-      return `${r.year},${dep},${interest},${balance}`
+      const prevBal = `D${dataStartRow + i}`
+      return `${r.year},${dep},=${prevBal}*${rate}*${fee},=${prevBal}*(1+${rate})*${fee}+${dep}`
     }),
   ]
 
   const csv = csvRows.join('\n')
   const blob = new Blob([csv], { type: 'text/csv' })
   const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'compound-interest.csv'
-  a.click()
-  URL.revokeObjectURL(url)
+  try {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'compound-interest.csv'
+    a.click()
+  } finally {
+    setTimeout(() => URL.revokeObjectURL(url), 100)
+  }
 }
 
 // ── Card wrapper ───────────────────────────────────────────────────────────────
@@ -227,7 +221,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
   const totalYears = inputs.durationYears + inputs.durationMonths / 12
   const totalDeposits = inputs.initialInvestment + inputs.additionalPayments *
-    (inputs.additionalPaymentsFreq === 'weekly' ? 52 : inputs.additionalPaymentsFreq === 'monthly' ? 12 : 1) * totalYears
+    FREQ_PER_YEAR[inputs.additionalPaymentsFreq] * totalYears
   const summaryParts = [
     `Over `, `${inputs.durationYears} year${inputs.durationYears !== 1 ? 's' : ''}`, `, starting with `,
     `${sym}${Math.round(inputs.initialInvestment).toLocaleString('en-GB')}`,
