@@ -105,7 +105,6 @@ export function calculate(inputs: CalcInputs): CalcResult {
   const feePeriod = managementFee / 100 / n
   const totalYears = durationYears + durationMonths / 12
   const totalPeriods = Math.round(n * totalYears)
-  const baseDepPerPeriod = additionalPayments * ppy / n
   const wdPerPeriod = withdrawals * wpy / n
   const growthRate = depositGrowthRate / 100
 
@@ -139,7 +138,11 @@ export function calculate(inputs: CalcInputs): CalcResult {
 
     for (let p = startPeriod; p <= endPeriod; p++) {
       const completedYears = Math.floor((p - 1) / n)
-      const dep = baseDepPerPeriod * Math.pow(1 + growthRate, completedYears)
+      // Count how many contribution payments fall due in this period.
+      // floor(p * ppy / n) - floor((p-1) * ppy / n) gives 0, 1, or more payments per period,
+      // correctly handling all frequency combinations (annual/monthly, weekly/monthly, etc.)
+      const newPayments = Math.floor(p * ppy / n) - Math.floor((p - 1) * ppy / n)
+      const dep = additionalPayments * newPayments * Math.pow(1 + growthRate, completedYears)
 
       if (depositsAtStart) balance += dep
       balance = balance * (1 + rPeriod) * (1 - feePeriod)
