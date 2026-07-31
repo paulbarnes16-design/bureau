@@ -53,7 +53,13 @@
       "Bash(node -e ' *)",
       "WebFetch(domain:www.calculator.net)",
       "WebFetch(domain:www.thecalculatorsite.com)",
-      "WebFetch(domain:en.wikipedia.org)"
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(mkdir -p \"/private/tmp/claude-501/-Users-paulbarnes-bureau/7646d5d6-6533-42d6-a92e-b56a754f37e7/scratchpad/house_docs\")",
+      "Read(//Users/paulbarnes/Library/CloudStorage/Dropbox \\\\\\(25-05-2024 21:54\\\\\\)/My Mac \\\\\\(MacBook-Air.connect\\\\\\)/Downloads/**)",
+      "Bash(mkdir -p dormer binstorage extension)",
+      "Bash(unzip -o \"/Users/paulbarnes/Library/CloudStorage/Dropbox \\(25-05-2024 21:54\\)/My Mac \\(MacBook-Air.connect\\)/Downloads/dormer.zip\" -d dormer)",
+      "Bash(unzip -o \"/Users/paulbarnes/Library/CloudStorage/Dropbox \\(25-05-2024 21:54\\)/My Mac \\(MacBook-Air.connect\\)/Downloads/Binstorage.zip\" -d binstorage)",
+      "Bash(unzip -o \"/Users/paulbarnes/Library/CloudStorage/Dropbox \\(25-05-2024 21:54\\)/My Mac \\(MacBook-Air.connect\\)/Downloads/Extension ground.zip\" -d extension)"
     ]
   },
   "hooks": {
