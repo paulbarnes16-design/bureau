@@ -119,11 +119,10 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 // ── Main Calculator ────────────────────────────────────────────────────────────
 
 export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Partial<CalcInputs>; faqs: import('@/lib/schemas').FaqItem[] }) {
-  const [inputs, setInputs] = useState<CalcInputs>(() => {
-    const base = { ...DEFAULT_INPUTS, ...defaultInputs }
-    if (typeof window === 'undefined') return base
-    return decodeInputs(window.location.search, base)
-  })
+  // Server and first client render both use the defaults; values from the URL are
+  // applied after hydration so the HTML matches and React doesn't throw a mismatch.
+  const [inputs, setInputs] = useState<CalcInputs>(() => ({ ...DEFAULT_INPUTS, ...defaultInputs }))
+  const [urlLoaded, setUrlLoaded] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   // Defaults are shown as an "Example" until the user enters values (or arrives via a shared link)
   const [hasInput, setHasInput] = useState(false)
@@ -144,16 +143,22 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
   }
 
   useEffect(() => {
-    if (hasCalcParams(window.location.search)) setHasInput(true)
+    const search = window.location.search
+    if (hasCalcParams(search)) {
+      setInputs((prev) => decodeInputs(search, prev))
+      setHasInput(true)
+    }
+    setUrlLoaded(true)
   }, [])
 
   useEffect(() => {
+    if (!urlLoaded) return
     const id = setTimeout(() => {
       const qs = mergeInputsIntoSearch(window.location.search, inputs)
       window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname)
     }, 300)
     return () => clearTimeout(id)
-  }, [inputs])
+  }, [inputs, urlLoaded])
 
   const patch = (updates: Partial<CalcInputs>) => {
     setInputs((prev) => ({ ...prev, ...updates }))
