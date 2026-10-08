@@ -3,6 +3,23 @@ import { DEFAULT_INPUTS, CURRENCIES, type CalcInputs, type Freq } from './calcul
 const FREQ_ENC: Record<Freq, string> = { weekly: 'w', monthly: 'm', yearly: 'y' }
 const FREQ_DEC: Record<string, Freq> = { w: 'weekly', m: 'monthly', y: 'yearly' }
 
+// Query keys owned by the calculator. Anything else (e.g. utm_* tracking tags) is left alone.
+const CALC_KEYS = ['i', 'r', 'cf', 'dy', 'dm', 'ap', 'apf', 'inf', 'ir', 'cur', 'mf', 'dg', 'das', 'wd', 'wf', 'tfa', 'tr']
+
+/** True if the query string sets any calculator value (ignores tracking tags like utm_source). */
+export function hasCalcParams(search: string): boolean {
+  const p = new URLSearchParams(search)
+  return CALC_KEYS.some((k) => p.has(k))
+}
+
+/** Rewrites the calculator keys in `search` from `inputs`, keeping all other params. */
+export function mergeInputsIntoSearch(search: string, inputs: CalcInputs): string {
+  const p = new URLSearchParams(search)
+  CALC_KEYS.forEach((k) => p.delete(k))
+  new URLSearchParams(encodeInputs(inputs)).forEach((v, k) => p.set(k, v))
+  return p.toString()
+}
+
 export function encodeInputs(inputs: CalcInputs): string {
   const p = new URLSearchParams()
   const d = DEFAULT_INPUTS

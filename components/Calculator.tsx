@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from '
 import dynamic from 'next/dynamic'
 const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
 import { calculate, DEFAULT_INPUTS, type CalcInputs, type YearRow, FREQ_LABELS, FREQ_PER_YEAR } from '@/lib/calculate'
-import { encodeInputs, decodeInputs } from '@/lib/url-params'
+import { decodeInputs, hasCalcParams, mergeInputsIntoSearch } from '@/lib/url-params'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
 
@@ -144,12 +144,12 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
   }
 
   useEffect(() => {
-    if (window.location.search) setHasInput(true)
+    if (hasCalcParams(window.location.search)) setHasInput(true)
   }, [])
 
   useEffect(() => {
     const id = setTimeout(() => {
-      const qs = encodeInputs(inputs)
+      const qs = mergeInputsIntoSearch(window.location.search, inputs)
       window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname)
     }, 300)
     return () => clearTimeout(id)
