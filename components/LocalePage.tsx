@@ -12,7 +12,7 @@ export default function LocalePage({ locale }: { locale: LocaleConfig }) {
           <div>
             <div className="flex items-center justify-between">
               <span className="font-mamoth text-[24px] leading-none text-black">bureau</span>
-              <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold uppercase rounded-[2px] leading-none">
+              <span className="px-1.5 py-0.5 bg-black text-white text-[9px] font-sans font-bold uppercase rounded-[2px] leading-none">
                 Beta
               </span>
             </div>

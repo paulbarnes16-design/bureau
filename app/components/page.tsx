@@ -33,6 +33,7 @@ const TYPEFACES = [
   { name: 'Body small',       size: 13, weight: 'Regular', cls: 'font-sans text-sm',                              sample: 'Adjust for inflation' },
   { name: 'Marginal bold',    size: 11, weight: 'Bold',    cls: 'font-sans font-bold text-[11px]',                sample: 'Inflation adjusted' },
   { name: 'Marginal',         size: 11, weight: 'Regular', cls: 'font-sans text-[11px]',                          sample: 'Inflation adjusted' },
+  { name: 'Super marginal',   size: 9,  weight: 'Bold',    cls: 'font-sans font-bold text-[9px] uppercase',       sample: 'Beta'        },
 ]
 
 const NAV = [
