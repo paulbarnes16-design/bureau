@@ -358,11 +358,14 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
             </div>
 
             {/* Additional contributions frequency */}
-            <Segmented
-              options={FREQ_OPTIONS}
-              value={values.additionalPaymentsFreq}
-              onChange={(v) => onChange({ additionalPaymentsFreq: v })}
-            />
+            <div>
+              <FieldLabel label="Additional contributions frequency" />
+              <Segmented
+                options={FREQ_OPTIONS}
+                value={values.additionalPaymentsFreq}
+                onChange={(v) => onChange({ additionalPaymentsFreq: v })}
+              />
+            </div>
 
             {/* Change currency */}
             <div>
