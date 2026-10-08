@@ -1,0 +1,46 @@
+# Bureau
+
+> Bureau is a free compound interest calculator at https://bureau.money. Enter a starting balance, interest rate, time period and regular contributions to see how savings or investments grow, with a year-by-year chart and table. No sign-up required.
+
+Bureau has a UK edition (GBP, ISAs, UK tax) and a US edition (USD, 401(k)/IRA, US tax). Results can be shown in 10 currencies: GBP, USD, EUR, INR, BRL, SGD, MXN, JPY, CAD and AUD.
+
+The calculator supports:
+
+- Initial investment, annual interest rate and duration (years and months)
+- Compounding weekly, monthly or yearly
+- Regular contributions (weekly, monthly or yearly), made at the start or end of each period, with optional yearly growth in the contribution amount
+- Regular withdrawals
+- Annual management fees
+- Inflation adjustment (shows results in today's money)
+- Tax on interest above a tax-free amount
+
+Bureau is for informational purposes only and is not financial advice.
+
+## Pages
+
+- [Compound interest calculator (UK)](https://bureau.money): Calculator in GBP, with FAQs on ISAs, UK tax on interest, the Rule of 72 and choosing a rate of return
+- [Compound interest calculator (US)](https://bureau.money/us): Calculator in USD, with FAQs on 401(k)s, IRAs and US tax on interest
+
+## Linking to a pre-filled calculation
+
+Any calculation can be linked with query parameters, so a reader opens the calculator with the numbers already entered. Parameters that are left out use the defaults (1,000 in the page's currency at 5% for 5 years, compounded monthly).
+
+- `i`: initial investment (number)
+- `r`: annual interest rate, % (number)
+- `cf`: compounding frequency: `w` weekly, `m` monthly, `y` yearly
+- `dy`: duration in years; `dm`: extra months
+- `ap`: regular contribution amount; `apf`: its frequency (`w`, `m`, `y`)
+- `das`: `1` if contributions are made at the start of each period
+- `dg`: yearly growth in contributions, %
+- `wd`: regular withdrawal amount; `wf`: its frequency (`w`, `m`, `y`)
+- `mf`: annual management fee, %
+- `inf`: `1` to adjust for inflation; `ir`: inflation rate, %
+- `tfa`: tax-free amount; `tr`: tax rate, %
+- `cur`: currency code (for example `GBP`, `USD`, `EUR`)
+
+Example: £10,000 plus £200 a month at 7% for 20 years:
+https://bureau.money/?i=10000&r=7&dy=20&ap=200
+
+## Optional
+
+- [Privacy policy](https://bureau.money/privacy)

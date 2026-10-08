@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { FaqItem } from '@/lib/schemas'
 
 export default function FAQ({ faqs }: { faqs: FaqItem[] }) {
@@ -15,6 +15,7 @@ export default function FAQ({ faqs }: { faqs: FaqItem[] }) {
             onClick={() => setOpen(open === i ? null : i)}
             className="w-full flex items-center justify-between gap-4 py-4 text-left group"
             aria-expanded={open === i}
+            aria-controls={`faq-answer-${i}`}
           >
             <span className="font-sans text-[15px] text-black group-hover:text-irn transition-colors duration-120">
               {faq.question}
@@ -32,24 +33,21 @@ export default function FAQ({ faqs }: { faqs: FaqItem[] }) {
             </motion.span>
           </button>
 
-          <AnimatePresence initial={false}>
-            {open === i && (
-              <motion.div
-                key="content"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <div className="pb-5 pr-8 text-[15px] font-sans text-subdued leading-relaxed space-y-3">
-                  {faq.answer.split('\n\n').map((para, j) => (
-                    <p key={j}>{para}</p>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Answers stay in the DOM when collapsed so crawlers and AI engines can read them */}
+          <motion.div
+            id={`faq-answer-${i}`}
+            initial={false}
+            animate={open === i ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className="overflow-hidden"
+            inert={open !== i}
+          >
+            <div className="pb-5 pr-8 text-[15px] font-sans text-subdued leading-relaxed space-y-3">
+              {faq.answer.split('\n\n').map((para, j) => (
+                <p key={j}>{para}</p>
+              ))}
+            </div>
+          </motion.div>
         </div>
       ))}
     </div>
