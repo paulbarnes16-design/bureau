@@ -10,7 +10,7 @@ export default function LocalePage({ locale }: { locale: LocaleConfig }) {
         <div className="space-y-6 lg:space-y-6">
 
           <div>
-            <span className="font-writer text-[24px] leading-none text-black">bureau</span>
+            <span className="font-mamoth text-[24px] leading-none text-black">bureau</span>
             <p className="font-sans text-[15px] font-normal text-black">Compound Interest Calculator</p>
           </div>
 

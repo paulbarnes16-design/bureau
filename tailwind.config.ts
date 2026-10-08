@@ -20,6 +20,7 @@ const config: Config = {
       },
       fontFamily: {
         writer:    ['var(--font-writer)', 'serif'],
+        mamoth:    ['var(--font-mamoth)', 'serif'],
         condensed: ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
         mono:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
         sans:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],

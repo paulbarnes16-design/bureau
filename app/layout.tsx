@@ -15,6 +15,12 @@ const ppWriter = localFont({
   display: 'swap',
 })
 
+const mamoth = localFont({
+  src: '../fonts/Mamoth.otf',
+  variable: '--font-mamoth',
+  display: 'swap',
+})
+
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '700'],
@@ -78,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ppWriter.variable} ${ibmPlexMono.variable}`}
+      className={`${ppWriter.variable} ${mamoth.variable} ${ibmPlexMono.variable}`}
     >
       <body className="font-sans antialiased">
         {children}
