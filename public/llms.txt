@@ -21,9 +21,7 @@ Bureau is for informational purposes only and is not financial advice.
 - [Compound interest calculator (UK)](https://bureau.money): Calculator in GBP, with FAQs on ISAs, UK tax on interest, the Rule of 72 and choosing a rate of return
 - [Compound interest calculator (US)](https://bureau.money/us): Calculator in USD, with FAQs on 401(k)s, IRAs and US tax on interest
 - [ISA calculator](https://bureau.money/isa-calculator): How an ISA could grow with regular contributions, with the 2026/27 allowance and the April 2027 cash ISA change
-- [Savings goal calculator](https://bureau.money/savings-goal-calculator): How much to save each month to reach a target amount
-- [Double your money](https://bureau.money/double-your-money): How many years it takes to double money at any interest rate, compared with the Rule of 72
-- [How much will £10,000 grow?](https://bureau.money/how-much-will-10000-grow): £10,000 at 3%, 5%, 7% and 10% over 5 to 30 years
+- [How much will £10,000 grow?](https://bureau.money/how-much-will-10000-grow): What £10,000 grows to at different rates and timeframes, with or without monthly top-ups
 
 ## Linking to a pre-filled calculation
 
