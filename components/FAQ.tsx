@@ -44,7 +44,7 @@ export default function FAQ({ faqs }: { faqs: FaqItem[] }) {
           >
             <div className="pb-5 pr-8 text-[15px] font-sans text-subdued leading-relaxed space-y-3">
               {faq.answer.split('\n\n').map((para, j) => (
-                <p key={j}>{para}</p>
+                <p key={j} className="whitespace-pre-line">{para}</p>
               ))}
             </div>
           </motion.div>
