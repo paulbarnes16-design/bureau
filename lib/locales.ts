@@ -52,13 +52,7 @@ export const LOCALES: Record<string, LocaleConfig> = {
       },
       robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
       icons: {
-        icon: [
-          { url: '/favicon_light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
-          { url: '/favicon_dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
-          { url: '/favicon_light.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
-          { url: '/favicon_dark.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
-          { url: '/favicon_light.png', type: 'image/png', sizes: '32x32' },
-        ],
+        icon: [{ url: '/favicon.png', type: 'image/png', sizes: '96x96' }],
         apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
       },
     },
@@ -99,13 +93,7 @@ export const LOCALES: Record<string, LocaleConfig> = {
       },
       robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
       icons: {
-        icon: [
-          { url: '/favicon_light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: light)' },
-          { url: '/favicon_dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme: dark)' },
-          { url: '/favicon_light.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
-          { url: '/favicon_dark.png', type: 'image/png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
-          { url: '/favicon_light.png', type: 'image/png', sizes: '32x32' },
-        ],
+        icon: [{ url: '/favicon.png', type: 'image/png', sizes: '96x96' }],
         apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
       },
     },
