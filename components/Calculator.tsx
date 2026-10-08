@@ -128,6 +128,8 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
   // Defaults are shown as an "Example" until the user enters values (or arrives via a shared link)
   const [hasInput, setHasInput] = useState(false)
   const [hasOpenedSheet, setHasOpenedSheet] = useState(false)
+  // Example figures are muted until the user enters their own values
+  const resultNumCls = `font-condensed text-[40px] leading-none transition-colors duration-300 ${hasInput ? 'text-black' : 'text-subdued'}`
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
   const [resultPage, setResultPage] = useState(0)
   const [swipeDir, setSwipeDir] = useState(1)
@@ -285,12 +287,12 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                     >
                       <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                        <span className={resultNumCls}><AnimatedValue value={result.futureValue} symbol={sym} /></span>
                         <CopyButton value={fmtResult(result.futureValue)} />
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                        <span className={resultNumCls}><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
                         <CopyButton value={fmtResult(result.interestEarned)} />
                       </div>
                       <p className="text-[18px] font-sans text-black leading-relaxed">
@@ -309,12 +311,12 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                     >
                       <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real all time rate of return' : 'All time rate of return'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
+                        <span className={resultNumCls}>{allTimeReturn.toFixed(2)}%</span>
                         <CopyButton value={`${allTimeReturn.toFixed(2)}%`} />
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real compounded rate of return' : 'Compounded rate of return'}</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
+                        <span className={resultNumCls}>{compoundedRate.toFixed(2)}%</span>
                         <CopyButton value={`${compoundedRate.toFixed(2)}%`} />
                       </div>
                       <p className="text-[18px] font-sans text-black leading-relaxed">
@@ -331,14 +333,14 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                     >
                       <p className="text-sm font-sans text-subdued mb-1">Time to double</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none">
+                        <span className={resultNumCls}>
                           {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
                         </span>
                         {isFinite(timeToDouble) && <CopyButton value={`${timeToDouble.toFixed(1)} yrs`} />}
                       </div>
                       <p className="text-sm font-sans text-subdued mb-1">Total contributions</p>
                       <div className="flex items-center justify-between gap-3 mb-4">
-                        <span className="font-condensed text-[40px] text-black leading-none">
+                        <span className={resultNumCls}>
                           {sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}
                         </span>
                         <CopyButton value={`${sym}${Math.round(result.totalDeposits).toLocaleString('en-GB')}`} />
@@ -371,7 +373,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real future value' : 'Future value'}</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.futureValue} symbol={sym} /></span>
+                    <span className={resultNumCls}><AnimatedValue value={result.futureValue} symbol={sym} /></span>
                     <CopyButton value={fmtResult(result.futureValue)} />
                   </div>
                 </div>
@@ -379,7 +381,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real all time rate of return' : 'All time rate of return'}</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none">{allTimeReturn.toFixed(2)}%</span>
+                    <span className={resultNumCls}>{allTimeReturn.toFixed(2)}%</span>
                     <CopyButton value={`${allTimeReturn.toFixed(2)}%`} />
                   </div>
                 </div>
@@ -387,7 +389,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real interest earned' : 'Interest earned'}</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none"><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
+                    <span className={resultNumCls}><AnimatedValue value={result.interestEarned} symbol={sym} /></span>
                     <CopyButton value={fmtResult(result.interestEarned)} />
                   </div>
                 </div>
@@ -395,7 +397,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">{inputs.adjustForInflation ? 'Real compounded rate of return' : 'Compounded rate of return'}</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none">{compoundedRate.toFixed(2)}%</span>
+                    <span className={resultNumCls}>{compoundedRate.toFixed(2)}%</span>
                     <CopyButton value={`${compoundedRate.toFixed(2)}%`} />
                   </div>
                 </div>
@@ -403,7 +405,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">Total contributions</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none">
+                    <span className={resultNumCls}>
                       {sym}{Math.round(result.totalDeposits).toLocaleString('en-GB')}
                     </span>
                     <CopyButton value={`${sym}${Math.round(result.totalDeposits).toLocaleString('en-GB')}`} />
@@ -413,7 +415,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
                 <div>
                   <p className="text-sm font-sans text-subdued mb-1">Time to double</p>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-condensed text-[40px] text-black leading-none">
+                    <span className={resultNumCls}>
                       {isFinite(timeToDouble) ? `${timeToDouble.toFixed(1)} yrs` : '—'}
                     </span>
                     {isFinite(timeToDouble) && <CopyButton value={`${timeToDouble.toFixed(1)} yrs`} />}
