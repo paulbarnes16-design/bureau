@@ -10,7 +10,12 @@ export default function LocalePage({ locale }: { locale: LocaleConfig }) {
         <div className="space-y-6 lg:space-y-6">
 
           <div>
-            <span className="font-mamoth text-[24px] leading-none text-black">bureau</span>
+            <div className="flex items-center justify-between">
+              <span className="font-mamoth text-[24px] leading-none text-black">bureau</span>
+              <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold uppercase rounded-[4px] leading-none">
+                Beta
+              </span>
+            </div>
             <p className="font-sans text-[15px] font-normal text-black">Compound Interest Calculator</p>
           </div>
 
