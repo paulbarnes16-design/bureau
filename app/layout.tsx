@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { IBM_Plex_Sans, IBM_Plex_Sans_Condensed, JetBrains_Mono } from 'next/font/google'
+import { IBM_Plex_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
@@ -15,23 +15,10 @@ const ppWriter = localFont({
   display: 'swap',
 })
 
-const ibmPlexSans = IBM_Plex_Sans({
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-pangram-sans',
-  display: 'swap',
-})
-
-const ibmPlexSansCondensed = IBM_Plex_Sans_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-pangram-condensed',
-  display: 'swap',
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
+  variable: '--font-plex-mono',
   display: 'swap',
 })
 
@@ -91,7 +78,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ppWriter.variable} ${ibmPlexSans.variable} ${ibmPlexSansCondensed.variable} ${jetbrainsMono.variable}`}
+      className={`${ppWriter.variable} ${ibmPlexMono.variable}`}
     >
       <body className="font-sans antialiased">
         {children}

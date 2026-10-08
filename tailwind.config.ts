@@ -20,9 +20,9 @@ const config: Config = {
       },
       fontFamily: {
         writer:    ['var(--font-writer)', 'serif'],
-        condensed: ['var(--font-pangram-condensed)', 'sans-serif'],
-        mono:      ['var(--font-jetbrains)', 'ui-monospace', 'Menlo', 'monospace'],
-        sans:      ['var(--font-pangram-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        condensed: ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
+        mono:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
+        sans:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
       },
     },
   },
