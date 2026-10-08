@@ -7,14 +7,12 @@ import { TOOLS } from '@/lib/tools'
  */
 export default function SiteShell({
   title,
-  intro,
   schemas = [],
   currentHref,
   showTools = true,
   children,
 }: {
   title: string
-  intro?: string
   schemas?: object[]
   currentHref?: string
   showTools?: boolean
@@ -36,23 +34,18 @@ export default function SiteShell({
               </span>
             </div>
             <h1 className="font-sans text-[15px] font-normal text-black">{title}</h1>
-            {intro && <p className="font-sans text-[15px] text-subdued mt-1 max-w-2xl">{intro}</p>}
           </div>
 
           {children}
 
           <div className="pt-4 pb-2 lg:grid lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-start-5 lg:col-span-8 space-y-8">
+            <div className="lg:col-start-5 lg:col-span-8 space-y-4">
               {showTools && (
-                <nav aria-label="More calculators">
-                  <h2 className="font-sans font-bold text-[15px] text-black mb-3">More calculators</h2>
-                  <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
+                <nav aria-label="More calculators" className="text-sm font-sans text-black">
+                  <ul className="flex flex-wrap gap-x-4 gap-y-1">
                     {TOOLS.filter((t) => t.href !== currentHref).map((t) => (
                       <li key={t.href}>
-                        <Link href={t.href} className="group block">
-                          <span className="font-sans font-bold text-sm text-black group-hover:text-irn transition-colors">{t.title}</span>
-                          <span className="block font-sans text-sm text-subdued">{t.blurb}</span>
-                        </Link>
+                        <Link href={t.href} className="underline hover:text-irn transition-colors">{t.title}</Link>
                       </li>
                     ))}
                   </ul>

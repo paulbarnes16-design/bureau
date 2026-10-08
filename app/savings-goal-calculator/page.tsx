@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import Prose from '@/components/Prose'
 import SavingsGoal from '@/components/SavingsGoal'
 import SiteShell from '@/components/SiteShell'
 import { gbp, monthlyToReach } from '@/lib/goals'
@@ -9,7 +7,7 @@ import { SITE_URL } from '@/lib/tools'
 
 const PATH = '/savings-goal-calculator'
 const DESCRIPTION =
-  'Free savings goal calculator. Find out how much you need to save each month to reach your target, including the interest your savings earn.'
+  'Free savings goal calculator. Find out how much you need to save each month to reach your target, including the interest you earn.'
 
 export const metadata = pageMetadata({
   path: PATH,
@@ -17,95 +15,42 @@ export const metadata = pageMetadata({
   description: DESCRIPTION,
 })
 
-const GOALS = [
-  { goal: 'Emergency fund', target: 10000, years: 2, rate: 4 },
-  { goal: 'House deposit', target: 30000, years: 5, rate: 4 },
-  { goal: 'House deposit', target: 50000, years: 10, rate: 5 },
-  { goal: 'Long-term savings', target: 100000, years: 20, rate: 6 },
-]
+const per = (target: number, rate: number, years: number) => gbp(monthlyToReach(target, 0, rate, years))
 
 const faqs: FaqItem[] = [
   {
-    question: 'How much do I need to save each month to reach my goal?',
-    answer: `It depends on your target, your timeframe and the interest rate. For example, to save £50,000 in 10 years at 5%, you'd need to put away about ${gbp(monthlyToReach(50000, 0, 5, 10))} a month. With no interest at all it would be ${gbp(50000 / 120)} a month. Enter your own figures above to see your number.`,
+    question: 'How much do I need to save each month?',
+    answer: `It depends on your target, timeframe and interest rate. To save £50,000 in 10 years at 5%, you'd need about ${per(50000, 5, 10)} a month. Over 20 years it drops to about ${per(50000, 5, 20)}.`,
   },
   {
-    question: 'How is the monthly amount calculated?',
-    answer:
-      'The calculator works out the regular payment that, with interest compounded monthly, grows to your target by the end of the timeframe. It uses the formula PMT = (FV − PV × (1 + r)^n) × r ÷ ((1 + r)^n − 1), where FV is your target, PV is what you\'ve already saved, r is the monthly interest rate and n is the number of months.',
+    question: 'How much should I save for a house deposit?',
+    answer: `To save £30,000 in 5 years at 4%, put away about ${per(30000, 4, 5)} a month. For £50,000 over the same time, it's about ${per(50000, 4, 5)}.`,
   },
   {
-    question: 'Does it account for what I have already saved?',
+    question: 'Does it count what I\'ve already saved?',
     answer:
-      'Yes. Enter it in "Already saved" and the calculator assumes it stays invested and earns the same interest rate, which lowers the monthly amount you need. If your existing savings will reach the target on their own, it will tell you.',
+      'Yes. Add it under "Already saved". The calculator assumes it earns the same rate, which lowers your monthly amount.',
+  },
+  {
+    question: 'How is the monthly amount worked out?',
+    answer:
+      'It finds the monthly payment that, with interest added each month, reaches your target on time: PMT = (FV − PV × (1 + r)^n) × r ÷ ((1 + r)^n − 1), where FV is your target, PV is what you\'ve saved, r is the monthly rate and n is the number of months.',
   },
   {
     question: 'What interest rate should I use?',
     answer:
-      'For money you\'ll need within about five years, use the rate on your savings account or cash ISA. For longer goals invested in a stocks and shares ISA or pension, many people plan with 5–7% a year. Returns on investments aren\'t guaranteed and can go down as well as up.',
+      'For goals under about five years, use your savings account or cash ISA rate. For longer goals invested in a stocks and shares ISA, 5 to 7% a year is a common planning figure, though returns aren\'t guaranteed.',
   },
 ]
-
-function Content() {
-  return (
-    <Prose>
-      <h2>How much to save for common goals</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Goal</th>
-            <th>Target</th>
-            <th>Time</th>
-            <th>Rate</th>
-            <th>Per month</th>
-          </tr>
-        </thead>
-        <tbody>
-          {GOALS.map((g) => (
-            <tr key={`${g.target}-${g.years}`}>
-              <td>{g.goal}</td>
-              <td>{gbp(g.target)}</td>
-              <td>{g.years} years</td>
-              <td>{g.rate}%</td>
-              <td>{gbp(monthlyToReach(g.target, 0, g.rate, g.years))}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <h3>Start earlier, save less</h3>
-      <p>
-        Time does a lot of the work. Saving for {gbp(100000)} at 6% takes about{' '}
-        {gbp(monthlyToReach(100000, 0, 6, 10))} a month over 10 years, but only{' '}
-        {gbp(monthlyToReach(100000, 0, 6, 20))} a month over 20 years, because your earlier payments have longer to earn
-        interest.
-      </p>
-
-      <h3>Tips for reaching your goal</h3>
-      <ul>
-        <li>Set up a standing order for payday, so the money is saved before you can spend it.</li>
-        <li>Use an ISA so the interest you earn isn&apos;t taxed.</li>
-        <li>Review your target once a year, and raise your monthly amount when your income goes up.</li>
-      </ul>
-      <p>
-        Saving into an ISA? The <Link href="/isa-calculator">ISA calculator</Link> shows how your allowance could grow.
-      </p>
-    </Prose>
-  )
-}
 
 export default function SavingsGoalPage() {
   return (
     <SiteShell
       title="Savings Goal Calculator"
-      intro="Find out how much you need to save each month to reach your target, including the interest your savings earn."
       currentHref={PATH}
-      schemas={[
-        buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Savings Goal Calculator'),
-        buildFaqSchema(faqs),
-      ]}
+      schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Savings Goal Calculator'), buildFaqSchema(faqs)]}
     >
-      <SavingsGoal content={<Content />} faqs={faqs} />
+      <SavingsGoal faqs={faqs} />
     </SiteShell>
   )
 }
