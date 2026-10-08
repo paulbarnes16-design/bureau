@@ -125,6 +125,9 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
     return decodeInputs(window.location.search, base)
   })
   const [sheetOpen, setSheetOpen] = useState(false)
+  // Defaults are shown as an "Example" until the user enters values (or arrives via a shared link)
+  const [hasInput, setHasInput] = useState(false)
+  const [hasOpenedSheet, setHasOpenedSheet] = useState(false)
   const [tab, setTab] = useState<'graph' | 'table'>('graph')
   const [resultPage, setResultPage] = useState(0)
   const [swipeDir, setSwipeDir] = useState(1)
@@ -141,6 +144,10 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
   }
 
   useEffect(() => {
+    if (window.location.search) setHasInput(true)
+  }, [])
+
+  useEffect(() => {
     const id = setTimeout(() => {
       const qs = encodeInputs(inputs)
       window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname)
@@ -150,6 +157,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
   const patch = (updates: Partial<CalcInputs>) => {
     setInputs((prev) => ({ ...prev, ...updates }))
+    setHasInput(true)
     if (!hasEngaged.current) {
       const posthog = ph()
       if (posthog) {
@@ -247,7 +255,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
           {/* Results */}
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-sans font-bold text-[20px] text-black">Results</h2>
+              <h2 className="font-sans font-bold text-[20px] text-black">{hasInput ? 'Results' : 'Example'}</h2>
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -423,6 +431,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
             <button
               onClick={() => {
         setSheetOpen(true)
+        setHasOpenedSheet(true)
         ph()?.capture('input_sheet_opened')
         if (!hasEngaged.current) {
           const posthog = ph()
@@ -434,7 +443,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
       }}
               className="lg:hidden w-full bg-black rounded-full py-3.5 text-sm font-sans font-bold text-white"
             >
-              Input values
+              {hasOpenedSheet ? 'Input values' : 'Get started'}
             </button>
           </Card>
 
