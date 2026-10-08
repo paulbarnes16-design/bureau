@@ -68,13 +68,13 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
           <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
             dataKey="year"
-            tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-plex-mono)' }}
+            tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
             tickFormatter={fmtY}
-            tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-plex-mono)' }}
+            tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
             width={40}
@@ -85,7 +85,7 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
           <Legend
             wrapperStyle={{ paddingTop: 12 }}
             content={({ payload }) => (
-              <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-plex-mono)', fontSize: 12, color: '#000', paddingLeft: 40 }}>
+              <div style={{ display: 'flex', gap: 16, fontFamily: 'var(--font-pangram-sans)', fontSize: 12, color: '#000', paddingLeft: 40 }}>
                 {payload?.map((p) => (
                   <div key={p.value} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: 2, background: p.color, flexShrink: 0 }} />

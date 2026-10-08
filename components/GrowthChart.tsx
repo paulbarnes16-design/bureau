@@ -33,7 +33,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 
   return (
     <div
-      style={{ background: '#F5F5F5', border: '1px solid rgba(0,0,0,0.1)' }}
+      style={{ background: '#FAFAFA', border: '1px solid rgba(0,0,0,0.1)' }}
       className="rounded-lg p-4 shadow-lg font-sans"
     >
       <p className="text-[10px] font-sans tracking-[0.1em] uppercase text-subdued mb-2">
@@ -91,14 +91,14 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
           <XAxis
             dataKey="year"
             tickFormatter={(v) => `Yr ${v}`}
-            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-plex-mono)' }}
+            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
             interval="preserveStartEnd"
           />
           <YAxis
             tickFormatter={formatYAxis}
-            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-plex-mono)' }}
+            tick={{ fontSize: 10, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
             width={52}
@@ -106,7 +106,7 @@ export default function GrowthChart({ data }: { data: DataPoint[] }) {
           <Tooltip content={<CustomTooltip />} />
           <Legend
             formatter={(value) => (
-              <span style={{ fontFamily: 'var(--font-plex-mono)', fontSize: 11, color: '#5E5E5E' }}>
+              <span style={{ fontFamily: 'var(--font-pangram-sans)', fontSize: 11, color: '#5E5E5E' }}>
                 {value}
               </span>
             )}

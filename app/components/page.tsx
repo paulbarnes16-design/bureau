@@ -15,7 +15,7 @@ const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false }
 
 const COLOURS = [
   { name: 'Background',  hex: '#EDEDED', usage: 'Page background'                  },
-  { name: 'Elevated',    hex: '#F5F5F5', usage: 'Card surface'                      },
+  { name: 'Elevated',    hex: '#FAFAFA', usage: 'Card surface'                      },
   { name: 'White',       hex: '#FFFFFF', usage: 'Input fields, card inner ring'     },
   { name: 'Black',       hex: '#000000', usage: 'Primary text, active controls'     },
   { name: 'Subdued',     hex: '#5E5E5E', usage: 'Secondary text, labels'            },
@@ -69,7 +69,7 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-elevated rounded-2xl shadow-card ${className}`}>
+    <div className={`bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white ${className}`}>
       {children}
     </div>
   )
@@ -173,7 +173,7 @@ export default function ComponentsPage() {
           <div className="space-y-4">
             <Label>Standard card</Label>
             <Card className="p-5">
-              <p className="font-sans text-sm text-black">bg-elevated · rounded-2xl · shadow-card ·</p>
+              <p className="font-sans text-sm text-black">bg-elevated · rounded-2xl · shadow-card · ring-2 ring-inset ring-white</p>
             </Card>
             <Label>Shadow spec</Label>
             <p className="font-mono text-[10px] text-subdued leading-relaxed">

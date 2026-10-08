@@ -10,20 +10,20 @@ const config: Config = {
       colors: {
         // Bureau design tokens — verbatim from Figma Foundations page
         background: '#EDEDED',
-        elevated:   '#F5F5F5',
+        elevated:   '#FAFAFA',
         subdued:    '#5E5E5E',
         irn:        '#FF5E6C',
         'sky-blue': 'rgba(255, 94, 108, 0.3)',
       },
       boxShadow: {
-        card: '0 0 0 1px rgba(0,0,0,0.1)', // 1px outside stroke, 10% black
+        card: '-6px -5px 7.5px rgba(255,255,255,0.4), 6px 5px 14px rgba(0,0,0,0.12)',
       },
       fontFamily: {
         writer:    ['var(--font-writer)', 'serif'],
         mamoth:    ['var(--font-mamoth)', 'serif'],
-        condensed: ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
-        mono:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
-        sans:      ['var(--font-plex-mono)', 'ui-monospace', 'Menlo', 'monospace'],
+        condensed: ['var(--font-pangram-condensed)', 'sans-serif'],
+        mono:      ['var(--font-jetbrains)', 'ui-monospace', 'Menlo', 'monospace'],
+        sans:      ['var(--font-pangram-sans)', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },

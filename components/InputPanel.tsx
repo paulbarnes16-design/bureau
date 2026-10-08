@@ -257,7 +257,7 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
   }
 
   return (
-    <motion.div onPanEnd={handlePanEnd} className={bare ? '' : 'bg-elevated rounded-2xl shadow-card overflow-hidden'}>
+    <motion.div onPanEnd={handlePanEnd} className={bare ? '' : 'bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white overflow-hidden'}>
       {/* Header — hidden in bare mode (sheet renders its own fixed header) */}
       {!bare && (
         <div className={`px-5 pt-5 ${showActions ? 'flex items-center justify-between' : ''}`}>
