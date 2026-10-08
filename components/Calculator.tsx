@@ -110,7 +110,7 @@ function exportToCsv(rows: YearRow[], inputs: CalcInputs) {
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white ${className}`}>
+    <div className={`bg-elevated rounded-2xl shadow-card ${className}`}>
       {children}
     </div>
   )
@@ -592,7 +592,7 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ type: 'spring', damping: 32, stiffness: 320 }}
-              className="fixed inset-4 z-40 bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white flex flex-col"
+              className="fixed inset-4 z-40 bg-elevated rounded-2xl shadow-card flex flex-col"
             >
               <div className="flex items-center justify-between px-4 py-4 flex-shrink-0">
                 <h2 className="font-sans font-bold text-[20px] text-black">Input values</h2>

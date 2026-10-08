@@ -33,7 +33,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 
   return (
     <div
-      style={{ background: '#FAFAFA', border: '1px solid rgba(0,0,0,0.1)' }}
+      style={{ background: '#F2F0EB', border: '1px solid rgba(0,0,0,0.1)' }}
       className="rounded-lg p-4 shadow-lg font-sans"
     >
       <p className="text-[10px] font-sans tracking-[0.1em] uppercase text-subdued mb-2">

@@ -9,8 +9,8 @@ const config: Config = {
     extend: {
       colors: {
         // Bureau design tokens — verbatim from Figma Foundations page
-        background: '#EDEDED',
-        elevated:   '#FAFAFA',
+        background: '#EBE8E4',
+        elevated:   '#F2F0EB',
         subdued:    '#5E5E5E',
         irn:        '#FF5E6C',
         'sky-blue': 'rgba(255, 94, 108, 0.3)',

@@ -14,8 +14,8 @@ const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false }
 // ── Data ───────────────────────────────────────────────────────────────────────
 
 const COLOURS = [
-  { name: 'Background',  hex: '#EDEDED', usage: 'Page background'                  },
-  { name: 'Elevated',    hex: '#FAFAFA', usage: 'Card surface'                      },
+  { name: 'Background',  hex: '#EBE8E4', usage: 'Page background'                  },
+  { name: 'Elevated',    hex: '#F2F0EB', usage: 'Card surface'                      },
   { name: 'White',       hex: '#FFFFFF', usage: 'Input fields, card inner ring'     },
   { name: 'Black',       hex: '#000000', usage: 'Primary text, active controls'     },
   { name: 'Subdued',     hex: '#5E5E5E', usage: 'Secondary text, labels'            },
@@ -69,7 +69,7 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-elevated rounded-2xl shadow-card ring-2 ring-inset ring-white ${className}`}>
+    <div className={`bg-elevated rounded-2xl shadow-card ${className}`}>
       {children}
     </div>
   )
@@ -173,7 +173,7 @@ export default function ComponentsPage() {
           <div className="space-y-4">
             <Label>Standard card</Label>
             <Card className="p-5">
-              <p className="font-sans text-sm text-black">bg-elevated · rounded-2xl · shadow-card · ring-2 ring-inset ring-white</p>
+              <p className="font-sans text-sm text-black">bg-elevated · rounded-2xl · shadow-card ·</p>
             </Card>
             <Label>Shadow spec</Label>
             <p className="font-mono text-[10px] text-subdued leading-relaxed">
