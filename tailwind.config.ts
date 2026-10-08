@@ -16,7 +16,7 @@ const config: Config = {
         'sky-blue': 'rgba(255, 94, 108, 0.3)',
       },
       boxShadow: {
-        card: '-6px -5px 7.5px rgba(255,255,255,0.4), 6px 5px 14px rgba(0,0,0,0.12)',
+        card: '0 0 0 1px rgba(0,0,0,0.1)', // 1px outside stroke, 10% black
       },
       fontFamily: {
         writer:    ['var(--font-writer)', 'serif'],
