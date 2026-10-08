@@ -16,10 +16,9 @@ export default function LocalePage({ locale }: { locale: LocaleConfig }) {
                 Beta
               </span>
             </div>
-            <p className="font-sans text-[15px] font-normal text-black">Compound Interest Calculator</p>
+            <h1 className="font-sans text-[15px] font-normal text-black">Compound Interest Calculator</h1>
           </div>
 
-          <h1 className="sr-only">Compound Interest Calculator</h1>
           <Calculator defaultInputs={{ currency: locale.currency }} faqs={locale.faqs} />
 
           <div className="pt-4 pb-2 lg:grid lg:grid-cols-12 lg:gap-10">
