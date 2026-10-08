@@ -15,7 +15,7 @@ const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false }
 
 const COLOURS = [
   { name: 'Background',  hex: '#EBE8E4', usage: 'Page background'                  },
-  { name: 'Elevated',    hex: '#F2F0EB', usage: 'Card surface'                      },
+  { name: 'Elevated',    hex: '#F5F5F5', usage: 'Card surface'                      },
   { name: 'White',       hex: '#FFFFFF', usage: 'Input fields, card inner ring'     },
   { name: 'Black',       hex: '#000000', usage: 'Primary text, active controls'     },
   { name: 'Subdued',     hex: '#5E5E5E', usage: 'Secondary text, labels'            },
