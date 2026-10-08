@@ -30,7 +30,6 @@ export default async function Image() {
           fontFamily: 'IBM Plex Sans',
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={iconSrc} width={140} height={140} style={{ borderRadius: 32 }} alt="" />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ fontFamily: 'Mamoth', fontSize: 150, lineHeight: 1 }}>bureau</div>
