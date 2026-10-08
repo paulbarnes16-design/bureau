@@ -15,11 +15,11 @@ export function buildFaqSchema(faqs: FaqItem[]) {
   }
 }
 
-export function buildAppSchema(url: string, description: string, currency: string) {
+export function buildAppSchema(url: string, description: string, currency: string, name = 'Compound Interest Calculator') {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Compound Interest Calculator',
+    name,
     url,
     description,
     applicationCategory: 'FinanceApplication',

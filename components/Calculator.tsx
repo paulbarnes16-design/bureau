@@ -8,6 +8,7 @@ import { calculate, DEFAULT_INPUTS, type CalcInputs, type YearRow, FREQ_LABELS, 
 import { decodeInputs, hasCalcParams, mergeInputsIntoSearch } from '@/lib/url-params'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
+import Card from './Card'
 
 const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
 
@@ -106,21 +107,16 @@ function exportToCsv(rows: YearRow[], inputs: CalcInputs) {
   }
 }
 
-// ── Card wrapper ───────────────────────────────────────────────────────────────
-
-function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`bg-elevated rounded-2xl shadow-card ${className}`}>
-      {children}
-    </div>
-  )
-}
-
 // ── Main Calculator ────────────────────────────────────────────────────────────
 
-export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Partial<CalcInputs>; faqs: import('@/lib/schemas').FaqItem[] }) {
+export default function Calculator({ defaultInputs, faqs, content }: {
+  defaultInputs?: Partial<CalcInputs>
+  faqs: import('@/lib/schemas').FaqItem[]
+  /** Page-specific explanation, shown in a card above the FAQs */
+  content?: React.ReactNode
+}) {
+  const [base] = useState<CalcInputs>(() => ({ ...DEFAULT_INPUTS, ...defaultInputs }))
   const [inputs, setInputs] = useState<CalcInputs>(() => {
-    const base = { ...DEFAULT_INPUTS, ...defaultInputs }
     if (typeof window === 'undefined') return base
     return decodeInputs(window.location.search, base)
   })
@@ -149,11 +145,11 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
 
   useEffect(() => {
     const id = setTimeout(() => {
-      const qs = mergeInputsIntoSearch(window.location.search, inputs)
+      const qs = mergeInputsIntoSearch(window.location.search, inputs, base)
       window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname)
     }, 300)
     return () => clearTimeout(id)
-  }, [inputs])
+  }, [inputs, base])
 
   const patch = (updates: Partial<CalcInputs>) => {
     setInputs((prev) => ({ ...prev, ...updates }))
@@ -573,6 +569,8 @@ export default function Calculator({ defaultInputs, faqs }: { defaultInputs?: Pa
               </div>
             </div>
           </Card>
+
+          {content && <Card className="p-5">{content}</Card>}
 
           {/* FAQs */}
           <Card className="p-5">

@@ -27,7 +27,7 @@ function ChevronDown() {
 
 // ── Primitives ─────────────────────────────────────────────────────────────────
 
-function FieldLabel({ label }: { label: string }) {
+export function FieldLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-1.5 mb-2">
       <span className="text-[13px] font-sans text-black">{label}</span>
@@ -37,7 +37,7 @@ function FieldLabel({ label }: { label: string }) {
 
 const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
 
-function CurrencyInput({
+export function CurrencyInput({
   value,
   onChange,
   symbol,
@@ -83,7 +83,7 @@ function CurrencyInput({
   )
 }
 
-function PercentInput({
+export function PercentInput({
   value,
   onChange,
 }: {
@@ -125,7 +125,7 @@ function PercentInput({
   )
 }
 
-function DurationInput({
+export function DurationInput({
   value,
   onChange,
   unit,

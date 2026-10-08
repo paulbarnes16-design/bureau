@@ -13,16 +13,17 @@ export function hasCalcParams(search: string): boolean {
 }
 
 /** Rewrites the calculator keys in `search` from `inputs`, keeping all other params. */
-export function mergeInputsIntoSearch(search: string, inputs: CalcInputs): string {
+export function mergeInputsIntoSearch(search: string, inputs: CalcInputs, base: CalcInputs = DEFAULT_INPUTS): string {
   const p = new URLSearchParams(search)
   CALC_KEYS.forEach((k) => p.delete(k))
-  new URLSearchParams(encodeInputs(inputs)).forEach((v, k) => p.set(k, v))
+  new URLSearchParams(encodeInputs(inputs, base)).forEach((v, k) => p.set(k, v))
   return p.toString()
 }
 
-export function encodeInputs(inputs: CalcInputs): string {
+/** Encodes only the values that differ from `base` (the page's own defaults). */
+export function encodeInputs(inputs: CalcInputs, base: CalcInputs = DEFAULT_INPUTS): string {
   const p = new URLSearchParams()
-  const d = DEFAULT_INPUTS
+  const d = base
 
   if (inputs.initialInvestment !== d.initialInvestment)   p.set('i',   String(inputs.initialInvestment))
   if (inputs.interestRate !== d.interestRate)             p.set('r',   String(inputs.interestRate))

@@ -42,7 +42,7 @@ export const faqsUK = [
   {
     question: 'Is compound interest tax-free in the UK?',
     answer:
-      'Interest and investment returns are generally taxable in the UK. However, using a Stocks & Shares ISA or Cash ISA shelters up to £20,000 per year (2024/25 allowance) completely from tax. Growth, dividends, and withdrawals inside an ISA are all tax-free, making ISAs the most powerful tool available to UK savers and investors.',
+      'Interest and investment returns are generally taxable in the UK. However, using a Stocks & Shares ISA or Cash ISA shelters up to £20,000 per year (2026/27 allowance) completely from tax. Growth, dividends, and withdrawals inside an ISA are all tax-free, making ISAs the most powerful tool available to UK savers and investors.',
   },
   {
     question: 'How often should interest compound for the best returns?',
