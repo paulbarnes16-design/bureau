@@ -84,3 +84,8 @@ input[type='number']::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/* Display numerals were IBM Plex Sans Condensed 700 — keep that weight in Plex Mono */
+.font-condensed {
+  font-weight: 700;
+}
