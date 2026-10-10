@@ -1,4 +1,3 @@
-import AnswerCard from '@/components/AnswerCard'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -25,9 +24,6 @@ export const metadata = pageMetadata({
   description: DESCRIPTION,
 })
 
-const RATES = [4, 4.5, 5, 5.5]
-const TERMS = [25, 30, 35]
-
 const faqs: FaqItem[] = [
   {
     question: 'How much do I need to earn for a £250,000 mortgage?',
@@ -51,29 +47,9 @@ const faqs: FaqItem[] = [
 export default function Mortgage250kPage() {
   return (
     <SiteShell
-      title="£250,000 Mortgage Repayments"
+      title="What are the monthly repayments on a £250,000 mortgage?"
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Mortgage Calculator'), buildFaqSchema(faqs)]}
-      answer={
-        <AnswerCard
-          question="What are the monthly repayments on a £250,000 mortgage?"
-          figureLabel="Monthly payment at 4.5% over 25 years"
-          figure={gbp(base.monthlyPayment, 2)}
-          sentence={
-            <>
-              A £250,000 repayment mortgage at <strong>4.5%</strong> over <strong>25 years</strong> costs{' '}
-              <strong>{gbp(base.monthlyPayment, 2)}</strong> a month, with <strong>{gbp(base.totalInterest)}</strong> paid in
-              interest over the term.
-            </>
-          }
-          table={{
-            head: ['Rate', ...TERMS.map((t) => `${t} years`)],
-            rows: RATES.map((r) => [`${r}%`, ...TERMS.map((t) => gbp(at(r, t).monthlyPayment))]),
-            highlight: RATES.indexOf(4.5),
-          }}
-          note="Monthly payments on a £250,000 repayment mortgage."
-        />
-      }
     >
       <MortgageCalculator defaults={DEFAULTS} faqs={faqs} />
     </SiteShell>

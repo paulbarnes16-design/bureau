@@ -1,4 +1,3 @@
-import AnswerCard from '@/components/AnswerCard'
 import Calculator from '@/components/Calculator'
 import SiteShell from '@/components/SiteShell'
 import { calculate, DEFAULT_INPUTS, type CalcInputs } from '@/lib/calculate'
@@ -17,9 +16,6 @@ const DEFAULTS: Partial<CalcInputs> = { initialInvestment: 10000, interestRate: 
 
 const grow = (rate: number, years: number, monthly = 0) =>
   gbp(calculate({ ...DEFAULT_INPUTS, ...DEFAULTS, interestRate: rate, durationYears: years, additionalPayments: monthly }).futureValue)
-
-const RATES = [3, 5, 7, 10]
-const YEARS = [5, 10, 20, 30]
 
 const faqs: FaqItem[] = [
   {
@@ -49,30 +45,9 @@ const faqs: FaqItem[] = [
 export default function TenThousandPage() {
   return (
     <SiteShell
-      title="How Much Will £10,000 Grow?"
+      title="How much will £10,000 grow?"
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', '£10,000 Growth Calculator'), buildFaqSchema(faqs)]}
-      answer={
-        <AnswerCard
-          question="How much will £10,000 grow?"
-          figureLabel="In 10 years at 5%"
-          figure={grow(5, 10)}
-          sentence={
-            <>
-              Left to grow at <strong>5%</strong> a year with interest added monthly, <strong>£10,000</strong> becomes{' '}
-              <strong>{grow(5, 10)}</strong> after 10 years and <strong>{grow(5, 20)}</strong> after 20, before tax, fees and
-              inflation.
-            </>
-          }
-          table={{
-            head: ['Rate', ...YEARS.map((y) => `${y} years`)],
-            rows: RATES.map((r) => [`${r}%`, ...YEARS.map((y) => grow(r, y))]),
-            highlight: RATES.indexOf(5),
-            hideOnMobile: [1],
-          }}
-          note="A one-off £10,000 with interest compounded monthly and nothing else added."
-        />
-      }
     >
       <Calculator defaultInputs={DEFAULTS} faqs={faqs} />
     </SiteShell>

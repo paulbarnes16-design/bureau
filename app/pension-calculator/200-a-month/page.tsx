@@ -1,4 +1,3 @@
-import AnswerCard from '@/components/AnswerCard'
 import PensionCalculator from '@/components/PensionCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -20,8 +19,6 @@ export const metadata = pageMetadata({
   title: '£200 a Month Into a Pension: How Much Will I Have? | bureau',
   description: DESCRIPTION,
 })
-
-const AGES = [25, 30, 35, 40, 45, 50]
 
 const faqs: FaqItem[] = [
   {
@@ -46,32 +43,9 @@ const faqs: FaqItem[] = [
 export default function Pension200Page() {
   return (
     <SiteShell
-      title="£200 a Month Into a Pension"
+      title="How much will I have if I pay £200 a month into a pension?"
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Pension Calculator'), buildFaqSchema(faqs)]}
-      answer={
-        <AnswerCard
-          question="How much will I have if I pay £200 a month into a pension?"
-          figureLabel="Pot at 67, starting at 30 (today's money)"
-          figure={gbp(base.pot)}
-          sentence={
-            <>
-              Paying <strong>£200 a month</strong> from <strong>age 30</strong> (£250 with basic-rate tax relief) could grow to
-              about <strong>{gbp(base.pot)}</strong> by 67 in today&apos;s money, assuming 5% growth, 0.5% fees and 2.5% inflation.
-            </>
-          }
-          table={{
-            head: ['Start at', 'Years paying in', 'Pot at 67', 'Income (4%)'],
-            rows: AGES.map((a) => {
-              const r = from(a)
-              return [`${a}`, `${r.years}`, gbp(r.pot), `${gbp(r.monthlyIncomeAt4)}/mo`]
-            }),
-            highlight: AGES.indexOf(30),
-            hideOnMobile: [1],
-          }}
-          note="£200 a month with basic-rate tax relief, in today's money. Not guaranteed."
-        />
-      }
     >
       <PensionCalculator defaults={DEFAULTS} faqs={faqs} />
     </SiteShell>
