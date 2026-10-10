@@ -24,6 +24,9 @@ Bureau is for informational purposes only and is not financial advice.
 - [Mortgage overpayment calculator](https://bureau.money/mortgage-overpayment-calculator): How much interest and time monthly overpayments save on a UK mortgage
 - [Loan and car finance calculator](https://bureau.money/loan-calculator): Monthly repayments and total interest for personal loans and hire purchase car finance, at any APR
 - [Pension calculator](https://bureau.money/pension-calculator): UK pension pot at retirement, with employer contributions, basic-rate tax relief, fees, inflation and the 25% tax-free lump sum
+- [£250,000 mortgage repayments](https://bureau.money/mortgage-calculator/250000-mortgage): Monthly payments on a £250,000 mortgage at different rates and terms
+- [£15,000 loan repayments](https://bureau.money/loan-calculator/15000-loan): Monthly payments and interest on a £15,000 loan over 2 to 7 years
+- [£200 a month into a pension](https://bureau.money/pension-calculator/200-a-month): What £200 a month into a UK pension grows to, by starting age
 - [ISA calculator](https://bureau.money/isa-calculator): How an ISA could grow with regular contributions, with the 2026/27 allowance and the April 2027 cash ISA change
 - [How much will £10,000 grow?](https://bureau.money/how-much-will-10000-grow): What £10,000 grows to at different rates and timeframes, with or without monthly top-ups
 

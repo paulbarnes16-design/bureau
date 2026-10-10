@@ -11,12 +11,15 @@ export default function SiteShell({
   schemas = [],
   currentHref,
   showTools = true,
+  answer,
   children,
 }: {
   title: string
   schemas?: object[]
   currentHref?: string
   showTools?: boolean
+  /** Question pages: an AnswerCard shown above the calculator; it holds the page heading */
+  answer?: React.ReactNode
   children: React.ReactNode
 }) {
   const navHref = navHrefFor(currentHref)
@@ -59,7 +62,7 @@ export default function SiteShell({
             */}
             {showTools && !isMainPage ? (
               <>
-                <h1 className="sr-only">{title}</h1>
+                {!answer && <h1 className="sr-only">{title}</h1>}
                 <p className="lg:hidden font-sans text-[15px] font-normal text-black" aria-hidden>
                   {MAIN_NAV.find((t) => t.href === navHref)?.title}
                 </p>
@@ -69,6 +72,7 @@ export default function SiteShell({
             )}
           </header>
 
+          {answer}
           {children}
 
           <div className="pt-4 pb-2 lg:grid lg:grid-cols-12 lg:gap-10">
