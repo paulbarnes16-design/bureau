@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import MobileMenu from './MobileMenu'
-import { MAIN_NAV, TOOLS } from '@/lib/tools'
+import { MAIN_NAV, navHrefFor, TOOLS } from '@/lib/tools'
 
 /**
  * Page frame shared by the calculator pages: header, page content,
@@ -19,6 +19,8 @@ export default function SiteShell({
   showTools?: boolean
   children: React.ReactNode
 }) {
+  const navHref = navHrefFor(currentHref)
+  const isMainPage = MAIN_NAV.some((t) => t.href === currentHref)
   return (
     <>
       {schemas.map((schema, i) => (
@@ -35,27 +37,26 @@ export default function SiteShell({
                   Beta
                 </span>
               </div>
-              {showTools && <MobileMenu currentHref={currentHref} />}
+              {showTools && <MobileMenu currentHref={navHref} />}
             </div>
-            {/* Mobile shows the page title; desktop shows it as the active nav tab */}
-            <h1 className={`font-sans text-[15px] font-normal text-black ${showTools ? 'lg:sr-only' : ''}`}>{title}</h1>
             {showTools && (
               <nav aria-label="Calculators" className="hidden lg:flex gap-10 mt-1">
                 {MAIN_NAV.map((t) => (
                   <Link
                     key={t.href}
                     href={t.href}
-                    aria-current={t.href === currentHref ? 'page' : undefined}
-                    className={`font-sans text-[15px] transition-colors ${t.href === currentHref ? 'text-black' : 'text-black/40 hover:text-black'}`}
+                    aria-current={t.href === navHref ? 'page' : undefined}
+                    className={`font-sans text-[15px] transition-colors ${t.href === navHref ? 'text-black' : 'text-black/40 hover:text-black'}`}
                   >
                     {t.title}
                   </Link>
                 ))}
-                {!MAIN_NAV.some((t) => t.href === currentHref) && (
-                  <span aria-current="page" className="font-sans text-[15px] text-black">{title}</span>
-                )}
               </nav>
             )}
+            {/* Main calculators are named by the active desktop tab; preset pages also show their own title */}
+            <h1 className={`font-sans text-[15px] font-normal text-black ${showTools && isMainPage ? 'lg:sr-only' : ''} ${showTools && !isMainPage ? 'lg:mt-3' : ''}`}>
+              {title}
+            </h1>
           </header>
 
           {children}

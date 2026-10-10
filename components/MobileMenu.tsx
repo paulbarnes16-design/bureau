@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { TOOLS } from '@/lib/tools'
+import { MAIN_NAV } from '@/lib/tools'
 
 const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
 
@@ -61,7 +61,7 @@ export default function MobileMenu({ currentHref }: { currentHref?: string }) {
                 </button>
               </div>
               <ul>
-                {TOOLS.map((t) => (
+                {MAIN_NAV.map((t) => (
                   <li key={t.href} className="border-b border-black/[0.08] last:border-0">
                     <Link
                       href={t.href}

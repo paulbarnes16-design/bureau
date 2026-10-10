@@ -21,6 +21,9 @@ Bureau is for informational purposes only and is not financial advice.
 - [Compound interest calculator (UK)](https://bureau.money): Calculator in GBP, with FAQs on ISAs, UK tax on interest, the Rule of 72 and choosing a rate of return
 - [Compound interest calculator (US)](https://bureau.money/us): Calculator in USD, with FAQs on 401(k)s, IRAs and US tax on interest
 - [Mortgage calculator](https://bureau.money/mortgage-calculator): UK mortgage repayments, total interest, loan to value and the effect of overpaying, for repayment and interest-only mortgages. Link a pre-filled calculation with `p` (price), `d` (deposit), `r` (rate %), `t` (term in years), `type` (`rep` or `io`) and `op` (monthly overpayment)
+- [Mortgage overpayment calculator](https://bureau.money/mortgage-overpayment-calculator): How much interest and time monthly overpayments save on a UK mortgage
+- [Loan and car finance calculator](https://bureau.money/loan-calculator): Monthly repayments and total interest for personal loans and hire purchase car finance, at any APR
+- [Pension calculator](https://bureau.money/pension-calculator): UK pension pot at retirement, with employer contributions, basic-rate tax relief, fees, inflation and the 25% tax-free lump sum
 - [ISA calculator](https://bureau.money/isa-calculator): How an ISA could grow with regular contributions, with the 2026/27 allowance and the April 2027 cash ISA change
 - [How much will £10,000 grow?](https://bureau.money/how-much-will-10000-grow): What £10,000 grows to at different rates and timeframes, with or without monthly top-ups
 

@@ -53,7 +53,13 @@ function niceTicks(max: number, count = 5): number[] {
   return Array.from({ length: count }, (_, i) => Math.round(i * niceStep))
 }
 
-export default function LineChart({ rows, inflation }: { rows: Row[]; initialValue: number; inflation?: boolean }) {
+export default function LineChart({ rows, inflation, labels }: {
+  rows: Row[]
+  initialValue: number
+  inflation?: boolean
+  /** Override the legend names, e.g. for the pension calculator */
+  labels?: { deposits: string; interest: string }
+}) {
   const { ticks, domainMax, data } = useMemo(() => {
     const data = rows.map(r => ({ ...r, cumulativeInterest: r.balance - r.cumulativeDeposits }))
     const max = Math.max(...data.map(r => r.balance))
@@ -95,8 +101,8 @@ export default function LineChart({ rows, inflation }: { rows: Row[]; initialVal
               </div>
             )}
           />
-          <Bar dataKey="cumulativeDeposits" name="Total deposits" stackId="a" fill="rgba(255, 94, 108, 0.3)" radius={[0, 0, 0, 0]} />
-          <Bar dataKey="cumulativeInterest" name={inflation ? 'Real interest earned' : 'Interest earned'} stackId="a" fill="#FF5E6C" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="cumulativeDeposits" name={labels?.deposits ?? 'Total deposits'} stackId="a" fill="rgba(255, 94, 108, 0.3)" radius={[0, 0, 0, 0]} />
+          <Bar dataKey="cumulativeInterest" name={labels?.interest ?? (inflation ? 'Real interest earned' : 'Interest earned')} stackId="a" fill="#FF5E6C" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

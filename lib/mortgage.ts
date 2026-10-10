@@ -5,9 +5,13 @@ export interface MortgageInputs {
   deposit: number
   rate: number
   termYears: number
+  /** Extra months on top of the years (used for loans) */
+  termMonths: number
   type: MortgageType
   /** Extra paid on top of the monthly payment (repayment mortgages only) */
   overpayment: number
+  /** True when `rate` is an APR (an effective annual rate, as quoted on UK loans) rather than a nominal rate */
+  apr?: boolean
 }
 
 export interface MortgageYear {
@@ -36,24 +40,29 @@ export const MORTGAGE_DEFAULTS: MortgageInputs = {
   deposit: 60000,
   rate: 4.5,
   termYears: 25,
+  termMonths: 0,
   type: 'repayment',
   overpayment: 0,
 }
 
-/** Standard monthly repayment for a loan, with interest charged monthly. */
-export function monthlyRepayment(loan: number, ratePct: number, months: number): number {
+/** Monthly interest rate from a nominal annual rate, or from an APR (effective annual rate). */
+export function monthlyRate(ratePct: number, apr = false): number {
+  return apr ? Math.pow(1 + ratePct / 100, 1 / 12) - 1 : ratePct / 100 / 12
+}
+
+/** Standard monthly repayment for a loan at monthly interest rate `i`. */
+export function monthlyRepayment(loan: number, i: number, months: number): number {
   if (months <= 0 || loan <= 0) return 0
-  const i = ratePct / 100 / 12
   return i === 0 ? loan / months : (loan * i) / (1 - Math.pow(1 + i, -months))
 }
 
 export function calculateMortgage(inputs: MortgageInputs): MortgageResult {
   const { price, deposit, rate, termYears, type } = inputs
   const loan = Math.max(0, price - deposit)
-  const n = Math.round(termYears * 12)
-  const i = rate / 100 / 12
+  const n = Math.round(termYears * 12 + (inputs.termMonths ?? 0))
+  const i = monthlyRate(rate, inputs.apr)
   const interestOnly = type === 'interest-only'
-  const monthlyPayment = interestOnly ? loan * i : monthlyRepayment(loan, rate, n)
+  const monthlyPayment = interestOnly ? loan * i : monthlyRepayment(loan, i, n)
   const overpayment = interestOnly ? 0 : inputs.overpayment
 
   let balance = loan
@@ -105,7 +114,7 @@ export function calculateMortgage(inputs: MortgageInputs): MortgageResult {
 
 // ── URL params ───────────────────────────────────────────────────────────────
 
-const KEYS = { price: 'p', deposit: 'd', rate: 'r', termYears: 't', type: 'type', overpayment: 'op' } as const
+const KEYS = { price: 'p', deposit: 'd', rate: 'r', termYears: 't', termMonths: 'tm', type: 'type', overpayment: 'op' } as const
 
 export function hasMortgageParams(search: string): boolean {
   const p = new URLSearchParams(search)
@@ -123,8 +132,10 @@ export function decodeMortgage(search: string, base: MortgageInputs): MortgageIn
     deposit: num(KEYS.deposit, base.deposit),
     rate: num(KEYS.rate, base.rate),
     termYears: num(KEYS.termYears, base.termYears),
+    termMonths: num(KEYS.termMonths, base.termMonths),
     type: p.get(KEYS.type) === 'io' ? 'interest-only' : p.get(KEYS.type) === 'rep' ? 'repayment' : base.type,
     overpayment: num(KEYS.overpayment, base.overpayment),
+    apr: base.apr,
   }
 }
 
@@ -136,7 +147,10 @@ export function mergeMortgageIntoSearch(search: string, inputs: MortgageInputs, 
   if (inputs.deposit !== base.deposit) p.set(KEYS.deposit, String(inputs.deposit))
   if (inputs.rate !== base.rate) p.set(KEYS.rate, String(inputs.rate))
   if (inputs.termYears !== base.termYears) p.set(KEYS.termYears, String(inputs.termYears))
+  if (inputs.termMonths !== base.termMonths) p.set(KEYS.termMonths, String(inputs.termMonths))
   if (inputs.type !== base.type) p.set(KEYS.type, inputs.type === 'interest-only' ? 'io' : 'rep')
   if (inputs.overpayment !== base.overpayment) p.set(KEYS.overpayment, String(inputs.overpayment))
   return p.toString()
 }
+
+export const mortgageCodec = { has: hasMortgageParams, decode: decodeMortgage, merge: mergeMortgageIntoSearch }

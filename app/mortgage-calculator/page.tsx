@@ -58,7 +58,7 @@ export default function MortgageCalculatorPage() {
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Mortgage Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator faqs={faqs} />
+      <MortgageCalculator defaults={D} faqs={faqs} />
     </SiteShell>
   )
 }
