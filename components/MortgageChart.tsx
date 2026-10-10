@@ -2,19 +2,19 @@
 
 import { useMemo } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import type { MortgageYear } from '@/lib/mortgage'
 
 interface TooltipProps {
+  prefix?: string
   active?: boolean
   payload?: Array<{ value: number; name: string; color: string }>
   label?: number
 }
 
-function CustomTooltip({ active, payload, label }: TooltipProps) {
+function CustomTooltip({ prefix = 'Year ', active, payload, label }: TooltipProps) {
   if (!active || !payload?.length) return null
   return (
     <div className="bg-white border border-black/10 rounded-xl p-3 shadow-md text-sm font-sans">
-      <p className="font-bold text-black mb-1.5">Year {label}</p>
+      <p className="font-bold text-black mb-1.5">{prefix}{label}</p>
       {payload.map((p) => (
         <div key={p.name} className="flex items-center justify-between gap-6">
           <span style={{ color: p.color }}>{p.name}</span>
@@ -41,13 +41,37 @@ function niceTicks(max: number, count = 5): number[] {
   return Array.from({ length: count }, (_, i) => Math.round(i * niceStep))
 }
 
-/** Cumulative principal and interest paid by the end of each year. */
-export default function MortgageChart({ rows }: { rows: MortgageYear[] }) {
+export interface Series {
+  key: string
+  name: string
+  fill: string
+}
+
+const MORTGAGE_SERIES: Series[] = [
+  { key: 'cumulativePrincipal', name: 'Loan repaid', fill: 'rgba(255, 94, 108, 0.3)' },
+  { key: 'cumulativeInterest', name: 'Interest paid', fill: '#FF5E6C' },
+]
+
+/**
+ * Stacked bars by year. Defaults to cumulative principal and interest for repayment
+ * calculators; pass `series` and `xKey` to chart other data.
+ */
+export default function MortgageChart({
+  rows,
+  series = MORTGAGE_SERIES,
+  xKey = 'year',
+  tooltipPrefix = 'Year ',
+}: {
+  rows: object[]
+  series?: Series[]
+  xKey?: string
+  tooltipPrefix?: string
+}) {
   const { ticks, domainMax } = useMemo(() => {
-    const max = Math.max(...rows.map((r) => r.cumulativeInterest + r.cumulativePrincipal))
+    const max = Math.max(...rows.map((r) => series.reduce((sum, s) => sum + ((r as Record<string, number>)[s.key] ?? 0), 0)))
     const ticks = niceTicks(max)
     return { ticks, domainMax: ticks[ticks.length - 1] ?? max }
-  }, [rows])
+  }, [rows, series])
 
   return (
     <div className="w-full h-56 md:h-64">
@@ -55,7 +79,7 @@ export default function MortgageChart({ rows }: { rows: MortgageYear[] }) {
         <BarChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }} barCategoryGap="20%">
           <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
-            dataKey="year"
+            dataKey={xKey}
             tick={{ fontSize: 11, fill: '#5E5E5E', fontFamily: 'var(--font-pangram-sans)' }}
             axisLine={false}
             tickLine={false}
@@ -69,7 +93,7 @@ export default function MortgageChart({ rows }: { rows: MortgageYear[] }) {
             ticks={ticks}
             domain={[0, domainMax]}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.05)' }} />
+          <Tooltip content={<CustomTooltip prefix={tooltipPrefix} />} cursor={{ fill: 'rgba(0,0,0,0.05)' }} />
           <Legend
             wrapperStyle={{ paddingTop: 12 }}
             content={({ payload }) => (
@@ -83,8 +107,16 @@ export default function MortgageChart({ rows }: { rows: MortgageYear[] }) {
               </div>
             )}
           />
-          <Bar dataKey="cumulativePrincipal" name="Loan repaid" stackId="a" fill="rgba(255, 94, 108, 0.3)" />
-          <Bar dataKey="cumulativeInterest" name="Interest paid" stackId="a" fill="#FF5E6C" radius={[3, 3, 0, 0]} />
+          {series.map((s, i) => (
+            <Bar
+              key={s.key}
+              dataKey={s.key}
+              name={s.name}
+              stackId="a"
+              fill={s.fill}
+              radius={i === series.length - 1 ? [3, 3, 0, 0] : undefined}
+            />
+          ))}
         </BarChart>
       </ResponsiveContainer>
     </div>

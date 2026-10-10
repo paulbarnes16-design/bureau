@@ -14,6 +14,7 @@ const PAGES: { path: string; updated: string; priority: number }[] = [
   { path: '/mortgage-calculator/250000-mortgage', updated: '2026-10-10', priority: 0.7 },
   { path: '/loan-calculator/15000-loan', updated: '2026-10-10', priority: 0.7 },
   { path: '/pension-calculator/200-a-month', updated: '2026-10-10', priority: 0.7 },
+  { path: '/pension-calculator/500000-pot', updated: '2026-10-10', priority: 0.7 },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

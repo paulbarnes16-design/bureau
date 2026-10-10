@@ -21,6 +21,7 @@ export const TOOLS: { href: string; title: string; parent?: string }[] = [
   { href: '/mortgage-calculator/250000-mortgage', title: '£250,000 mortgage repayments', parent: '/mortgage-calculator' },
   { href: '/loan-calculator/15000-loan', title: '£15,000 loan repayments', parent: '/loan-calculator' },
   { href: '/pension-calculator/200-a-month', title: '£200 a month into a pension', parent: '/pension-calculator' },
+  { href: '/pension-calculator/500000-pot', title: 'Income from a £500,000 pension', parent: '/pension-calculator' },
 ]
 
 /** The main calculator a page belongs to, for highlighting in the nav. */

@@ -3,7 +3,11 @@ import { calculate, CURRENCIES, DEFAULT_INPUTS, type CalcInputs, type YearRow } 
 /** Lump Sum Allowance: the most tax-free cash you can take from pensions (from 6 April 2024). */
 export const LUMP_SUM_ALLOWANCE = 268275
 
+export type PensionMode = 'saving' | 'income'
+
 export interface PensionInputs {
+  /** 'saving': grow a pot until retirement. 'income': turn a pot into a retirement income */
+  mode: PensionMode
   pot: number
   age: number
   retirementAge: number
@@ -16,9 +20,16 @@ export interface PensionInputs {
   fee: number
   adjustForInflation: boolean
   inflationRate: number
+  /** Income mode: the pot to draw an income from (filled from the saving projection when switching modes) */
+  incomePot: number
+  /** Income mode: draw an income until this age */
+  untilAge: number
+  /** Income mode: take 25% tax-free cash first */
+  takeLumpSum: boolean
 }
 
 export const PENSION_DEFAULTS: PensionInputs = {
+  mode: 'saving',
   pot: 25000,
   age: 35,
   retirementAge: 67,
@@ -29,6 +40,9 @@ export const PENSION_DEFAULTS: PensionInputs = {
   fee: 0.5,
   adjustForInflation: true,
   inflationRate: 2.5,
+  incomePot: 250000,
+  untilAge: 95,
+  takeLumpSum: false,
 }
 
 export interface PensionResult {
@@ -88,10 +102,10 @@ export function calculatePension(inputs: PensionInputs): PensionResult {
 
 const NUM_KEYS: [keyof PensionInputs, string][] = [
   ['pot', 'pot'], ['age', 'age'], ['retirementAge', 'ra'], ['personal', 'pc'], ['employer', 'ec'],
-  ['growth', 'g'], ['fee', 'f'], ['inflationRate', 'ir'],
+  ['growth', 'g'], ['fee', 'f'], ['inflationRate', 'ir'], ['untilAge', 'ua'], ['incomePot', 'ip'],
 ]
-const BOOL_KEYS: [keyof PensionInputs, string][] = [['taxRelief', 'tr'], ['adjustForInflation', 'inf']]
-const ALL_KEYS = [...NUM_KEYS, ...BOOL_KEYS].map(([, k]) => k)
+const BOOL_KEYS: [keyof PensionInputs, string][] = [['taxRelief', 'tr'], ['adjustForInflation', 'inf'], ['takeLumpSum', 'tl']]
+const ALL_KEYS = [...NUM_KEYS, ...BOOL_KEYS].map(([, k]) => k).concat('mode')
 
 export const pensionCodec = {
   has: (search: string) => {
@@ -100,19 +114,22 @@ export const pensionCodec = {
   },
   decode: (search: string, base: PensionInputs): PensionInputs => {
     const p = new URLSearchParams(search)
-    const out = { ...base } as Record<keyof PensionInputs, number | boolean>
+    const out = { ...base } as unknown as Record<keyof PensionInputs, number | boolean>
     for (const [field, k] of NUM_KEYS) {
       const v = Number(p.get(k))
       if (p.has(k) && !isNaN(v) && v >= 0) out[field] = v
     }
     for (const [field, k] of BOOL_KEYS) if (p.has(k)) out[field] = p.get(k) === '1'
-    return out as unknown as PensionInputs
+    const result = out as unknown as PensionInputs
+    if (p.get('mode') === 'income' || p.get('mode') === 'saving') result.mode = p.get('mode') as PensionMode
+    return result
   },
   merge: (search: string, inputs: PensionInputs, base: PensionInputs) => {
     const p = new URLSearchParams(search)
     ALL_KEYS.forEach((k) => p.delete(k))
     for (const [field, k] of NUM_KEYS) if (inputs[field] !== base[field]) p.set(k, String(inputs[field]))
     for (const [field, k] of BOOL_KEYS) if (inputs[field] !== base[field]) p.set(k, inputs[field] ? '1' : '0')
+    if (inputs.mode !== base.mode) p.set('mode', inputs.mode)
     return p.toString()
   },
 }
