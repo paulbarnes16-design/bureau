@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
@@ -74,7 +74,14 @@ function AgeTable({ head, rows, onExport }: { head: string[]; rows: (string | nu
 }
 
 export default function PensionCalculator({ defaults, faqs }: { defaults: PensionInputs; faqs: FaqItem[] }) {
-  const { inputs, patch, hasInput, engage } = useToolState(defaults, pensionCodec, 'pension')
+  const { inputs, patch: patchInputs, hasInput, engage } = useToolState(defaults, pensionCodec, 'pension')
+  // Tracks whether the user has changed anything in Saving mode, so switching to income mode
+  // only replaces the income pot with the projection when that projection reflects their inputs
+  const savingEdited = useRef(false)
+  const patch = (updates: Partial<PensionInputs>) => {
+    if (inputs.mode === 'saving' && !('mode' in updates)) savingEdited.current = true
+    patchInputs(updates)
+  }
   const income = inputs.mode === 'income'
   const saving = useMemo(() => calculatePension(inputs), [inputs])
   const drawdown = useMemo(
@@ -116,8 +123,13 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
         options={MODE_OPTIONS}
         value={inputs.mode}
         onChange={(v) =>
-          // Carry the projected pot over, so income mode shows what your savings would pay
-          patch(v === 'income' && inputs.mode === 'saving' ? { mode: v, incomePot: Math.round(saving.pot) } : { mode: v })
+          // Carry the projected pot over, so income mode shows what your savings would pay. Pages that
+          // start in income mode (e.g. £500k) keep their pot unless the user has edited Saving mode.
+          patch(
+            v === 'income' && inputs.mode === 'saving' && (defaults.mode === 'saving' || savingEdited.current)
+              ? { mode: v, incomePot: Math.round(saving.pot) }
+              : { mode: v },
+          )
         }
       />
       {income ? (
