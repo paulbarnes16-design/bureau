@@ -53,10 +53,20 @@ export default function SiteShell({
                 ))}
               </nav>
             )}
-            {/* Main calculators are named by the active desktop tab; preset pages also show their own title */}
-            <h1 className={`font-sans text-[15px] font-normal text-black ${showTools && isMainPage ? 'lg:sr-only' : ''} ${showTools && !isMainPage ? 'lg:mt-3' : ''}`}>
-              {title}
-            </h1>
+            {/*
+              Preset pages (e.g. ISA) look exactly like their parent calculator: the header shows the
+              parent's name, and the page's own title is kept only as the heading search engines read.
+            */}
+            {showTools && !isMainPage ? (
+              <>
+                <h1 className="sr-only">{title}</h1>
+                <p className="lg:hidden font-sans text-[15px] font-normal text-black" aria-hidden>
+                  {MAIN_NAV.find((t) => t.href === navHref)?.title}
+                </p>
+              </>
+            ) : (
+              <h1 className={`font-sans text-[15px] font-normal text-black ${showTools ? 'lg:sr-only' : ''}`}>{title}</h1>
+            )}
           </header>
 
           {children}
