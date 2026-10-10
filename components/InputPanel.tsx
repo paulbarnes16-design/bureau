@@ -222,6 +222,49 @@ function Segmented({ options, value, onChange }: { options: Freq[]; value: Freq;
   return <SegmentedControl options={options.map((o) => ({ value: o, label: FREQ_LABELS[o] }))} value={value} onChange={onChange} />
 }
 
+// ── Input tabs ─────────────────────────────────────────────────────────────────
+
+/** Text tabs with a sliding underline, for switching between views of a calculator's inputs. */
+export function InputTabs<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: { value: T; label: string }[]
+  value: T
+  onChange: (v: T) => void
+}) {
+  const index = Math.max(0, options.findIndex((o) => o.value === value))
+  return (
+    <div>
+      <div className="flex" role="tablist">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            role="tab"
+            aria-selected={value === o.value}
+            onClick={() => onChange(o.value)}
+            className={`flex-1 pb-3 text-[13px] font-sans text-center outline-none transition-colors ${
+              value === o.value ? 'text-black font-bold' : 'text-black/40'
+            }`}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+      <div className="relative h-[2px] rounded-full bg-black/[0.08]">
+        <motion.div
+          className="absolute top-0 h-full rounded-full bg-irn"
+          style={{ width: `${100 / options.length}%` }}
+          animate={{ left: `${(index * 100) / options.length}%` }}
+          transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+        />
+      </div>
+    </div>
+  )
+}
+
 // ── Toggle ─────────────────────────────────────────────────────────────────────
 
 export function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -286,27 +329,11 @@ export default function InputPanel({ values, onChange, onClose, showActions, bar
 
       {/* Basic / Advanced tabs */}
       <div className={`${bare ? 'mt-0' : 'px-5 mt-4'}`}>
-          <div className="flex">
-            {(['basic', 'advanced'] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setInputTab(t)}
-                className={`flex-1 pb-3 text-[13px] font-sans capitalize text-center outline-none transition-colors ${
-                  inputTab === t ? 'text-black font-bold' : 'text-black/40'
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div className="relative h-[2px] rounded-full bg-black/[0.08]">
-            <motion.div
-              className="absolute top-0 h-full w-1/2 rounded-full bg-irn"
-              animate={{ left: inputTab === 'basic' ? '0%' : '50%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 400 }}
-            />
-          </div>
+          <InputTabs
+            options={[{ value: 'basic', label: 'Basic' }, { value: 'advanced', label: 'Advanced' }]}
+            value={inputTab}
+            onChange={setInputTab}
+          />
       </div>
 
       <div className={`${bare ? '' : 'px-5 pb-5'} space-y-5 mt-5`}>

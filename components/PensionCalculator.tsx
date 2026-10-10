@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
 import { useToolState } from './useToolState'
-import { CurrencyInput, DurationInput, FieldLabel, PercentInput, SegmentedControl, Toggle } from './InputPanel'
+import { CurrencyInput, DurationInput, FieldLabel, InputTabs, PercentInput, Toggle } from './InputPanel'
 import { calculatePension, pensionCodec, type PensionInputs, type PensionMode } from '@/lib/pension'
 import { calculateDrawdown, type DrawdownYear } from '@/lib/drawdown'
 import type { YearRow } from '@/lib/calculate'
@@ -112,7 +112,9 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
 
   const fields = () => (
     <div className="space-y-5">
-      <SegmentedControl options={MODE_OPTIONS} value={inputs.mode} onChange={(v) => patch({ mode: v })} />
+      <div className="-mt-1">
+        <InputTabs options={MODE_OPTIONS} value={inputs.mode} onChange={(v) => patch({ mode: v })} />
+      </div>
       {income ? (
         <>
           <div>
