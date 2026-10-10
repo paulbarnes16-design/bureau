@@ -35,7 +35,9 @@ export interface DrawdownResult {
 }
 
 /** Monthly growth after fees, and monthly inflation, as rates. */
-function monthlyRates(inputs: DrawdownInputs) {
+function monthlyRates(raw: DrawdownInputs) {
+  const pct = (v: number) => Math.min(100, Math.max(0, v))
+  const inputs = { ...raw, growth: pct(raw.growth), fee: pct(raw.fee), inflationRate: pct(raw.inflationRate) }
   const growth = (1 + inputs.growth / 100 / 12) * (1 - inputs.fee / 100 / 12) - 1
   const inflation = inputs.adjustForInflation ? Math.pow(1 + inputs.inflationRate / 100, 1 / 12) - 1 : 0
   return { growth, inflation }
@@ -44,7 +46,8 @@ function monthlyRates(inputs: DrawdownInputs) {
 export function calculateDrawdown(inputs: DrawdownInputs): DrawdownResult {
   const lumpSum = inputs.takeLumpSum ? Math.min(inputs.pot * 0.25, LUMP_SUM_ALLOWANCE) : 0
   const drawdownPot = inputs.pot - lumpSum
-  const years = Math.max(0, inputs.untilAge - inputs.startAge)
+  // Capped so a typed or linked value can't make the loop run forever
+  const years = Math.min(100, Math.max(0, inputs.untilAge - inputs.startAge))
   const n = years * 12
   const { growth, inflation } = monthlyRates(inputs)
 

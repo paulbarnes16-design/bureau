@@ -137,11 +137,11 @@ export default function MortgageCalculator({
         <FieldLabel label={isLoan ? 'Loan term' : 'Mortgage term'} />
         {isLoan ? (
           <div className="grid grid-cols-2 gap-2">
-            <DurationInput value={inputs.termYears} onChange={(v) => patch({ termYears: v })} unit="years" />
+            <DurationInput value={inputs.termYears} onChange={(v) => patch({ termYears: v })} unit="years" max={50} />
             <DurationInput value={inputs.termMonths} onChange={(v) => patch({ termMonths: Math.min(11, v) })} unit="months" />
           </div>
         ) : (
-          <DurationInput value={inputs.termYears} onChange={(v) => patch({ termYears: Math.max(1, v) })} unit="years" />
+          <DurationInput value={inputs.termYears} onChange={(v) => patch({ termYears: Math.max(1, v) })} unit="years" max={50} />
         )}
       </div>
       {!isLoan && (
@@ -196,7 +196,11 @@ export default function MortgageCalculator({
     </>
   )
 
-  const summary = isLoan ? (
+  const summary = result.loan === 0 ? (
+    <>{isLoan ? 'Your deposit covers the full amount, so there\'s nothing to borrow.' : 'Your deposit covers the full price, so there\'s nothing to borrow.'}</>
+  ) : termMonths === 0 ? (
+    <>Enter a {isLoan ? 'loan' : 'mortgage'} term to see your repayments.</>
+  ) : isLoan ? (
     <>
       Borrowing <strong>{money(result.loan)}</strong> over <strong>{longDuration(termMonths)}</strong> at{' '}
       <strong>{inputs.rate}% APR</strong>, you&apos;ll pay <strong>{money(result.monthlyPayment)}</strong> a month and{' '}

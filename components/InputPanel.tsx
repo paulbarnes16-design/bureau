@@ -86,15 +86,18 @@ export function CurrencyInput({
 export function PercentInput({
   value,
   onChange,
+  max = 100,
 }: {
   value: number
   onChange: (v: number) => void
+  /** Rates above this are capped, so the maths can't overflow */
+  max?: number
 }) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
   const handleArrow = (dir: 1 | -1) => {
-    const next = Math.round(Math.max(0, value + dir * 0.1) * 10) / 10
+    const next = Math.round(Math.min(max, Math.max(0, value + dir * 0.1)) * 10) / 10
     onChange(next)
     setDraft(String(next))
     setEditing(true)
@@ -111,7 +114,7 @@ export function PercentInput({
         onBlur={() => {
           setEditing(false)
           const n = Number(draft)
-          if (!isNaN(n) && n >= 0) onChange(n)
+          if (!isNaN(n) && n >= 0) onChange(Math.min(n, max))
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') e.currentTarget.blur()
@@ -129,11 +132,15 @@ export function DurationInput({
   value,
   onChange,
   unit,
+  max = 100,
 }: {
   value: number
   onChange: (v: number) => void
   unit: 'years' | 'months'
+  /** Largest number of years accepted (months are always 0–11) */
+  max?: number
 }) {
+  const limit = unit === 'months' ? 11 : max
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState('')
 
@@ -153,14 +160,14 @@ export function DurationInput({
         onBlur={() => {
           setEditing(false)
           const n = parseInt(draft, 10)
-          if (!isNaN(n) && n >= 0) onChange(unit === 'months' ? Math.min(n, 11) : n)
+          if (!isNaN(n) && n >= 0) onChange(Math.min(n, limit))
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') e.currentTarget.blur()
           if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault()
             const dir = e.key === 'ArrowUp' ? 1 : -1
-            const next = Math.max(0, unit === 'months' ? Math.min(value + dir, 11) : value + dir)
+            const next = Math.max(0, Math.min(value + dir, limit))
             onChange(next)
             setDraft(String(next))
             setEditing(true)

@@ -87,7 +87,17 @@ export const DEFAULT_INPUTS: CalcInputs = {
   taxRate: 0,
 }
 
-export function calculate(inputs: CalcInputs): CalcResult {
+export function calculate(raw: CalcInputs): CalcResult {
+  // Rates are capped at 0–100% so a typed or linked value can't overflow the maths
+  const pct = (v: number) => Math.min(100, Math.max(0, v))
+  const inputs: CalcInputs = {
+    ...raw,
+    interestRate: pct(raw.interestRate),
+    inflationRate: pct(raw.inflationRate),
+    managementFee: pct(raw.managementFee),
+    depositGrowthRate: pct(raw.depositGrowthRate),
+    taxRate: pct(raw.taxRate),
+  }
   const {
     initialInvestment, interestRate, compoundFreq,
     durationYears, durationMonths,
@@ -103,7 +113,8 @@ export function calculate(inputs: CalcInputs): CalcResult {
   const wpy = FREQ_PER_YEAR[withdrawalsFreq]
   const rPeriod = interestRate / 100 / n
   const feePeriod = managementFee / 100 / n
-  const totalYears = durationYears + durationMonths / 12
+  // Capped so a typed or linked value can't make the loop run forever
+  const totalYears = Math.min(100, durationYears + durationMonths / 12)
   const totalPeriods = Math.round(n * totalYears)
   const wdPerPeriod = withdrawals * wpy / n
   const growthRate = depositGrowthRate / 100

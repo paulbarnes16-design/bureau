@@ -60,13 +60,14 @@ export interface PensionResult {
 }
 
 export function calculatePension(inputs: PensionInputs): PensionResult {
-  const years = Math.max(0, inputs.retirementAge - inputs.age)
+  // Capped so a typed or linked value can't make the projection run forever
+  const years = Math.min(100, Math.max(0, inputs.retirementAge - inputs.age))
   const personalGross = inputs.taxRelief ? inputs.personal / 0.8 : inputs.personal
   const engine = (adjustForInflation: boolean): CalcInputs => ({
     ...DEFAULT_INPUTS,
     currency: CURRENCIES[0],
     initialInvestment: inputs.pot,
-    interestRate: inputs.growth,
+    interestRate: inputs.growth, // capped at 100% inside calculate()
     compoundFreq: 'monthly',
     durationYears: years,
     durationMonths: 0,

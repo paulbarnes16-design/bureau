@@ -16,17 +16,24 @@ const LineChart = dynamic(() => import('./LineChart'), { ssr: false })
 // ── Animated number ───────────────────────────────────────────────────────────
 
 function AnimatedValue({ value, symbol }: { value: number; symbol: string }) {
-  const motionValue = useMotionValue(value)
+  const motionValue = useMotionValue(Number.isFinite(value) ? value : 0)
   const display = useTransform(motionValue, (v) => {
     const abs = Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     return v < 0 ? `-${symbol}${abs}` : `${symbol}${abs}`
   })
 
   useEffect(() => {
+    if (!Number.isFinite(value)) return
+    // If a previous value was invalid, jump straight to the new one rather than animating from NaN
+    if (!Number.isFinite(motionValue.get())) {
+      motionValue.set(value)
+      return
+    }
     const controls = animate(motionValue, value, { duration: 0.35, ease: 'easeOut' })
     return controls.stop
   }, [motionValue, value])
 
+  if (!Number.isFinite(value)) return <span>—</span>
   return <motion.span>{display}</motion.span>
 }
 

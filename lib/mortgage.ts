@@ -59,8 +59,9 @@ export function monthlyRepayment(loan: number, i: number, months: number): numbe
 export function calculateMortgage(inputs: MortgageInputs): MortgageResult {
   const { price, deposit, rate, termYears, type } = inputs
   const loan = Math.max(0, price - deposit)
-  const n = Math.round(termYears * 12 + (inputs.termMonths ?? 0))
-  const i = monthlyRate(rate, inputs.apr)
+  // Terms are capped at 50 years so a typed or linked value can't make the loop run forever
+  const n = Math.min(600, Math.round(termYears * 12 + (inputs.termMonths ?? 0)))
+  const i = monthlyRate(Math.min(100, Math.max(0, rate)), inputs.apr)
   const interestOnly = type === 'interest-only'
   const monthlyPayment = interestOnly ? loan * i : monthlyRepayment(loan, i, n)
   const overpayment = interestOnly ? 0 : inputs.overpayment

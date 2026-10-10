@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
@@ -74,14 +74,7 @@ function AgeTable({ head, rows, onExport }: { head: string[]; rows: (string | nu
 }
 
 export default function PensionCalculator({ defaults, faqs }: { defaults: PensionInputs; faqs: FaqItem[] }) {
-  const { inputs, patch: patchInputs, hasInput, engage } = useToolState(defaults, pensionCodec, 'pension')
-  // Tracks whether the user has changed anything in Saving mode, so switching to income mode
-  // only replaces the income pot with the projection when that projection reflects their inputs
-  const savingEdited = useRef(false)
-  const patch = (updates: Partial<PensionInputs>) => {
-    if (inputs.mode === 'saving' && !('mode' in updates)) savingEdited.current = true
-    patchInputs(updates)
-  }
+  const { inputs, patch, hasInput, engage } = useToolState(defaults, pensionCodec, 'pension')
   const income = inputs.mode === 'income'
   const saving = useMemo(() => calculatePension(inputs), [inputs])
   const drawdown = useMemo(
@@ -119,24 +112,22 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
 
   const fields = () => (
     <div className="space-y-5">
-      <SegmentedControl
-        options={MODE_OPTIONS}
-        value={inputs.mode}
-        onChange={(v) =>
-          // Carry the projected pot over, so income mode shows what your savings would pay. Pages that
-          // start in income mode (e.g. £500k) keep their pot unless the user has edited Saving mode.
-          patch(
-            v === 'income' && inputs.mode === 'saving' && (defaults.mode === 'saving' || savingEdited.current)
-              ? { mode: v, incomePot: Math.round(saving.pot) }
-              : { mode: v },
-          )
-        }
-      />
+      <SegmentedControl options={MODE_OPTIONS} value={inputs.mode} onChange={(v) => patch({ mode: v })} />
       {income ? (
         <>
           <div>
             <FieldLabel label="Pension pot at retirement" />
             <CurrencyInput value={inputs.incomePot} onChange={(v) => patch({ incomePot: v })} symbol="£" step={10000} />
+            {/* Only offered where Saving mode is the starting point, so the projection means something */}
+            {defaults.mode === 'saving' && Math.round(saving.pot) !== inputs.incomePot && (
+              <button
+                type="button"
+                onClick={() => patch({ incomePot: Math.round(saving.pot) })}
+                className="text-[11px] font-sans text-black underline mt-1.5 hover:text-irn transition-colors"
+              >
+                Use my projected pot ({money(saving.pot)})
+              </button>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <div>
@@ -154,7 +145,7 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
             </div>
             <div>
               <FieldLabel label="Make it last until" />
-              <DurationInput value={inputs.untilAge} onChange={(v) => patch({ untilAge: v })} unit="years" />
+              <DurationInput value={inputs.untilAge} onChange={(v) => patch({ untilAge: v })} unit="years" max={120} />
             </div>
           </div>
           <div>
