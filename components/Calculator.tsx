@@ -249,7 +249,7 @@ export default function Calculator({ defaultInputs, faqs }: {
                 }}
               >
                 <div style={{ height: carouselHeight ?? 'auto', overflow: 'hidden' }}>
-                <AnimatePresence mode="wait" custom={swipeDir}>
+                <AnimatePresence mode="wait" custom={swipeDir} initial={false}>
                   {resultPage === 0 && (
                     <motion.div key="p0" ref={page0Ref}
                       custom={swipeDir}
@@ -332,6 +332,8 @@ export default function Calculator({ defaultInputs, faqs }: {
                   <button
                     key={i}
                     onClick={() => goToPage(i)}
+                    aria-label={`Show results page ${i + 1} of 3`}
+                    aria-current={i === resultPage ? 'true' : undefined}
                     className={`w-1.5 h-1.5 rounded-full transition-colors ${i === resultPage ? 'bg-black' : 'bg-black/20'}`}
                   />
                 ))}

@@ -1,19 +1,10 @@
 import type { Metadata } from 'next'
-import { IBM_Plex_Sans, IBM_Plex_Sans_Condensed, JetBrains_Mono } from 'next/font/google'
+import { IBM_Plex_Sans, IBM_Plex_Sans_Condensed } from 'next/font/google'
 import localFont from 'next/font/local'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
-
-const ppWriter = localFont({
-  src: [
-    { path: '../fonts/PPWriter-UltraboldItalic.woff2' },
-    { path: '../fonts/PPWriter-UltraboldItalic.woff' },
-  ],
-  variable: '--font-writer',
-  display: 'swap',
-})
 
 const mamoth = localFont({
   src: '../fonts/Mamoth.otf',
@@ -35,15 +26,10 @@ const ibmPlexSansCondensed = IBM_Plex_Sans_Condensed({
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bureau.money'),
-  title: 'Compound Interest Calculator | bureau',
+  title: 'Compound Interest Calculator | bureau.money',
   description:
     'Free compound interest calculator. Enter your starting balance, interest rate, and monthly contributions to see exactly how your savings or investments grow over time.',
   keywords: [
@@ -63,7 +49,7 @@ export const metadata: Metadata = {
     google: 'reSQj501BxtbXf1YmfQFjz8F-PAJ1BiS0KZiTeEkx6c',
   },
   openGraph: {
-    title: 'Compound Interest Calculator | bureau',
+    title: 'Compound Interest Calculator | bureau.money',
     description:
       'Free compound interest calculator. See exactly how your savings and investments grow over time.',
     type: 'website',
@@ -73,7 +59,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Compound Interest Calculator | bureau',
+    title: 'Compound Interest Calculator | bureau.money',
     description: 'Free compound interest calculator. See how your money grows over time.',
   },
   robots: {
@@ -90,8 +76,8 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      className={`${ppWriter.variable} ${mamoth.variable} ${ibmPlexSans.variable} ${ibmPlexSansCondensed.variable} ${jetbrainsMono.variable}`}
+      lang="en-GB"
+      className={`${mamoth.variable} ${ibmPlexSans.variable} ${ibmPlexSansCondensed.variable}`}
     >
       <body className="font-sans antialiased">
         {children}

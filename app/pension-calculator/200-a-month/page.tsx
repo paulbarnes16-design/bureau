@@ -16,7 +16,7 @@ const DESCRIPTION = `Paying £200 a month into a pension from 30 could grow to a
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: '£200 a Month Into a Pension: How Much Will I Have? | bureau',
+  title: '£200 a Month Into a Pension: What Will I Have? | bureau.money',
   description: DESCRIPTION,
 })
 

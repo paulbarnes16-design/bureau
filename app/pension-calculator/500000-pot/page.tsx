@@ -33,7 +33,7 @@ const DESCRIPTION = `A £500,000 pension pot could pay about ${gbp(main.monthlyI
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: 'How Much Income Will a £500k Pension Pot Give Me? | bureau',
+  title: 'How Much Will a £500k Pension Give Me? | bureau.money',
   description: DESCRIPTION,
 })
 

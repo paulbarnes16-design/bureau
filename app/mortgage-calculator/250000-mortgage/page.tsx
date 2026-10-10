@@ -20,7 +20,7 @@ const DESCRIPTION = `A £250,000 repayment mortgage at 4.5% over 25 years costs 
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: '£250,000 Mortgage: Monthly Repayments | bureau',
+  title: '£250,000 Mortgage: Monthly Repayments | bureau.money',
   description: DESCRIPTION,
 })
 

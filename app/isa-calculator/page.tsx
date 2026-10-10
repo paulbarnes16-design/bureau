@@ -10,7 +10,7 @@ const PATH = '/isa-calculator'
 const DESCRIPTION =
   'Free ISA calculator for 2026/27. See how much your cash or stocks and shares ISA could grow, tax-free, with monthly contributions.'
 
-export const metadata = pageMetadata({ path: PATH, title: 'ISA Calculator UK 2026/27 | bureau', description: DESCRIPTION })
+export const metadata = pageMetadata({ path: PATH, title: 'ISA Calculator UK 2026/27 | bureau.money', description: DESCRIPTION })
 
 // £20,000 a year, paid monthly
 const DEFAULTS: Partial<CalcInputs> = { initialInvestment: 0, additionalPayments: 1666, interestRate: 5, durationYears: 10 }

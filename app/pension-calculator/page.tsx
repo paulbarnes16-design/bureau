@@ -12,7 +12,7 @@ const DESCRIPTION =
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: 'Pension Calculator UK: How Much Will I Have? | bureau',
+  title: 'Pension Calculator UK: How Much Will I Have? | bureau.money',
   description: DESCRIPTION,
 })
 

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import MobileMenu from './MobileMenu'
-import { MAIN_NAV, navHrefFor, TOOLS } from '@/lib/tools'
+import { MAIN_NAV, navHrefFor, SITE_URL, TOOLS } from '@/lib/tools'
+import { buildBreadcrumbSchema } from '@/lib/schemas'
 
 /**
  * Page frame shared by the calculator pages: header, page content,
@@ -21,9 +22,21 @@ export default function SiteShell({
 }) {
   const navHref = navHrefFor(currentHref)
   const isMainPage = MAIN_NAV.some((t) => t.href === currentHref)
+  // Preset and question pages sit under a main calculator; tell Google about that hierarchy
+  const parent = !isMainPage ? MAIN_NAV.find((t) => t.href === navHref) : undefined
+  const allSchemas =
+    parent && currentHref
+      ? [
+          ...schemas,
+          buildBreadcrumbSchema([
+            { name: parent.title, url: `${SITE_URL}${parent.href === '/' ? '/' : parent.href}` },
+            { name: title, url: `${SITE_URL}${currentHref}` },
+          ]),
+        ]
+      : schemas
   return (
     <>
-      {schemas.map((schema, i) => (
+      {allSchemas.map((schema, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
       <div className="min-h-screen bg-background px-4 lg:px-10 pt-6 pb-12">

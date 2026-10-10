@@ -10,7 +10,7 @@ const PATH = '/how-much-will-10000-grow'
 const DESCRIPTION =
   'How much will £10,000 grow in 5, 10, 20 or 30 years? See £10,000 with compound interest at any rate, with or without monthly top-ups.'
 
-export const metadata = pageMetadata({ path: PATH, title: 'How Much Will £10,000 Grow? | bureau', description: DESCRIPTION })
+export const metadata = pageMetadata({ path: PATH, title: 'How Much Will £10,000 Grow? | bureau.money', description: DESCRIPTION })
 
 const DEFAULTS: Partial<CalcInputs> = { initialInvestment: 10000, interestRate: 5, durationYears: 10 }
 

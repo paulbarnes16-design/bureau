@@ -24,7 +24,7 @@ const DESCRIPTION = `A £15,000 loan at 7.9% APR over 5 years costs ${gbp(base.m
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: '£15,000 Loan: Monthly Repayments | bureau',
+  title: '£15,000 Loan: Monthly Repayments | bureau.money',
   description: DESCRIPTION,
 })
 

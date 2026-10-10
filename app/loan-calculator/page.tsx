@@ -12,7 +12,7 @@ const DESCRIPTION =
 
 export const metadata = pageMetadata({
   path: PATH,
-  title: 'Loan Calculator UK: Personal Loan & Car Finance | bureau',
+  title: 'Loan & Car Finance Calculator UK | bureau.money',
   description: DESCRIPTION,
 })
 
