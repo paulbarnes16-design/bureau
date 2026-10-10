@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { TOOLS } from '@/lib/tools'
+import MobileMenu from './MobileMenu'
+import { MAIN_NAV, TOOLS } from '@/lib/tools'
 
 /**
  * Page frame shared by the calculator pages: header, page content,
@@ -26,15 +27,36 @@ export default function SiteShell({
       <div className="min-h-screen bg-background px-4 lg:px-10 pt-6 pb-12">
         <div className="space-y-6 lg:space-y-6">
 
-          <div>
+          <header>
             <div className="flex items-center justify-between">
-              <Link href="/" className="font-mamoth text-[24px] leading-none text-black">bureau</Link>
-              <span className="px-1.5 py-0.5 bg-black text-white text-[9px] font-sans font-bold uppercase rounded-[2px] leading-none">
-                Beta
-              </span>
+              <div className="flex items-center gap-2">
+                <Link href="/" className="font-mamoth text-[24px] leading-none text-black">bureau</Link>
+                <span className="px-1.5 py-0.5 bg-black text-white text-[9px] font-sans font-bold uppercase rounded-[2px] leading-none">
+                  Beta
+                </span>
+              </div>
+              {showTools && <MobileMenu currentHref={currentHref} />}
             </div>
-            <h1 className="font-sans text-[15px] font-normal text-black">{title}</h1>
-          </div>
+            {/* Mobile shows the page title; desktop shows it as the active nav tab */}
+            <h1 className={`font-sans text-[15px] font-normal text-black ${showTools ? 'lg:sr-only' : ''}`}>{title}</h1>
+            {showTools && (
+              <nav aria-label="Calculators" className="hidden lg:flex gap-10 mt-1">
+                {MAIN_NAV.map((t) => (
+                  <Link
+                    key={t.href}
+                    href={t.href}
+                    aria-current={t.href === currentHref ? 'page' : undefined}
+                    className={`font-sans text-[15px] transition-colors ${t.href === currentHref ? 'text-black' : 'text-black/40 hover:text-black'}`}
+                  >
+                    {t.title}
+                  </Link>
+                ))}
+                {!MAIN_NAV.some((t) => t.href === currentHref) && (
+                  <span aria-current="page" className="font-sans text-[15px] text-black">{title}</span>
+                )}
+              </nav>
+            )}
+          </header>
 
           {children}
 

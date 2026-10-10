@@ -27,7 +27,7 @@ function ChevronDown() {
 
 // ── Primitives ─────────────────────────────────────────────────────────────────
 
-function FieldLabel({ label }: { label: string }) {
+export function FieldLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-1.5 mb-2">
       <span className="text-[13px] font-sans text-black">{label}</span>
@@ -37,7 +37,7 @@ function FieldLabel({ label }: { label: string }) {
 
 const inputCls = 'w-full bg-white ring-1 ring-inset ring-black/[0.12] rounded-xl h-12 text-base font-sans text-black outline-none focus:ring-black/[0.30] transition-colors'
 
-function CurrencyInput({
+export function CurrencyInput({
   value,
   onChange,
   symbol,
@@ -83,7 +83,7 @@ function CurrencyInput({
   )
 }
 
-function PercentInput({
+export function PercentInput({
   value,
   onChange,
 }: {
@@ -125,7 +125,7 @@ function PercentInput({
   )
 }
 
-function DurationInput({
+export function DurationInput({
   value,
   onChange,
   unit,
@@ -175,39 +175,44 @@ function DurationInput({
 
 // ── Segmented control ──────────────────────────────────────────────────────────
 
-function Segmented({
+/** Pill-style segmented control used across the calculators. */
+export function SegmentedControl<T extends string>({
   options,
   value,
   onChange,
 }: {
-  options: Freq[]
-  value: Freq
-  onChange: (v: Freq) => void
+  options: { value: T; label: string }[]
+  value: T
+  onChange: (v: T) => void
 }) {
   const id = useId()
   return (
     <div className="flex rounded-full ring-1 ring-inset ring-black/[0.12] p-1 gap-1">
       {options.map((opt) => (
         <button
-          key={opt}
+          key={opt.value}
           type="button"
-          onClick={() => onChange(opt)}
+          onClick={() => onChange(opt.value)}
           className={`relative flex-1 h-[38px] text-[13px] font-sans rounded-full outline-none ${
-            value === opt ? 'text-white' : 'text-black hover:bg-black/5'
+            value === opt.value ? 'text-white' : 'text-black hover:bg-black/5'
           }`}
         >
-          {value === opt && (
+          {value === opt.value && (
             <motion.div
               layoutId={`${id}-pill`}
               className="absolute inset-0 bg-black rounded-full"
               transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             />
           )}
-          <span className="relative z-10">{FREQ_LABELS[opt]}</span>
+          <span className="relative z-10">{opt.label}</span>
         </button>
       ))}
     </div>
   )
+}
+
+function Segmented({ options, value, onChange }: { options: Freq[]; value: Freq; onChange: (v: Freq) => void }) {
+  return <SegmentedControl options={options.map((o) => ({ value: o, label: FREQ_LABELS[o] }))} value={value} onChange={onChange} />
 }
 
 // ── Toggle ─────────────────────────────────────────────────────────────────────
