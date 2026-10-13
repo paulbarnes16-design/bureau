@@ -4,6 +4,7 @@ export const MAIN_NAV = [
   { href: '/mortgage-calculator', title: 'Mortgage Calculator' },
   { href: '/loan-calculator', title: 'Loan Calculator' },
   { href: '/pension-calculator', title: 'Pension Calculator' },
+  { href: '/isa-calculator', title: 'ISA Calculator' },
 ] as const
 
 /**
@@ -12,7 +13,7 @@ export const MAIN_NAV = [
  */
 export const TOOLS: { href: string; title: string; parent?: string }[] = [
   { href: '/', title: 'Compound interest calculator' },
-  { href: '/isa-calculator', title: 'ISA calculator', parent: '/' },
+  { href: '/isa-calculator', title: 'ISA calculator' },
   { href: '/how-much-will-10000-grow', title: 'How much will £10,000 grow?', parent: '/' },
   { href: '/mortgage-calculator', title: 'Mortgage calculator' },
   { href: '/mortgage-overpayment-calculator', title: 'Mortgage overpayment calculator', parent: '/mortgage-calculator' },

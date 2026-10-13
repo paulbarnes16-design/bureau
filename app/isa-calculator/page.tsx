@@ -1,22 +1,22 @@
-import Calculator from '@/components/Calculator'
+import IsaCalculator from '@/components/IsaCalculator'
 import SiteShell from '@/components/SiteShell'
-import { calculate, DEFAULT_INPUTS, type CalcInputs } from '@/lib/calculate'
 import { gbp } from '@/lib/goals'
+import { calculateIsa, ISA_DEFAULTS, type IsaInputs } from '@/lib/isa'
 import { pageMetadata } from '@/lib/page-meta'
 import { buildAppSchema, buildFaqSchema, type FaqItem } from '@/lib/schemas'
 import { SITE_URL } from '@/lib/tools'
 
 const PATH = '/isa-calculator'
 const DESCRIPTION =
-  'Free ISA calculator for 2026/27. See how much your cash or stocks and shares ISA could grow, tax-free, with monthly contributions.'
+  'Free UK ISA calculator for 2026/27. Project your cash and stocks and shares ISAs, see how the £12,000 cash ISA limit from April 2027 affects you, and how much tax you save.'
 
 export const metadata = pageMetadata({ path: PATH, title: 'ISA Calculator UK 2026/27 | bureau.money', description: DESCRIPTION })
 
-// £20,000 a year, paid monthly
-const DEFAULTS: Partial<CalcInputs> = { initialInvestment: 0, additionalPayments: 1666, interestRate: 5, durationYears: 10 }
-
-const full = (rate: number, years: number) =>
-  gbp(calculate({ ...DEFAULT_INPUTS, ...DEFAULTS, interestRate: rate, durationYears: years }).futureValue)
+// Worked examples use a fixed start date so the FAQ text matches the explanation
+const EXAMPLE_START = new Date(2026, 9, 1)
+const example = (x: Partial<IsaInputs>) => calculateIsa({ ...ISA_DEFAULTS, ...x }, EXAMPLE_START)
+const maxCash = example({ cashBalance: 0, sharesBalance: 0, cashMonthly: 1666, sharesMonthly: 0, years: 10 })
+const maxCashNoCap = example({ cashBalance: 0, sharesBalance: 0, cashMonthly: 1666, sharesMonthly: 0, years: 10, applyCashLimit: false })
 
 const faqs: FaqItem[] = [
   {
@@ -25,23 +25,27 @@ const faqs: FaqItem[] = [
       'Up to £20,000 between 6 April 2026 and 5 April 2027. You can put it all in one ISA or split it across cash, stocks and shares, Lifetime and Innovative Finance ISAs. Anything you don\'t use is lost at the end of the tax year.',
   },
   {
-    question: 'What changes for cash ISAs in April 2027?',
+    question: 'What is the £12,000 cash ISA limit?',
     answer:
-      'From 6 April 2027, under-65s can only put £12,000 a year into cash ISAs. The overall allowance stays at £20,000, so the other £8,000 would need to go into a stocks and shares ISA. Over-65s keep the full £20,000 cash limit.',
+      'From 6 April 2027, under-65s will only be able to put £12,000 a year into cash ISAs. The overall allowance stays at £20,000, so to use all of it the other £8,000 would need to go into a stocks and shares ISA. Savers aged 65 and over keep the full £20,000 cash limit. Final rules are still being confirmed, so check GOV.UK for the details, including exactly how the age test works.',
+  },
+  {
+    question: 'How does the cash limit affect me?',
+    answer: `If you save more than £1,000 a month into a cash ISA, part of it would need to go elsewhere from April 2027. For example, someone paying £1,666 a month into cash would have about ${gbp(maxCash.movedPerYear)} a year moved into stocks and shares. The calculator does this for you when "Apply the £12,000 cash limit" is on, so you can see the effect on your total.`,
   },
   {
     question: 'How much will my ISA be worth if I max it out?',
-    answer: `Paying in £1,666 a month, a full ISA could grow to about ${full(4, 10)} after 10 years at 4%, or ${full(7, 10)} at 7%. After 20 years that becomes ${full(4, 20)} at 4% or ${full(7, 20)} at 7%. Investment returns aren't guaranteed.`,
+    answer: `Paying £1,666 a month into a cash ISA at 4% for 10 years would build about ${gbp(maxCashNoCap.total)}. With the £12,000 cash limit and the excess going into stocks and shares at 5% growth (0.5% fees), it would be about ${gbp(maxCash.total)}. Investment returns aren't guaranteed and can be negative.`,
   },
   {
-    question: 'Is ISA growth really tax-free?',
+    question: 'How much tax does an ISA save?',
     answer:
-      'Yes. You pay no tax on interest, dividends or gains inside an ISA, or when you take money out. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate) is taxed.',
+      'Interest, dividends and gains inside an ISA are tax-free, and so are withdrawals. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate, nothing for additional-rate) is taxed at your income tax rate. The calculator estimates the tax you\'d pay on your cash interest outside an ISA, assuming you have no other savings interest.',
   },
   {
     question: 'What growth rate should I use?',
     answer:
-      'For a cash ISA, use your account\'s interest rate. For a stocks and shares ISA, 5 to 7% a year is a common planning figure, but returns aren\'t guaranteed and can be negative. You can add platform fees in the Advanced tab.',
+      'For a cash ISA, use your account\'s interest rate (AER). For a stocks and shares ISA, 5 to 7% a year is a common planning figure, but returns aren\'t guaranteed and can be negative. You can set fees in the Advanced tab.',
   },
   {
     question: 'Can I have more than one ISA?',
@@ -57,7 +61,7 @@ export default function IsaCalculatorPage() {
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'ISA Calculator'), buildFaqSchema(faqs)]}
     >
-      <Calculator defaultInputs={DEFAULTS} faqs={faqs} />
+      <IsaCalculator defaults={ISA_DEFAULTS} faqs={faqs} startIso={new Date().toISOString()} />
     </SiteShell>
   )
 }
