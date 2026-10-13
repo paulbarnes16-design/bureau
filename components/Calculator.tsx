@@ -136,7 +136,7 @@ export default function Calculator({ defaultInputs, faqs }: {
       const posthog = ph()
       if (posthog) {
         hasEngaged.current = true
-        posthog.capture('user_engaged')
+        posthog.capture('user_engaged', { tool: 'compound' })
       }
     }
   }
@@ -408,12 +408,12 @@ export default function Calculator({ defaultInputs, faqs }: {
               onClick={() => {
         setSheetOpen(true)
         setHasOpenedSheet(true)
-        ph()?.capture('input_sheet_opened')
+        ph()?.capture('input_sheet_opened', { tool: 'compound' })
         if (!hasEngaged.current) {
           const posthog = ph()
           if (posthog) {
             hasEngaged.current = true
-            posthog.capture('user_engaged')
+            posthog.capture('user_engaged', { tool: 'compound' })
           }
         }
       }}
