@@ -27,7 +27,12 @@ const faqs: FaqItem[] = [
   {
     question: 'What is the £12,000 cash ISA limit?',
     answer:
-      'From 6 April 2027, under-65s will only be able to put £12,000 a year into cash ISAs. The overall allowance stays at £20,000, so to use all of it the other £8,000 would need to go into a stocks and shares ISA. Savers aged 65 and over keep the full £20,000 cash limit. Final rules are still being confirmed, so check GOV.UK for the details, including exactly how the age test works.',
+      'From 6 April 2027, under-65s will only be able to put £12,000 a year into cash ISAs. The overall allowance stays at £20,000, so to use all of it the other £8,000 would need to go into a stocks and shares ISA. Savers aged 65 and over keep the full £20,000 cash limit. GOV.UK doesn\'t yet say exactly how the age test works, so check the latest guidance.',
+  },
+  {
+    question: 'What other ISA changes happen in April 2027?',
+    answer:
+      'Alongside the £12,000 cash limit for under-65s, from 6 April 2027 interest paid on uninvested cash held inside a stocks and shares or Innovative Finance ISA will face a flat 22% charge, and there will be restrictions on transferring money from those ISAs into cash ISAs. The overall £20,000 allowance stays the same. This calculator assumes money in your stocks and shares ISA is invested, so keeping large amounts of cash in one would earn less than shown.',
   },
   {
     question: 'How does the cash limit affect me?',
