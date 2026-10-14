@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
+import type { RelatedLink } from './PageExtras'
 import { useToolState } from './useToolState'
 import { CurrencyInput, DurationInput, FieldLabel, InputTabs, PercentInput, SegmentedControl, Toggle } from './InputPanel'
 import { calculateIsa, CASH_ISA_LIMIT_2027, ISA_ALLOWANCE, isaCodec, type IsaInputs, type IsaYear, type TaxBand } from '@/lib/isa'
@@ -78,7 +79,15 @@ function YearTable({ rows }: { rows: IsaYear[] }) {
  * under-65s from April 2027. `startIso` is the server's date, so the first render matches the
  * HTML; the visitor's own date takes over straight after loading.
  */
-export default function IsaCalculator({ defaults, faqs, startIso }: { defaults: IsaInputs; faqs: FaqItem[]; startIso: string }) {
+export default function IsaCalculator({ defaults, faqs, startIso, heading, howItWorks, related }: {
+  defaults: IsaInputs
+  faqs: FaqItem[]
+  startIso: string
+  /** Question pages: the question, shown as the page heading until the user changes a value */
+  heading?: string
+  howItWorks?: FaqItem[]
+  related?: RelatedLink[]
+}) {
   const { inputs, patch, hasInput, engage } = useToolState(defaults, isaCodec, 'isa')
   const [tab, setTab] = useState<'basic' | 'advanced'>('basic')
   const [start, setStart] = useState(() => new Date(startIso))
@@ -232,6 +241,9 @@ export default function IsaCalculator({ defaults, faqs, startIso }: { defaults: 
       table={<YearTable rows={r.rows} />}
       faqs={faqs}
       onEngage={engage}
+      heading={heading}
+      howItWorks={howItWorks}
+      related={related}
     />
   )
 }

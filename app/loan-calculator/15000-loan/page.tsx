@@ -30,6 +30,8 @@ export const metadata = pageMetadata({
 
 const APRS = [5.9, 7.9, 9.9, 12.9]
 
+const amt = (price: number) => calculateMortgage({ ...DEFAULTS, price })
+
 const faqs: FaqItem[] = [
   {
     question: 'How much does a £15,000 loan cost at different APRs?',
@@ -44,6 +46,15 @@ const faqs: FaqItem[] = [
     answer:
       'Lenders advertise a representative APR, which only has to be offered to 51% of successful applicants. Your rate depends on your credit history and income. Many lenders show a personalised rate with a soft search that doesn\'t affect your credit score.',
   },
+  {
+    question: 'How much would £10,000 or £20,000 cost?',
+    answer: `At 7.9% APR over 5 years, £10,000 costs about ${gbp(amt(10000).monthlyPayment)} a month (${gbp(amt(10000).totalInterest)} interest) and £20,000 about ${gbp(amt(20000).monthlyPayment)} a month (${gbp(amt(20000).totalInterest)} interest).`,
+  },
+  {
+    question: 'Can I pay a loan off early?',
+    answer:
+      'Yes. You have the right to repay a personal loan early, which cuts the interest you pay. The lender can charge a limited fee, usually up to 1% of the amount repaid early (0.5% if less than a year is left). Check your agreement.',
+  },
 ]
 
 export default function Loan15kPage() {
@@ -51,9 +62,10 @@ export default function Loan15kPage() {
     <SiteShell
       title="What are the monthly repayments on a £15,000 loan?"
       currentHref={PATH}
+      headingInPage
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Loan Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} variant="loan" />
+      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} variant="loan" heading="What are the monthly repayments on a £15,000 loan?" />
     </SiteShell>
   )
 }

@@ -1,3 +1,4 @@
+import { RULES_CHECKED } from '@/lib/how-it-works'
 import PensionCalculator from '@/components/PensionCalculator'
 import SiteShell from '@/components/SiteShell'
 import { calculateDrawdown, type DrawdownInputs } from '@/lib/drawdown'
@@ -70,9 +71,11 @@ export default function Pension500kPotPage() {
     <SiteShell
       title="How much income will a £500,000 pension pot give me?"
       currentHref={PATH}
+      headingInPage
+      reviewed={RULES_CHECKED}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Pension Income Calculator'), buildFaqSchema(faqs)]}
     >
-      <PensionCalculator defaults={DEFAULTS} faqs={faqs} />
+      <PensionCalculator defaults={DEFAULTS} faqs={faqs} heading="How much income will a £500,000 pension pot give me?" />
     </SiteShell>
   )
 }

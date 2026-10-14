@@ -1,3 +1,4 @@
+import { RULES_CHECKED } from '@/lib/how-it-works'
 import PensionCalculator from '@/components/PensionCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -38,6 +39,15 @@ const faqs: FaqItem[] = [
     answer:
       'Contributions from now until 67, 5% investment growth a year, 0.5% annual fees and 2.5% inflation, with the result shown in today\'s money. Returns aren\'t guaranteed. Change any of them in the calculator.',
   },
+  {
+    question: 'What about £100 or £500 a month?',
+    answer: `Starting at 30 with basic-rate tax relief, £100 a month could grow to about ${gbp(from(30, { personal: 100 }).pot)} by 67 in today's money, and £500 a month to about ${gbp(from(30, { personal: 500 }).pot)}.`,
+  },
+  {
+    question: 'Pension or ISA for £200 a month?',
+    answer:
+      'A pension gets tax relief going in (so £200 becomes £250 for a basic-rate taxpayer) and often employer contributions, but you usually can\'t touch it until 55 (57 from April 2028), and most withdrawals are taxed. An ISA has no tax relief going in, but you can take the money out tax-free at any time. Many people use both.',
+  },
 ]
 
 export default function Pension200Page() {
@@ -45,9 +55,11 @@ export default function Pension200Page() {
     <SiteShell
       title="How much will I have if I pay £200 a month into a pension?"
       currentHref={PATH}
+      headingInPage
+      reviewed={RULES_CHECKED}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Pension Calculator'), buildFaqSchema(faqs)]}
     >
-      <PensionCalculator defaults={DEFAULTS} faqs={faqs} />
+      <PensionCalculator defaults={DEFAULTS} faqs={faqs} heading="How much will I have if I pay £200 a month into a pension?" />
     </SiteShell>
   )
 }

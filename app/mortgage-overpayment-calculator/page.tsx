@@ -60,11 +60,12 @@ const faqs: FaqItem[] = [
 export default function MortgageOverpaymentPage() {
   return (
     <SiteShell
-      title="Mortgage Overpayment Calculator"
+      title="How much could overpaying my mortgage save?"
       currentHref={PATH}
+      headingInPage
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Mortgage Overpayment Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} />
+      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} heading="How much could overpaying my mortgage save?" />
     </SiteShell>
   )
 }

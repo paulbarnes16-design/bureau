@@ -1,3 +1,4 @@
+import { HOW_IT_WORKS, RELATED, RULES_CHECKED } from '@/lib/how-it-works'
 import PensionCalculator from '@/components/PensionCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -59,9 +60,10 @@ export default function PensionCalculatorPage() {
     <SiteShell
       title="Pension Calculator"
       currentHref={PATH}
+      reviewed={RULES_CHECKED}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Pension Calculator'), buildFaqSchema(faqs)]}
     >
-      <PensionCalculator defaults={D} faqs={faqs} />
+      <PensionCalculator defaults={D} faqs={faqs} howItWorks={HOW_IT_WORKS.pension} related={RELATED['/pension-calculator']} />
     </SiteShell>
   )
 }

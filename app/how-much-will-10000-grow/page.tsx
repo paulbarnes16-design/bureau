@@ -40,6 +40,14 @@ const faqs: FaqItem[] = [
     answer:
       'Usually a savings account, a cash ISA or a stocks and shares ISA. Cash is safer but tends to grow more slowly. Investments can fall, but have historically grown faster over 10 years or more. An ISA keeps the growth tax-free.',
   },
+  {
+    question: 'How much will £10,000 be worth in 5 years?',
+    answer: `About ${grow(3, 5)} at 3%, ${grow(5, 5)} at 5% and ${grow(7, 5)} at 7%, with interest added monthly and nothing else paid in.`,
+  },
+  {
+    question: 'What will it be worth after inflation?',
+    answer: `If prices rise by 2.5% a year, ${grow(5, 10)} in 10 years' time would buy about what ${gbp(calculate({ ...DEFAULT_INPUTS, ...DEFAULTS, adjustForInflation: true, inflationRate: 2.5 }).futureValue)} buys today. Turn on "Adjust for inflation" in the calculator to see figures in today's money.`,
+  },
 ]
 
 export default function TenThousandPage() {
@@ -47,9 +55,10 @@ export default function TenThousandPage() {
     <SiteShell
       title="How much will £10,000 grow?"
       currentHref={PATH}
+      headingInPage
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', '£10,000 Growth Calculator'), buildFaqSchema(faqs)]}
     >
-      <Calculator defaultInputs={DEFAULTS} faqs={faqs} />
+      <Calculator defaultInputs={DEFAULTS} faqs={faqs} heading="How much will £10,000 grow?" />
     </SiteShell>
   )
 }

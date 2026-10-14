@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Card from './Card'
 import FAQ from './FAQ'
+import { HowItWorks, RelatedQuestions, type RelatedLink } from './PageExtras'
 import type { FaqItem } from '@/lib/schemas'
 
 const ph = () => (window as { posthog?: { capture: (e: string, p?: object) => void } }).posthog
@@ -23,6 +24,9 @@ export default function ToolScaffold({
   table,
   faqs,
   onEngage,
+  heading,
+  howItWorks,
+  related,
 }: {
   tool: string
   hasInput: boolean
@@ -35,6 +39,10 @@ export default function ToolScaffold({
   table: React.ReactNode
   faqs: FaqItem[]
   onEngage: () => void
+  /** Question pages: the question, shown as the page heading until the user changes a value */
+  heading?: string
+  howItWorks?: FaqItem[]
+  related?: RelatedLink[]
 }) {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [hasOpenedSheet, setHasOpenedSheet] = useState(false)
@@ -76,7 +84,11 @@ export default function ToolScaffold({
         <div className="space-y-3 lg:space-y-10 lg:col-span-8">
 
           <Card className="p-5">
-            <h2 className="font-sans font-bold text-[20px] text-black mb-4">{hasInput ? 'Results' : 'Example'}</h2>
+            {heading ? (
+              <h1 className="font-sans font-bold text-[20px] text-black mb-4">{hasInput ? 'Results' : heading}</h1>
+            ) : (
+              <h2 className="font-sans font-bold text-[20px] text-black mb-4">{hasInput ? 'Results' : 'Example'}</h2>
+            )}
             <div className="lg:hidden space-y-4 mb-4">{mobileStats}</div>
             <div className="hidden lg:grid grid-cols-2 gap-x-8 gap-y-5 mb-5">{desktopStats}</div>
             <p className="text-[18px] font-sans text-black leading-relaxed mb-5 lg:mb-0">{summary}</p>
@@ -126,7 +138,9 @@ export default function ToolScaffold({
           <Card className="p-5">
             <h2 className="font-sans font-bold text-[20px] text-black mb-3">FAQs</h2>
             <FAQ faqs={faqs} />
+            <RelatedQuestions links={related} />
           </Card>
+          <HowItWorks items={howItWorks} />
         </div>
       </div>
 

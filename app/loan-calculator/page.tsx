@@ -1,3 +1,4 @@
+import { HOW_IT_WORKS, RELATED } from '@/lib/how-it-works'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -65,7 +66,7 @@ export default function LoanCalculatorPage() {
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Loan and Car Finance Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} variant="loan" />
+      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} variant="loan" howItWorks={HOW_IT_WORKS.loan} related={RELATED['/loan-calculator']} />
     </SiteShell>
   )
 }

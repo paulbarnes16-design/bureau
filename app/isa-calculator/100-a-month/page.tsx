@@ -26,6 +26,14 @@ const faqs: FaqItem[] = [
     answer:
       'Yes. Small regular amounts add up because growth compounds over time, and many platforms let you start from as little as £25 a month. A cash ISA is usually better for money you\'ll need within about five years.',
   },
+  {
+    question: 'What about £200 or £500 a month?',
+    answer: `At 5% growth after fees, £200 a month could grow to about ${gbp(at({ sharesMonthly: 200 }).total)} in 20 years, and £500 a month to about ${gbp(at({ sharesMonthly: 500 }).total)}.`,
+  },
+  {
+    question: 'How does that compare with a cash ISA?',
+    answer: `£100 a month in a cash ISA paying 4% would reach about ${gbp(at({ sharesMonthly: 0, cashMonthly: 100 }).total)} after 20 years, against ${gbp(base.total)} in stocks and shares at 5%. Cash is steadier; investments usually grow more over the long term but can fall.`,
+  },
 ]
 
 export default function Isa100Page() {

@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
+import type { RelatedLink } from './PageExtras'
 import { useToolState } from './useToolState'
 import { CurrencyInput, DurationInput, FieldLabel, PercentInput, SegmentedControl } from './InputPanel'
 import { calculateMortgage, mortgageCodec, type MortgageInputs, type MortgageType, type MortgageYear } from '@/lib/mortgage'
@@ -98,10 +99,17 @@ export default function MortgageCalculator({
   defaults,
   faqs,
   variant = 'mortgage',
+  heading,
+  howItWorks,
+  related,
 }: {
   defaults: MortgageInputs
   faqs: FaqItem[]
   variant?: 'mortgage' | 'loan'
+  /** Question pages: the question, shown as the page heading until the user changes a value */
+  heading?: string
+  howItWorks?: FaqItem[]
+  related?: RelatedLink[]
 }) {
   const tool = variant
   const { inputs, patch, hasInput, engage } = useToolState(defaults, mortgageCodec, tool)
@@ -238,6 +246,9 @@ export default function MortgageCalculator({
       table={<YearTable rows={result.rows} tool={tool} />}
       faqs={faqs}
       onEngage={engage}
+      heading={heading}
+      howItWorks={howItWorks}
+      related={related}
     />
   )
 }

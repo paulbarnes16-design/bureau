@@ -24,6 +24,11 @@ export const metadata = pageMetadata({
   description: DESCRIPTION,
 })
 
+const over200 = calculateMortgage({ ...DEFAULTS, overpayment: 200 })
+const earlyMonths = base.months - over200.months
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`
+const EARLY = [plural(Math.floor(earlyMonths / 12), 'year'), earlyMonths % 12 ? plural(earlyMonths % 12, 'month') : ''].filter(Boolean).join(' ')
+
 const faqs: FaqItem[] = [
   {
     question: 'How much do I need to earn for a £250,000 mortgage?',
@@ -42,6 +47,14 @@ const faqs: FaqItem[] = [
     answer:
       'It depends on the property price. Borrowing £250,000 with a 10% deposit means buying at about £277,800; with a 20% deposit, about £312,500. A bigger deposit usually gets you a lower rate.',
   },
+  {
+    question: 'What about a 30 or 35-year term?',
+    answer: `At 4.5%, a £250,000 repayment mortgage costs about ${gbp(at(4.5, 30).monthlyPayment)} a month over 30 years and ${gbp(at(4.5, 35).monthlyPayment)} over 35, against ${gbp(base.monthlyPayment)} over 25. A longer term lowers the payment but adds a lot of interest: ${gbp(at(4.5, 35).totalInterest)} over 35 years against ${gbp(base.totalInterest)} over 25.`,
+  },
+  {
+    question: 'How much would overpaying £200 a month save?',
+    answer: `On £250,000 at 4.5% over 25 years, an extra £200 a month would save about ${gbp(base.totalInterest - over200.totalInterest)} in interest and clear the mortgage ${EARLY} early.`,
+  },
 ]
 
 export default function Mortgage250kPage() {
@@ -49,9 +62,10 @@ export default function Mortgage250kPage() {
     <SiteShell
       title="What are the monthly repayments on a £250,000 mortgage?"
       currentHref={PATH}
+      headingInPage
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Mortgage Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} />
+      <MortgageCalculator defaults={DEFAULTS} faqs={faqs} heading="What are the monthly repayments on a £250,000 mortgage?" />
     </SiteShell>
   )
 }

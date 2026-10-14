@@ -1,3 +1,4 @@
+import { HOW_IT_WORKS, RELATED, RULES_CHECKED } from '@/lib/how-it-works'
 import IsaCalculator from '@/components/IsaCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -64,9 +65,10 @@ export default function IsaCalculatorPage() {
     <SiteShell
       title="ISA Calculator"
       currentHref={PATH}
+      reviewed={RULES_CHECKED}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'ISA Calculator'), buildFaqSchema(faqs)]}
     >
-      <IsaCalculator defaults={ISA_DEFAULTS} faqs={faqs} startIso={new Date().toISOString()} />
+      <IsaCalculator defaults={ISA_DEFAULTS} faqs={faqs} startIso={new Date().toISOString()} howItWorks={HOW_IT_WORKS.isa} related={RELATED['/isa-calculator']} />
     </SiteShell>
   )
 }

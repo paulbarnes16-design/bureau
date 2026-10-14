@@ -8,6 +8,7 @@ import { calculate, DEFAULT_INPUTS, type CalcInputs, type YearRow, FREQ_LABELS, 
 import { decodeInputs, hasCalcParams, mergeInputsIntoSearch } from '@/lib/url-params'
 import InputPanel from './InputPanel'
 import FAQ from './FAQ'
+import { HowItWorks, RelatedQuestions, type RelatedLink } from './PageExtras'
 import Card from './Card'
 import CopyButton from './CopyButton'
 
@@ -83,9 +84,13 @@ function exportToCsv(rows: YearRow[], inputs: CalcInputs) {
 
 // ── Main Calculator ────────────────────────────────────────────────────────────
 
-export default function Calculator({ defaultInputs, faqs }: {
+export default function Calculator({ defaultInputs, faqs, heading, howItWorks, related }: {
   defaultInputs?: Partial<CalcInputs>
   faqs: import('@/lib/schemas').FaqItem[]
+  /** Question pages: the question, shown as the page heading until the user changes a value */
+  heading?: string
+  howItWorks?: import('@/lib/schemas').FaqItem[]
+  related?: RelatedLink[]
 }) {
   const [base] = useState<CalcInputs>(() => ({ ...DEFAULT_INPUTS, ...defaultInputs }))
   // Server and first client render both use the defaults; values from the URL are
@@ -229,7 +234,11 @@ export default function Calculator({ defaultInputs, faqs }: {
           {/* Results */}
           <Card className="p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-sans font-bold text-[20px] text-black">{hasInput ? 'Results' : 'Example'}</h2>
+              {heading ? (
+                <h1 className="font-sans font-bold text-[20px] text-black">{hasInput ? 'Results' : heading}</h1>
+              ) : (
+                <h2 className="font-sans font-bold text-[20px] text-black">{hasInput ? 'Results' : 'Example'}</h2>
+              )}
               {inputs.adjustForInflation && (
                 <span className="px-1.5 py-0.5 bg-black text-white text-[11px] font-sans font-bold rounded-[4px] leading-none">
                   Inflation adjusted
@@ -554,7 +563,9 @@ export default function Calculator({ defaultInputs, faqs }: {
           <Card className="p-5">
             <h2 className="font-sans font-bold text-[20px] text-black mb-3">FAQs</h2>
             <FAQ faqs={faqs} />
+            <RelatedQuestions links={related} />
           </Card>
+          <HowItWorks items={howItWorks} />
 
         </div>
       </div>

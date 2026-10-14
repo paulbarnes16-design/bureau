@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import Stat from './Stat'
 import ToolScaffold from './ToolScaffold'
+import type { RelatedLink } from './PageExtras'
 import { useToolState } from './useToolState'
 import { CurrencyInput, DurationInput, FieldLabel, InputTabs, PercentInput, Toggle } from './InputPanel'
 import { calculatePension, pensionCodec, type PensionInputs, type PensionMode } from '@/lib/pension'
@@ -73,7 +74,14 @@ function AgeTable({ head, rows, onExport }: { head: string[]; rows: (string | nu
   )
 }
 
-export default function PensionCalculator({ defaults, faqs }: { defaults: PensionInputs; faqs: FaqItem[] }) {
+export default function PensionCalculator({ defaults, faqs, heading, howItWorks, related }: {
+  defaults: PensionInputs
+  faqs: FaqItem[]
+  /** Question pages: the question, shown as the page heading until the user changes a value */
+  heading?: string
+  howItWorks?: FaqItem[]
+  related?: RelatedLink[]
+}) {
   const { inputs, patch, hasInput, engage } = useToolState(defaults, pensionCodec, 'pension')
   const income = inputs.mode === 'income'
   const saving = useMemo(() => calculatePension(inputs), [inputs])
@@ -264,6 +272,9 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
         }
         faqs={faqs}
         onEngage={engage}
+        heading={heading}
+        howItWorks={howItWorks}
+        related={related}
       />
     )
   }
@@ -322,6 +333,9 @@ export default function PensionCalculator({ defaults, faqs }: { defaults: Pensio
       }
       faqs={faqs}
       onEngage={engage}
+      heading={heading}
+      howItWorks={howItWorks}
+      related={related}
     />
   )
 }

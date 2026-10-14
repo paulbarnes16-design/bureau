@@ -30,6 +30,15 @@ const faqs: FaqItem[] = [
     question: 'Does unused allowance carry over?',
     answer: 'No. The £20,000 allowance resets every 6 April, and anything you don\'t use is lost.',
   },
+  {
+    question: 'What if I can\'t max out my ISA?',
+    answer: `Most people don't, and smaller amounts still add up. £500 a month into a stocks and shares ISA at 5% growth could build about ${gbp(isaExample({ ...INPUTS, sharesMonthly: 500 }).total)} in 20 years, and £1,000 a month about ${gbp(isaExample({ ...INPUTS, sharesMonthly: 1000 }).total)}.`,
+  },
+  {
+    question: 'Should I use cash or stocks and shares?',
+    answer:
+      'Cash ISAs suit money you might need within about five years, because the balance can\'t fall. Stocks and shares ISAs have historically grown faster over 10 years or more, but can fall in value. Many people who max out their allowance split it between both. From April 2027 under-65s can put at most £12,000 a year in cash.',
+  },
 ]
 
 export default function MaxIsaPage() {

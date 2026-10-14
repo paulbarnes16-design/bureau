@@ -12,12 +12,18 @@ export default function SiteShell({
   schemas = [],
   currentHref,
   showTools = true,
+  headingInPage = false,
+  reviewed,
   children,
 }: {
   title: string
   schemas?: object[]
   currentHref?: string
   showTools?: boolean
+  /** The page renders its own visible <h1> (question pages), so the header doesn't add one */
+  headingInPage?: boolean
+  /** e.g. "Rules checked against GOV.UK on 14 October 2026" */
+  reviewed?: string
   children: React.ReactNode
 }) {
   const navHref = navHrefFor(currentHref)
@@ -72,7 +78,7 @@ export default function SiteShell({
             */}
             {showTools && !isMainPage ? (
               <>
-                <h1 className="sr-only">{title}</h1>
+                {!headingInPage && <h1 className="sr-only">{title}</h1>}
                 <p className="lg:hidden font-sans text-[15px] font-normal text-black" aria-hidden>
                   {MAIN_NAV.find((t) => t.href === navHref)?.title}
                 </p>
@@ -97,9 +103,12 @@ export default function SiteShell({
                   </ul>
                 </nav>
               )}
+              {reviewed && <p className="text-sm font-sans text-subdued">{reviewed}</p>}
               <p className="text-sm font-sans text-black leading-relaxed">
                 Bureau is for informational purposes only and is not financial advice. We may earn a commission from partner links.
                 <br />
+                <a href="/about" className="underline hover:text-black transition-colors">About</a>
+                {' · '}
                 <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a>
               </p>
             </div>

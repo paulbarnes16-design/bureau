@@ -1,3 +1,4 @@
+import { HOW_IT_WORKS, RELATED } from '@/lib/how-it-works'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import SiteShell from '@/components/SiteShell'
 import { gbp } from '@/lib/goals'
@@ -58,7 +59,7 @@ export default function MortgageCalculatorPage() {
       currentHref={PATH}
       schemas={[buildAppSchema(`${SITE_URL}${PATH}`, DESCRIPTION, 'GBP', 'Mortgage Calculator'), buildFaqSchema(faqs)]}
     >
-      <MortgageCalculator defaults={D} faqs={faqs} />
+      <MortgageCalculator defaults={D} faqs={faqs} howItWorks={HOW_IT_WORKS.mortgage} related={RELATED['/mortgage-calculator']} />
     </SiteShell>
   )
 }

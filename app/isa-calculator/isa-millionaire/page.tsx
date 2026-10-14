@@ -19,6 +19,16 @@ const base = isaExample(INPUTS)
 const DESCRIPTION = `Maxing out your ISA every year at 7% growth could make you an ISA millionaire in about ${Y7} years. See how long it would take you.`
 export const metadata = pageMetadata({ path: PATH, title: 'How Long to Become an ISA Millionaire? | bureau.money', description: DESCRIPTION })
 
+/** Monthly saving (to the nearest £10) that passes £1m in 30 years. */
+function monthlyFor30(growth: number) {
+  for (let m = 10; m <= 1666; m += 10) if (isaExample({ ...EMPTY, sharesMonthly: m, sharesGrowth: growth, years: 30 }).total >= 1_000_000) return m
+  return 1666
+}
+const MONTHLY_30 = monthlyFor30(7)
+const MONTHLY_30_5 = monthlyFor30(5)
+let Y_LUMP = 50
+for (let y = 1; y <= 50; y++) if (isaExample({ ...EMPTY, sharesBalance: 100000, sharesMonthly: 1666, sharesGrowth: 7, years: y }).total >= 1_000_000) { Y_LUMP = y; break }
+
 const faqs: FaqItem[] = [
   {
     question: 'How long does it take to become an ISA millionaire?',
@@ -37,6 +47,14 @@ const faqs: FaqItem[] = [
     question: 'Is it realistic?',
     answer:
       'It takes discipline and time: paying in the maximum every year for over two decades, staying invested through market falls and keeping fees low. Starting earlier makes a big difference, because the growth compounds for longer.',
+  },
+  {
+    question: 'How much would I need to save each month to get there in 30 years?',
+    answer: `At 7% growth after 0.5% fees, about ${gbp(MONTHLY_30)} a month for 30 years, which is well within the £20,000 allowance. At 5% it would take about ${gbp(MONTHLY_30_5)} a month.`,
+  },
+  {
+    question: 'Does starting with a lump sum help?',
+    answer: `Yes. Starting with £100,000 already invested and then maxing out the allowance at 7%, you could pass £1 million in about ${Y_LUMP} years instead of ${Y7}.`,
   },
 ]
 
