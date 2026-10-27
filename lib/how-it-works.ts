@@ -95,7 +95,7 @@ export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' |
     {
       question: 'The calculation',
       answer:
-        'For each possible company salary, it works out employer NI (15% above £5,000), corporation tax on the profit that\'s left (19% up to £50,000, 25% from £250,000, with marginal relief in between), and pays the rest out as dividends. It then works out the extra income tax, your NI and dividend tax on top of your PAYE job, and picks the salary that leaves the least tax overall. It checks every £10 of salary, and prefers a familiar threshold like £5,000 or £12,570 if it\'s within £10 of the best.',
+        'For each possible company salary, it works out employer NI (15% above £5,000), corporation tax on the profit that\'s left (19% up to £50,000, 25% from £250,000, with marginal relief in between), and pays the rest out as dividends. It then works out the extra income tax, your NI and dividend tax on top of your PAYE job, and picks the salary that leaves you with the most cash. It checks every £10 of salary, and prefers a familiar threshold like £5,000 or £12,570 if it\'s within £10 of the best.',
     },
     {
       question: 'Your job and your company salary',
@@ -105,7 +105,7 @@ export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' |
     {
       question: 'Taking out less than everything',
       answer:
-        'With "Basic rate" or "Under £100k", it takes out as much as fits under that income and leaves the rest in the company after corporation tax. The best mix is then the one that pays the least tax this year. Money left in the company will be taxed as dividends when you take it out later.',
+        'With "Basic rate" or "Under £100k", it takes out as much as fits under that income and leaves the rest in the company after corporation tax. Money left in the company is taxed as dividends when you take it out later, so it\'s counted after that tax: 10.75% with "Basic rate", and 35.75% with "Under £100k", where the extra income would fall in the higher-rate band. The best mix is the one that leaves you with the most cash once that\'s taken into account, so it can put a little less in your pocket this year in exchange for more left in the company.',
     },
     {
       question: 'What it doesn\'t include',

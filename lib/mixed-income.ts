@@ -74,7 +74,17 @@ export interface MixedResult {
   jobNet: number
   /** Room under the chosen income limit after your job salary (Infinity when taking everything) */
   headroom: number
+  /** Dividend tax assumed on money left in the company when it's taken out in a later year */
+  laterDividendRate: number
+  /** How much better off the best mix leaves you than dividends only, counting money left in the company after later dividend tax */
+  betterOff: number
 }
+
+/**
+ * Money left in the company is taxed as dividends when it comes out later. Staying in the basic
+ * rate, it would come out at the basic dividend rate; staying under £100,000, at the higher rate.
+ */
+const LATER_DIVIDEND_RATE: Record<TakeMode, number> = { all: 0, basic: DIVIDEND_RATES[0], taper: DIVIDEND_RATES[1] }
 
 /** Corporation tax with marginal relief between £50,000 and £250,000. Assumes no associated companies. */
 export function corporationTax(profit: number): number {
@@ -169,9 +179,9 @@ function extract(inputs: MixedInputs, salary: number, headroom: number, dividend
 }
 
 /**
- * Finds the company salary that leaves you best off. With an income limit, as much as fits under
- * it is taken out and the rest stays in the company; "best off" counts both what you keep and
- * what's left in the company, so it's the mix that pays the least tax.
+ * Finds the company salary that leaves you with the most cash. With an income limit, as much as
+ * fits under it is taken out and the rest stays in the company, counted after the dividend tax
+ * you'd pay to take it out later.
  */
 export function calculateMixed(inputs: MixedInputs): MixedResult {
   const limit = inputs.take === 'basic' ? HIGHER_RATE_START : inputs.take === 'taper' ? TAPER_START : Infinity
@@ -181,12 +191,20 @@ export function calculateMixed(inputs: MixedInputs): MixedResult {
 
   // Every £10, plus the thresholds where the best answer usually sits
   const step = Math.max(10, Math.ceil(sMax / 5000 / 10) * 10)
-  const thresholds = [NI_SECONDARY_THRESHOLD, NI_PRIMARY_THRESHOLD, PERSONAL_ALLOWANCE - inputs.jobSalary, HIGHER_RATE_START - inputs.jobSalary]
-    .filter((t) => t > 0 && t <= sMax)
+  // ...including the salaries that bring profit down to the corporation tax limits
+  const thresholds = [
+    NI_SECONDARY_THRESHOLD,
+    NI_PRIMARY_THRESHOLD,
+    PERSONAL_ALLOWANCE - inputs.jobSalary,
+    HIGHER_RATE_START - inputs.jobSalary,
+    Math.floor(maxSalary(budget - CT_LOWER)),
+    Math.floor(maxSalary(budget - CT_UPPER)),
+  ].filter((t) => t > 0 && t <= sMax)
   const grid: number[] = []
   for (let s = 0; s < sMax; s += step) grid.push(s)
 
-  const value = (e: Extraction) => e.keep + e.leftInCompany
+  const laterDividendRate = LATER_DIVIDEND_RATE[inputs.take]
+  const value = (e: Extraction) => e.keep + e.leftInCompany * (1 - laterDividendRate)
   let best = extract(inputs, 0, headroom)
   for (const s of [...grid, Math.floor(sMax)]) {
     const e = extract(inputs, s, headroom)
@@ -198,12 +216,15 @@ export function calculateMixed(inputs: MixedInputs): MixedResult {
   if (near.length) best = near.reduce((a, b) => (value(b) > value(a) ? b : a))
 
   const jobTax = incomeTax(inputs.jobSalary, 0).onSalary
+  const dividendsOnly = extract(inputs, 0, headroom)
   return {
     best,
-    dividendsOnly: extract(inputs, 0, headroom),
+    dividendsOnly,
     salaryOnly: extract(inputs, sMax, headroom, false),
     jobNet: inputs.jobSalary - jobTax - employeeNI(inputs.jobSalary),
     headroom,
+    laterDividendRate,
+    betterOff: value(best) - value(dividendsOnly),
   }
 }
 

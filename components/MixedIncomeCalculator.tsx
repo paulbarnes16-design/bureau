@@ -128,8 +128,7 @@ export default function MixedIncomeCalculator({ defaults, faqs, heading, howItWo
   const [tab, setTab] = useState<'basic' | 'advanced'>('basic')
 
   const r = useMemo(() => calculateMixed(inputs), [inputs])
-  const { best, dividendsOnly } = r
-  const saving = best.keep + best.leftInCompany - (dividendsOnly.keep + dividendsOnly.leftInCompany)
+  const { best } = r
   const takingNothing = best.salary + best.dividends === 0
   const capped = inputs.take !== 'all'
 
@@ -205,7 +204,15 @@ export default function MixedIncomeCalculator({ defaults, faqs, heading, howItWo
       )}{' '}
       You&apos;d keep <strong>{money(best.keep)}</strong> after <strong>{money(best.totalTax)}</strong> of tax and NI
       {capped && best.leftInCompany > 0 ? <>, with <strong>{money(best.leftInCompany)}</strong> left in the company</> : null}.
-      {saving >= 1 && <> That&apos;s <strong>{money(saving)}</strong> less tax than taking dividends only.</>}{' '}
+      {r.betterOff >= 1 &&
+        (capped ? (
+          <>
+            {' '}That leaves you <strong>{money(r.betterOff)}</strong> better off than dividends only, counting what&apos;s left in
+            the company after {(r.laterDividendRate * 100).toFixed(2).replace(/0$/, '')}% dividend tax when you take it out later.
+          </>
+        ) : (
+          <> That&apos;s <strong>{money(r.betterOff)}</strong> more than taking dividends only.</>
+        ))}{' '}
       With your job, your take-home for the year is about <strong>{money(r.jobNet + best.keep)}</strong>.
     </>
   )
@@ -244,7 +251,7 @@ export default function MixedIncomeCalculator({ defaults, faqs, heading, howItWo
           {inputs.pension > 0 ? (
             <Stat label="Into your pension" value={money(best.pension)} />
           ) : (
-            <Stat label="Saved vs dividends only" value={money(Math.max(0, saving))} />
+            <Stat label="Better off vs dividends only" value={money(Math.max(0, r.betterOff))} />
           )}
           <Stat label="Left in company" value={money(best.leftInCompany)} />
         </>
