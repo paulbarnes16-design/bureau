@@ -188,7 +188,9 @@ export default function MixedIncomeCalculator({ defaults, faqs, heading, howItWo
     </div>
   )
 
-  const summary = takingNothing ? (
+  const summary = takingNothing && r.headroom > 0 ? (
+    <>Your company has no profit to take out this year. Enter its profit before paying yourself to see the best mix.</>
+  ) : takingNothing ? (
     <>
       Your job salary of <strong>{money(inputs.jobSalary)}</strong> already takes you over{' '}
       {money(inputs.take === 'basic' ? HIGHER_RATE_START : TAPER_START)}, so to stay under it you&apos;d take nothing out this year
