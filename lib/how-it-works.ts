@@ -5,7 +5,7 @@ import type { FaqItem } from './schemas'
 export const RULES_CHECKED = 'Rules and allowances checked against GOV.UK on 14 October 2026.'
 
 /** "How it works" sections for each main calculator: method, assumptions and limits. */
-export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' | 'isa', FaqItem[]> = {
+export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' | 'isa' | 'mixed', FaqItem[]> = {
   compound: [
     {
       question: 'The calculation',
@@ -89,6 +89,28 @@ export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' |
       question: 'What it doesn\'t include',
       answer:
         'It doesn\'t model the 22% charge from April 2027 on interest from cash left uninvested inside a stocks and shares ISA, Lifetime ISA bonuses, or transfers between ISAs. Rates are assumed to stay the same each year.',
+    },
+  ],
+  mixed: [
+    {
+      question: 'The calculation',
+      answer:
+        'For each possible company salary, it works out employer NI (15% above £5,000), corporation tax on the profit that\'s left (19% up to £50,000, 25% from £250,000, with marginal relief in between), and pays the rest out as dividends. It then works out the extra income tax, your NI and dividend tax on top of your PAYE job, and picks the salary that leaves the least tax overall. It checks every £10 of salary, and prefers a familiar threshold like £5,000 or £12,570 if it\'s within £10 of the best.',
+    },
+    {
+      question: 'Your job and your company salary',
+      answer:
+        'Your PAYE job uses your personal allowance first, so your company salary is usually taxed from the first pound. NI is worked out separately for each job, so your company salary has its own £12,570 threshold for your NI and £5,000 for employer NI. Sole-director companies can\'t claim the Employment Allowance, so employer NI isn\'t reduced. Dividends sit on top of all your salary: the first £500 is tax-free, then 10.75%, 35.75% or 39.35% depending on your band.',
+    },
+    {
+      question: 'Taking out less than everything',
+      answer:
+        'With "Basic rate" or "Under £100k", it takes out as much as fits under that income and leaves the rest in the company after corporation tax. The best mix is then the one that pays the least tax this year. Money left in the company will be taxed as dividends when you take it out later.',
+    },
+    {
+      question: 'What it doesn\'t include',
+      answer:
+        'It uses 2026/27 rates for England, Wales and Northern Ireland, not Scottish income tax bands on salary. It assumes your company has no associated companies, that your job has no pension or salary sacrifice, and leaves out student loans, benefits in kind, the High Income Child Benefit Charge and other income such as savings interest or rent. Corporation tax is worked out on the year\'s profit as entered, so check your accounts and talk to an accountant before paying yourself.',
     },
   ],
 }

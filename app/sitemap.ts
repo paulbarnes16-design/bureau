@@ -10,6 +10,7 @@ const PAGES: { path: string; updated: string; priority: number }[] = [
   { path: '/loan-calculator', updated: '2026-10-14', priority: 0.9 },
   { path: '/pension-calculator', updated: '2026-10-14', priority: 0.9 },
   { path: '/isa-calculator', updated: '2026-10-14', priority: 0.9 },
+  { path: '/mixed-income-calculator', updated: '2026-10-27', priority: 0.9 },
   { path: '/isa-calculator/cash-isa-limit-2027', updated: '2026-10-13', priority: 0.7 },
   { path: '/isa-calculator/max-isa-every-year', updated: '2026-10-13', priority: 0.7 },
   { path: '/isa-calculator/isa-millionaire', updated: '2026-10-13', priority: 0.7 },
