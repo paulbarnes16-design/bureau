@@ -2,7 +2,7 @@ import type { RelatedLink } from '@/components/PageExtras'
 import type { FaqItem } from './schemas'
 
 /** When the UK rules quoted on the site were last checked. Update whenever they're re-checked. */
-export const RULES_CHECKED = 'Rules and allowances checked against GOV.UK on 14 October 2026.'
+export const RULES_CHECKED = 'Rules and allowances checked against GOV.UK and Budget 2026 (28 October 2026).'
 
 /** "How it works" sections for each main calculator: method, assumptions and limits. */
 export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' | 'isa' | 'mixed', FaqItem[]> = {
@@ -76,19 +76,14 @@ export const HOW_IT_WORKS: Record<'compound' | 'mortgage' | 'loan' | 'pension' |
         'Cash and stocks and shares ISAs are worked out separately, month by month. Cash grows at your rate (as an AER), and stocks and shares at your growth rate less fees. Payments are added at the end of each month. It starts from the current month and follows UK tax years, which run from 6 April to 5 April.',
     },
     {
-      question: 'The £12,000 cash limit from April 2027',
-      answer:
-        'From 6 April 2027, under-65s can put at most £12,000 a year into cash ISAs; the overall allowance stays at £20,000. With "Apply the £12,000 cash limit" on, any cash saving above £12,000 in a tax year is moved into your stocks and shares ISA instead. It assumes you\'re one year older every 12 months, and stops applying the limit from age 65.',
-    },
-    {
       question: 'Tax saved',
       answer:
-        'The tax saved is an estimate of the income tax you\'d pay on your cash ISA interest if it were in a normal savings account: interest above your Personal Savings Allowance (£1,000 basic rate, £500 higher rate, £0 additional rate), taxed at 20%, 40% or 45%. It assumes you have no other savings interest.',
+        'The tax saved is an estimate of the income tax you\'d pay on your cash ISA interest if it were in a normal savings account: interest above your Personal Savings Allowance (£1,000 basic rate, £500 higher rate, £0 additional rate), taxed at 20%, 40% or 45% in 2026/27 and 24%, 44% or 49% from 6 April 2027, following Budget 2026. It assumes you have no other savings interest.',
     },
     {
       question: 'What it doesn\'t include',
       answer:
-        'It doesn\'t model the 22% charge from April 2027 on interest from cash left uninvested inside a stocks and shares ISA, Lifetime ISA bonuses, or transfers between ISAs. Rates are assumed to stay the same each year.',
+        'It assumes money in a stocks and shares ISA is invested, and doesn\'t model Lifetime ISA bonuses or transfers between ISAs. Interest and growth rates are assumed to stay the same each year.',
     },
   ],
   mixed: [
@@ -128,7 +123,7 @@ export const RELATED: Record<string, RelatedLink[]> = {
     { href: '/pension-calculator/500000-pot', title: 'How much income will a £500,000 pension pot give me?' },
   ],
   '/isa-calculator': [
-    { href: '/isa-calculator/cash-isa-limit-2027', title: 'How does the £12,000 cash ISA limit affect me?' },
+    { href: '/isa-calculator/cash-isa-limit-2027', title: 'Is the cash ISA limit still being cut to £12,000?' },
     { href: '/isa-calculator/max-isa-every-year', title: 'How much will I have if I max out my ISA every year?' },
     { href: '/isa-calculator/isa-millionaire', title: 'How long does it take to become an ISA millionaire?' },
     { href: '/isa-calculator/100-a-month', title: 'How much will £100 a month in a stocks and shares ISA grow?' },

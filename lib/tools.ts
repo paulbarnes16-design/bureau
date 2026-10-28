@@ -15,7 +15,7 @@ export const MAIN_NAV = [
 export const TOOLS: { href: string; title: string; parent?: string }[] = [
   { href: '/', title: 'Compound interest calculator' },
   { href: '/isa-calculator', title: 'ISA calculator' },
-  { href: '/isa-calculator/cash-isa-limit-2027', title: '£12,000 cash ISA limit', parent: '/isa-calculator' },
+  { href: '/isa-calculator/cash-isa-limit-2027', title: 'Cash ISA limit 2027', parent: '/isa-calculator' },
   { href: '/isa-calculator/max-isa-every-year', title: 'Maxing out your ISA', parent: '/isa-calculator' },
   { href: '/isa-calculator/isa-millionaire', title: 'ISA millionaire', parent: '/isa-calculator' },
   { href: '/isa-calculator/100-a-month', title: '£100 a month in an ISA', parent: '/isa-calculator' },

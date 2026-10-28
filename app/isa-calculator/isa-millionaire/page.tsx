@@ -41,7 +41,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Can I become an ISA millionaire with cash ISAs?',
     answer:
-      'It\'s much harder. Cash ISA rates are usually lower than long-term stock market returns, and from April 2027 under-65s can only put £12,000 a year into cash ISAs. Most ISA millionaires have built their wealth in stocks and shares ISAs over decades.',
+      'It\'s much harder. Cash ISA rates are usually lower than long-term stock market returns, so it would take far longer, even though you can still put the full £20,000 a year into cash (the planned £12,000 limit was scrapped in Budget 2026). Most ISA millionaires have built their wealth in stocks and shares ISAs over decades.',
   },
   {
     question: 'Is it realistic?',

@@ -7,7 +7,7 @@ import ToolScaffold from './ToolScaffold'
 import type { RelatedLink } from './PageExtras'
 import { useToolState } from './useToolState'
 import { CurrencyInput, DurationInput, FieldLabel, InputTabs, PercentInput, SegmentedControl, Toggle } from './InputPanel'
-import { calculateIsa, CASH_ISA_LIMIT_2027, ISA_ALLOWANCE, isaCodec, type IsaInputs, type IsaYear, type TaxBand } from '@/lib/isa'
+import { calculateIsa, ISA_ALLOWANCE, isaCodec, type IsaInputs, type IsaYear, type TaxBand } from '@/lib/isa'
 import type { FaqItem } from '@/lib/schemas'
 
 const BarChart = dynamic(() => import('./MortgageChart'), { ssr: false })
@@ -75,9 +75,9 @@ function YearTable({ rows }: { rows: IsaYear[] }) {
 }
 
 /**
- * Cash and stocks & shares ISAs projected separately, with the £12,000 cash ISA limit for
- * under-65s from April 2027. `startIso` is the server's date, so the first render matches the
- * HTML; the visitor's own date takes over straight after loading.
+ * Cash and stocks & shares ISAs projected separately, with the tax an ISA saves on cash interest.
+ * `startIso` is the server's date, so the first render matches the HTML; the visitor's own date
+ * takes over straight after loading.
  */
 export default function IsaCalculator({ defaults, faqs, startIso, heading, howItWorks, related }: {
   defaults: IsaInputs
@@ -137,15 +137,9 @@ export default function IsaCalculator({ defaults, faqs, startIso, heading, howIt
               <PercentInput value={inputs.sharesGrowth} onChange={(v) => patch({ sharesGrowth: v })} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <FieldLabel label="Your age" />
-              <DurationInput value={inputs.age} onChange={(v) => patch({ age: v })} unit="years" />
-            </div>
-            <div>
-              <FieldLabel label="Time" />
-              <DurationInput value={inputs.years} onChange={(v) => patch({ years: v })} unit="years" max={50} />
-            </div>
+          <div>
+            <FieldLabel label="Time" />
+            <DurationInput value={inputs.years} onChange={(v) => patch({ years: v })} unit="years" max={50} />
           </div>
         </>
       ) : (
@@ -153,14 +147,9 @@ export default function IsaCalculator({ defaults, faqs, startIso, heading, howIt
           <div>
             <FieldLabel label="Income tax band" />
             <SegmentedControl options={BAND_OPTIONS} value={inputs.taxBand} onChange={(v) => patch({ taxBand: v })} />
-            <p className="text-[11px] font-sans text-subdued mt-1.5">Used to estimate the tax an ISA saves on cash interest</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-sm font-sans text-black">Apply the £12,000 cash limit</span>
-              <p className="text-[11px] font-sans text-subdued">Under-65s, from April 2027</p>
-            </div>
-            <Toggle checked={inputs.applyCashLimit} onChange={(v) => patch({ applyCashLimit: v })} />
+            <p className="text-[11px] font-sans text-subdued mt-1.5">
+              Used to estimate the tax an ISA saves on cash interest. Savings tax rises to 24%, 44% or 49% from April 2027
+            </p>
           </div>
           <div>
             <FieldLabel label="Stocks & shares fees per year" />
@@ -191,12 +180,6 @@ export default function IsaCalculator({ defaults, faqs, startIso, heading, howIt
         <>, with <strong>{money(r.growth)}</strong> of growth, all tax-free.</>
       ) : (
         <>, a real-terms loss of <strong>{money(-r.growth)}</strong> after inflation.</>
-      )}
-      {r.movedPerYear > 0 && (
-        <>
-          {' '}From April 2027, <strong>{money(r.movedPerYear)} a year</strong> of your cash saving goes into stocks and shares
-          instead, because of the {money(CASH_ISA_LIMIT_2027)} cash ISA limit.
-        </>
       )}
       {r.overAllowance > 0 && (
         <>

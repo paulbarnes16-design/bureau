@@ -53,6 +53,11 @@ const faqs: FaqItem[] = [
     answer:
       'You can usually get tax relief on contributions up to 100% of your earnings, and total contributions (yours, your employer\'s and tax relief) are limited by the £60,000 annual allowance. Unused allowance from the previous three tax years can often be carried forward.',
   },
+  {
+    question: 'Did Budget 2026 change pensions?',
+    answer:
+      'Not tax relief, the 25% tax-free lump sum or the £60,000 annual allowance. From 6 April 2027 to 5 April 2030, a new Pension Tax Allowance means pensioners whose total income is no more than the full new State Pension won\'t pay income tax. Death benefits paid more than two years after someone dies are no longer taxable just because of the delay. The cap announced in Budget 2025 still applies: from April 2029 only the first £2,000 a year of pension contributions made through salary sacrifice will be free of National Insurance.',
+  },
 ]
 
 export default function PensionCalculatorPage() {

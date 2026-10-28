@@ -4,7 +4,15 @@ const KEY = '4ef557cc5f4441358f35811b7624b76e'
 const HOST = 'bureau.money'
 const URLS = [
   'https://bureau.money',
-  'https://bureau.money/privacy',
+  'https://bureau.money/isa-calculator',
+  'https://bureau.money/isa-calculator/cash-isa-limit-2027',
+  'https://bureau.money/isa-calculator/max-isa-every-year',
+  'https://bureau.money/isa-calculator/isa-millionaire',
+  'https://bureau.money/isa-calculator/10000-cash-isa',
+  'https://bureau.money/mixed-income-calculator',
+  'https://bureau.money/pension-calculator',
+  'https://bureau.money/mortgage-calculator',
+  'https://bureau.money/about',
 ]
 
 export async function GET() {

@@ -9,7 +9,7 @@ import { SITE_URL } from '@/lib/tools'
 
 const PATH = '/mixed-income-calculator'
 const DESCRIPTION =
-  'Free UK calculator for people with a PAYE job and their own limited company. Find the most tax-efficient salary and dividend mix for 2026/27 and see how much you keep.'
+  'Free UK salary and dividends calculator for people with a PAYE job and their own limited company. Find the most tax-efficient mix for 2026/27, updated for Budget 2026, and see how much you keep.'
 
 export const metadata = pageMetadata({
   path: PATH,
@@ -34,6 +34,11 @@ const faqs: FaqItem[] = [
     question: 'Should I take dividends or salary?',
     answer:
       'Salary is a cost to the company, so it saves corporation tax (19% to 25%), but it\'s taxed as income and above £5,000 the company pays 15% employer NI. Dividends are paid from profit after corporation tax and taxed at lower rates: 10.75% basic, 35.75% higher and 39.35% additional rate in 2026/27, after a £500 allowance. Taking everything as salary is almost always the most expensive option; the best mix is usually a small salary and the rest as dividends.',
+  },
+  {
+    question: 'Did Budget 2026 change dividend tax or corporation tax?',
+    answer:
+      'No. Budget 2026 (28 October 2026) left the rates of income tax, National Insurance and dividend tax unchanged, so dividends are still taxed at 10.75%, 35.75% and 39.35% after the £500 allowance. Corporation tax stays at 19% to 25%. Two changes matter for company owners later on: from 6 April 2027 the lifetime limit for Business Asset Disposal Relief falls from £1 million to £500,000, and from 6 April 2028 the rules on how company distributions are taxed will be reformed to stop profits being taken out in more favourable ways than ordinary dividends.',
   },
   {
     question: 'Does my company salary use a new personal allowance?',

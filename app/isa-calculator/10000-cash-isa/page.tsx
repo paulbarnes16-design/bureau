@@ -24,7 +24,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Would I pay tax on it outside an ISA?',
     answer:
-      'Possibly. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate) is taxed. £10,000 at 4% earns about £400 a year, so it matters most if you have other savings or pay higher-rate tax.',
+      'Possibly. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate) is taxed, at 20% or 40% now and 24% or 44% from April 2027. £10,000 at 4% earns about £400 a year, so it matters most if you have other savings or pay higher-rate tax.',
   },
   {
     question: 'Fixed or easy access?',

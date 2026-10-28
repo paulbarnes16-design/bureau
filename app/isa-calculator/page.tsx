@@ -9,15 +9,15 @@ import { SITE_URL } from '@/lib/tools'
 
 const PATH = '/isa-calculator'
 const DESCRIPTION =
-  'Free UK ISA calculator for 2026/27. Project your cash and stocks and shares ISAs, see how the £12,000 cash ISA limit from April 2027 affects you, and how much tax you save.'
+  'Free UK ISA calculator for 2026/27. Project cash and stocks and shares ISAs, see the tax an ISA saves as savings tax rises in April 2027, and what Budget 2026 means for the £20,000 cash ISA limit.'
 
-export const metadata = pageMetadata({ path: PATH, title: 'ISA Calculator UK 2026/27 | bureau.money', description: DESCRIPTION })
+export const metadata = pageMetadata({ path: PATH, title: 'ISA Calculator UK 2026/27: Cash and Stocks & Shares | bureau.money', description: DESCRIPTION })
 
 // Worked examples use a fixed start date so the FAQ text matches the explanation
 const EXAMPLE_START = new Date(2026, 9, 1)
 const example = (x: Partial<IsaInputs>) => calculateIsa({ ...ISA_DEFAULTS, ...x }, EXAMPLE_START)
 const maxCash = example({ cashBalance: 0, sharesBalance: 0, cashMonthly: 1666, sharesMonthly: 0, years: 10 })
-const maxCashNoCap = example({ cashBalance: 0, sharesBalance: 0, cashMonthly: 1666, sharesMonthly: 0, years: 10, applyCashLimit: false })
+const maxShares = example({ cashBalance: 0, sharesBalance: 0, cashMonthly: 0, sharesMonthly: 1666, years: 10 })
 
 const faqs: FaqItem[] = [
   {
@@ -26,27 +26,28 @@ const faqs: FaqItem[] = [
       'Up to £20,000 between 6 April 2026 and 5 April 2027. You can put it all in one ISA or split it across cash, stocks and shares, Lifetime and Innovative Finance ISAs. Anything you don\'t use is lost at the end of the tax year.',
   },
   {
-    question: 'What is the £12,000 cash ISA limit?',
+    question: 'Is the cash ISA limit still being cut to £12,000?',
     answer:
-      'From 6 April 2027, under-65s will only be able to put £12,000 a year into cash ISAs. The overall allowance stays at £20,000, so to use all of it the other £8,000 would need to go into a stocks and shares ISA. Savers aged 65 and over keep the full £20,000 cash limit. GOV.UK doesn\'t yet say exactly how the age test works, so check the latest guidance.',
+      'No. Budget 2025 planned to limit cash ISAs to £12,000 a year for under-65s from April 2027, but Budget 2026 (28 October 2026) reversed it. You can keep putting the full £20,000 into cash ISAs if you want to.',
   },
   {
-    question: 'What other ISA changes happen in April 2027?',
+    question: 'What about the 22% charge on cash in stocks and shares ISAs?',
     answer:
-      'Alongside the £12,000 cash limit for under-65s, from 6 April 2027 interest paid on uninvested cash held inside a stocks and shares or Innovative Finance ISA will face a flat 22% charge, and there will be restrictions on transferring money from those ISAs into cash ISAs. The overall £20,000 allowance stays the same. This calculator assumes money in your stocks and shares ISA is invested, so keeping large amounts of cash in one would earn less than shown.',
-  },
-  {
-    question: 'How does the cash limit affect me?',
-    answer: `If you save more than £1,000 a month into a cash ISA, part of it would need to go elsewhere from April 2027. For example, someone paying £1,666 a month into cash would have about ${gbp(maxCash.movedPerYear)} a year moved into stocks and shares. The calculator does this for you when "Apply the £12,000 cash limit" is on, so you can see the effect on your total.`,
-  },
-  {
-    question: 'How much will my ISA be worth if I max it out?',
-    answer: `Paying £1,666 a month into a cash ISA at 4% for 10 years would build about ${gbp(maxCashNoCap.total)}. With the £12,000 cash limit and the excess going into stocks and shares at 5% growth (0.5% fees), it would be about ${gbp(maxCash.total)}. Investment returns aren't guaranteed and can be negative.`,
+      'Budget 2025 also planned a 22% charge on interest from uninvested cash held in stocks and shares ISAs, and limits on moving money from stocks and shares ISAs into cash ISAs, both to stop people getting round the £12,000 limit. With that limit scrapped, Which? reports these are dropped too, but the Budget documents don\'t say so directly, so check GOV.UK for HMRC\'s confirmation.',
   },
   {
     question: 'How much tax does an ISA save?',
     answer:
-      'Interest, dividends and gains inside an ISA are tax-free, and so are withdrawals. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate, nothing for additional-rate) is taxed at your income tax rate. The calculator estimates the tax you\'d pay on your cash interest outside an ISA, assuming you have no other savings interest.',
+      'Interest, dividends and gains inside an ISA are tax-free, and so are withdrawals. Outside an ISA, interest above your Personal Savings Allowance (£1,000 for basic-rate taxpayers, £500 for higher-rate, nothing for additional-rate) is taxed. From 6 April 2027 savings income is taxed at 24%, 44% or 49%, up from 20%, 40% and 45%, so a cash ISA saves more. For example, a higher-rate taxpayer earning £2,000 interest outside an ISA would pay £660 a year from April 2027. The calculator uses the right rate for each tax year.',
+  },
+  {
+    question: 'How much will my ISA be worth if I max it out?',
+    answer: `Paying £1,666 a month into a cash ISA at 4% for 10 years would build about ${gbp(maxCash.total)}. In a stocks and shares ISA at 5% growth (0.5% fees), it would be about ${gbp(maxShares.total)}. Investment returns aren't guaranteed and can be negative.`,
+  },
+  {
+    question: 'What is changing for Lifetime ISAs?',
+    answer:
+      'From 29 October 2026 the withdrawal charge falls from 25% to 20% if you use a Lifetime ISA to buy a first home costing more than £450,000. From April 2029 a new First Time Buyer ISA replaces the Lifetime ISA for new savers: up to £4,000 a year with a 25% bonus (capped at £20,000), paid when you buy a first home up to £450,000, with no upper age limit. Existing Lifetime ISAs carry on under the current rules.',
   },
   {
     question: 'What growth rate should I use?',

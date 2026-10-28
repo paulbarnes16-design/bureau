@@ -1,18 +1,18 @@
 /** Overall ISA allowance per tax year. */
 export const ISA_ALLOWANCE = 20000
-/** Cash ISA limit for under-65s from 6 April 2027. */
-export const CASH_ISA_LIMIT_2027 = 12000
-/** First tax year the cash limit applies (6 April 2027). */
-const CAP_START = { year: 2027, month: 3 } // April (0-based month)
 
 export type TaxBand = 'basic' | 'higher' | 'additional'
 
 /** Personal Savings Allowance: interest you can earn tax-free outside an ISA each year. */
 export const SAVINGS_ALLOWANCE: Record<TaxBand, number> = { basic: 1000, higher: 500, additional: 0 }
 export const TAX_RATE: Record<TaxBand, number> = { basic: 20, higher: 40, additional: 45 }
+/** Savings income rates from 6 April 2027: up 2 points at Budget 2025 and 2 more at Budget 2026. */
+export const TAX_RATE_FROM_2027: Record<TaxBand, number> = { basic: 24, higher: 44, additional: 49 }
+
+/** Income tax rate on savings interest for the tax year starting in April of `taxYear`. */
+export const savingsTaxRate = (band: TaxBand, taxYear: number) => (taxYear >= 2027 ? TAX_RATE_FROM_2027 : TAX_RATE)[band]
 
 export interface IsaInputs {
-  age: number
   cashBalance: number
   sharesBalance: number
   cashMonthly: number
@@ -23,15 +23,12 @@ export interface IsaInputs {
   sharesGrowth: number
   sharesFee: number
   years: number
-  /** Move cash saving above the £12,000 limit into stocks and shares from April 2027 (under-65s) */
-  applyCashLimit: boolean
   taxBand: TaxBand
   adjustForInflation: boolean
   inflationRate: number
 }
 
 export const ISA_DEFAULTS: IsaInputs = {
-  age: 35,
   cashBalance: 10000,
   sharesBalance: 5000,
   cashMonthly: 1200,
@@ -40,7 +37,6 @@ export const ISA_DEFAULTS: IsaInputs = {
   sharesGrowth: 5,
   sharesFee: 0.5,
   years: 10,
-  applyCashLimit: true,
   taxBand: 'basic',
   adjustForInflation: false,
   inflationRate: 2.5,
@@ -62,9 +58,6 @@ export interface IsaResult {
   paidIn: number
   /** Can be negative in today's money if inflation outpaces growth */
   growth: number
-  /** Cash saving moved into stocks and shares because of the £12,000 limit, per full tax year */
-  movedPerYear: number
-  movedTotal: number
   /** Planned yearly subscriptions above the £20,000 allowance */
   overAllowance: number
   /** Estimated income tax on the cash interest if it were held outside an ISA */
@@ -76,7 +69,7 @@ const pct = (v: number) => Math.min(100, Math.max(0, v))
 
 /**
  * Month-by-month projection from the current month. Contributions are paid at the end of
- * each month; the cash limit is applied per tax year (6 April to 5 April) from April 2027.
+ * each month. Tax saved on cash interest is worked out per tax year (6 April to 5 April).
  */
 export function calculateIsa(inputs: IsaInputs, start = new Date()): IsaResult {
   const years = Math.min(50, Math.max(0, inputs.years))
@@ -92,45 +85,30 @@ export function calculateIsa(inputs: IsaInputs, start = new Date()): IsaResult {
   let paidIn = inputs.cashBalance + inputs.sharesBalance
   // Paid in, converted to today's money when month by month, so growth compares like with like
   let paidInReal = paidIn
-  let cashThisTaxYear = 0
-  let movedTotal = 0
   let interestByTaxYear = 0
   let taxSavedOnCash = 0
+  // The tax year the first month falls in, named by the year it starts (2026 = 2026/27)
+  let taxYear = start.getMonth() >= 3 ? start.getFullYear() : start.getFullYear() - 1
   const band = inputs.taxBand
+  const settle = () => (Math.max(0, interestByTaxYear - SAVINGS_ALLOWANCE[band]) * savingsTaxRate(band, taxYear)) / 100
   const rows: IsaYear[] = [{ year: 0, cash: Math.round(cash), shares: Math.round(shares), total: Math.round(cash + shares), paidIn: Math.round(paidIn) }]
 
   for (let m = 1; m <= n; m++) {
     const date = new Date(start.getFullYear(), start.getMonth() + m, 1)
-    const isApril = date.getMonth() === 3
-    if (isApril) {
+    if (date.getMonth() === 3) {
       // New tax year: settle tax that would have been due on last year's cash interest outside an ISA
-      taxSavedOnCash += (Math.max(0, interestByTaxYear - SAVINGS_ALLOWANCE[band]) * TAX_RATE[band]) / 100
+      taxSavedOnCash += settle()
       interestByTaxYear = 0
-      cashThisTaxYear = 0
+      taxYear = date.getFullYear()
     }
-    const age = inputs.age + Math.floor((m - 1) / 12)
-    const capApplies =
-      inputs.applyCashLimit &&
-      age < 65 &&
-      (date.getFullYear() > CAP_START.year || (date.getFullYear() === CAP_START.year && date.getMonth() >= CAP_START.month))
 
     const interest = cash * cashI
     cash += interest
     shares *= 1 + sharesI
     interestByTaxYear += interest
 
-    let toCash = inputs.cashMonthly
-    let toShares = inputs.sharesMonthly
-    if (capApplies) {
-      const room = Math.max(0, CASH_ISA_LIMIT_2027 - cashThisTaxYear)
-      const moved = Math.max(0, toCash - room)
-      toCash -= moved
-      toShares += moved
-      movedTotal += moved
-    }
-    cashThisTaxYear += toCash
-    cash += toCash
-    shares += toShares
+    cash += inputs.cashMonthly
+    shares += inputs.sharesMonthly
     paidIn += inputs.cashMonthly + inputs.sharesMonthly
     paidInReal += real(inputs.cashMonthly + inputs.sharesMonthly, m)
 
@@ -144,21 +122,16 @@ export function calculateIsa(inputs: IsaInputs, start = new Date()): IsaResult {
       })
     }
   }
-  taxSavedOnCash += (Math.max(0, interestByTaxYear - SAVINGS_ALLOWANCE[band]) * TAX_RATE[band]) / 100
+  taxSavedOnCash += settle()
 
   const total = real(cash + shares, n)
   const paidInShown = inflation ? paidInReal : paidIn
-  const cashYearly = inputs.cashMonthly * 12
-  // Only report a yearly figure if saving really was moved during the projection
-  const cashLimitBinds = movedTotal > 0 && cashYearly > CASH_ISA_LIMIT_2027
   return {
     cash: real(cash, n),
     shares: real(shares, n),
     total,
     paidIn: paidInShown,
     growth: total - paidInShown,
-    movedPerYear: cashLimitBinds ? cashYearly - CASH_ISA_LIMIT_2027 : 0,
-    movedTotal,
     overAllowance: Math.max(0, (inputs.cashMonthly + inputs.sharesMonthly) * 12 - ISA_ALLOWANCE),
     taxSavedOnCash,
     rows,
@@ -168,10 +141,10 @@ export function calculateIsa(inputs: IsaInputs, start = new Date()): IsaResult {
 // ── URL params ───────────────────────────────────────────────────────────────
 
 const NUM: [keyof IsaInputs, string][] = [
-  ['age', 'age'], ['cashBalance', 'cb'], ['sharesBalance', 'sb'], ['cashMonthly', 'cm'], ['sharesMonthly', 'sm'],
+  ['cashBalance', 'cb'], ['sharesBalance', 'sb'], ['cashMonthly', 'cm'], ['sharesMonthly', 'sm'],
   ['cashRate', 'cr'], ['sharesGrowth', 'sg'], ['sharesFee', 'sf'], ['years', 'y'], ['inflationRate', 'ir'],
 ]
-const BOOL: [keyof IsaInputs, string][] = [['applyCashLimit', 'cap'], ['adjustForInflation', 'inf']]
+const BOOL: [keyof IsaInputs, string][] = [['adjustForInflation', 'inf']]
 const KEYS = [...NUM, ...BOOL].map(([, k]) => k).concat('band')
 
 export const isaCodec = {

@@ -42,7 +42,7 @@ export const faqsUK = [
   {
     question: 'Is compound interest tax-free in the UK?',
     answer:
-      'Interest and investment returns are generally taxable in the UK. However, using a Stocks & Shares ISA or Cash ISA shelters up to £20,000 per year (2026/27 allowance) completely from tax. Growth, dividends, and withdrawals inside an ISA are all tax-free, making ISAs the most powerful tool available to UK savers and investors.',
+      'Interest and investment returns are generally taxable in the UK. However, using a Stocks & Shares ISA or Cash ISA shelters up to £20,000 per year (2026/27 allowance) completely from tax, and Budget 2026 confirmed you can still put all of it in a cash ISA. Growth, dividends, and withdrawals inside an ISA are all tax-free. Outside an ISA, savings interest above your Personal Savings Allowance is taxed at 20%, 40% or 45%, rising to 24%, 44% or 49% from April 2027.',
   },
   {
     question: 'How often should interest compound for the best returns?',
@@ -62,6 +62,6 @@ export const faqsUK = [
   {
     question: 'What is the best compound interest account in the UK?',
     answer:
-      'Stocks & Shares ISAs offer the highest long-term compound growth potential, with historical returns of 7–10% annually. Cash ISAs and high-interest savings accounts offer lower but guaranteed rates, currently 4–5% (2024/25). For maximum compounding, reinvest all dividends and interest, minimise fees, and shelter as much as possible inside an ISA to avoid tax eroding your returns.',
+      'Stocks & Shares ISAs offer the highest long-term compound growth potential, with historical returns of 7–10% annually. Cash ISAs and high-interest savings accounts offer lower but guaranteed rates, so compare the best rates available when you open one. For maximum compounding, reinvest all dividends and interest, minimise fees, and shelter as much as possible inside an ISA to avoid tax eroding your returns.',
   },
 ]

@@ -18,14 +18,14 @@ export default function AboutPage() {
         <Card className="p-5 lg:col-start-5 lg:col-span-8 space-y-4 font-sans text-[15px] text-black leading-relaxed">
           <h1 className="font-bold text-[20px]">About bureau.money</h1>
           <p>
-            bureau.money is a set of free UK money calculators for savings, ISAs, mortgages, loans and pensions. There&apos;s
+            bureau.money is a set of free UK money calculators for savings, ISAs, mortgages, loans, pensions and taking a salary and dividends from your own company. There&apos;s
             no sign-up, no download and no adverts, and every calculation can be shared as a link.
           </p>
           <h3 className="font-bold pt-2">How the calculations work</h3>
           <p>
             Each calculator works month by month using standard formulas, which are explained in the &ldquo;How it works&rdquo;
             section on its page. UK rules such as ISA allowances, the cash ISA limit, pension tax relief and the Lump Sum
-            Allowance are taken from GOV.UK and re-checked when they change.
+            Allowance are taken from GOV.UK and the Budget, and re-checked when they change. They were last updated for Budget 2026 (28 October 2026).
           </p>
           <h3 className="font-bold pt-2">How the figures are checked</h3>
           <p>

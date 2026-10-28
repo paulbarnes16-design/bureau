@@ -50,6 +50,11 @@ const faqs: FaqItem[] = [
     answer:
       'It assumes one interest rate for the whole term. In practice most UK mortgages start on a fixed or tracker deal and move to the lender\'s standard variable rate afterwards, unless you remortgage. It also leaves out arrangement fees, stamp duty, legal costs and insurance.',
   },
+  {
+    question: 'What is the Your First Home scheme?',
+    answer:
+      'A government equity loan for first-time buyers in England, announced in Budget 2026. With a deposit of at least 2.5%, you can borrow up to 20% of the price from the government, interest-free for the first five years, so your mortgage only needs to cover the rest. Household income must be under £110,000 (£140,000 in London), and price caps are set by area: £650,000 in inner London and £500,000 in outer London. Pre-registration opens by the end of December 2026, applications from February 2027 and the first loans from April 2027. To see your repayments, enter the price and treat the equity loan as part of your deposit.',
+  },
 ]
 
 export default function MortgageCalculatorPage() {

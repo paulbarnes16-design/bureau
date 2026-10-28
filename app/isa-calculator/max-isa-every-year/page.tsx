@@ -24,7 +24,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Can I put all £20,000 in a cash ISA?',
     answer:
-      'Until 5 April 2027, yes. From 6 April 2027, under-65s can only put £12,000 a year into cash ISAs, so the rest would need to go into a stocks and shares ISA to use the full allowance. Over-65s keep the full £20,000 cash limit.',
+      'Yes. The plan to limit cash ISAs to £12,000 a year for under-65s from April 2027 was scrapped in Budget 2026, so you can keep putting the full £20,000 into cash.',
   },
   {
     question: 'Does unused allowance carry over?',
@@ -37,7 +37,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Should I use cash or stocks and shares?',
     answer:
-      'Cash ISAs suit money you might need within about five years, because the balance can\'t fall. Stocks and shares ISAs have historically grown faster over 10 years or more, but can fall in value. Many people who max out their allowance split it between both. From April 2027 under-65s can put at most £12,000 a year in cash.',
+      'Cash ISAs suit money you might need within about five years, because the balance can\'t fall. Stocks and shares ISAs have historically grown faster over 10 years or more, but can fall in value. Many people who max out their allowance split it between both.',
   },
 ]
 
